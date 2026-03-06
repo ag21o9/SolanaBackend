@@ -3,6 +3,11 @@ export { Prisma };
 export * as $Enums from './enums.js';
 export * from './enums.js';
 /**
+ * Model Badge
+ *
+ */
+export type Badge = Prisma.BadgeModel;
+/**
  * Model User
  *
  */

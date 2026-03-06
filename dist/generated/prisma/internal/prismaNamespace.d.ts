@@ -7,36 +7,36 @@ export type PrismaPromise<T> = runtime.Types.Public.PrismaPromise<T>;
 /**
  * Prisma Errors
  */
-export declare const PrismaClientKnownRequestError: any;
+export declare const PrismaClientKnownRequestError: typeof runtime.PrismaClientKnownRequestError;
 export type PrismaClientKnownRequestError = runtime.PrismaClientKnownRequestError;
-export declare const PrismaClientUnknownRequestError: any;
+export declare const PrismaClientUnknownRequestError: typeof runtime.PrismaClientUnknownRequestError;
 export type PrismaClientUnknownRequestError = runtime.PrismaClientUnknownRequestError;
-export declare const PrismaClientRustPanicError: any;
+export declare const PrismaClientRustPanicError: typeof runtime.PrismaClientRustPanicError;
 export type PrismaClientRustPanicError = runtime.PrismaClientRustPanicError;
-export declare const PrismaClientInitializationError: any;
+export declare const PrismaClientInitializationError: typeof runtime.PrismaClientInitializationError;
 export type PrismaClientInitializationError = runtime.PrismaClientInitializationError;
-export declare const PrismaClientValidationError: any;
+export declare const PrismaClientValidationError: typeof runtime.PrismaClientValidationError;
 export type PrismaClientValidationError = runtime.PrismaClientValidationError;
 /**
  * Re-export of sql-template-tag
  */
-export declare const sql: any;
-export declare const empty: any;
-export declare const join: any;
-export declare const raw: any;
-export declare const Sql: any;
+export declare const sql: typeof runtime.sqltag;
+export declare const empty: runtime.Sql;
+export declare const join: typeof runtime.join;
+export declare const raw: typeof runtime.raw;
+export declare const Sql: typeof runtime.Sql;
 export type Sql = runtime.Sql;
 /**
  * Decimal.js
  */
-export declare const Decimal: any;
+export declare const Decimal: typeof runtime.Decimal;
 export type Decimal = runtime.Decimal;
 export type DecimalJsLike = runtime.DecimalJsLike;
 /**
 * Extensions
 */
 export type Extension = runtime.Types.Extensions.UserArgs;
-export declare const getExtensionContext: any;
+export declare const getExtensionContext: typeof runtime.Extensions.getExtensionContext;
 export type Args<T, F extends runtime.Operation> = runtime.Types.Public.Args<T, F>;
 export type Payload<T, F extends runtime.Operation = never> = runtime.Types.Public.Payload<T, F>;
 export type Result<T, A, F extends runtime.Operation> = runtime.Types.Public.Result<T, A, F>;
@@ -70,19 +70,19 @@ export declare const NullTypes: {
  *
  * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
  */
-export declare const DbNull: any;
+export declare const DbNull: runtime.DbNullClass;
 /**
  * Helper for filtering JSON entries that have JSON `null` values (not empty on the db)
  *
  * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
  */
-export declare const JsonNull: any;
+export declare const JsonNull: runtime.JsonNullClass;
 /**
  * Helper for filtering JSON entries that are `Prisma.DbNull` or `Prisma.JsonNull`
  *
  * @see https://www.prisma.io/docs/concepts/components/prisma-client/working-with-fields/working-with-json-fields#filtering-on-a-json-field
  */
-export declare const AnyNull: any;
+export declare const AnyNull: runtime.AnyNullClass;
 type SelectAndInclude = {
     select: any;
     include: any;
@@ -231,6 +231,7 @@ export type ExcludeUnderscoreKeys<T extends string> = T extends `_${string}` ? n
 export type FieldRef<Model, FieldType> = runtime.FieldRef<Model, FieldType>;
 type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRef<Model, FieldType>;
 export declare const ModelName: {
+    readonly Badge: "Badge";
     readonly User: "User";
     readonly Property: "Property";
 };
@@ -245,10 +246,84 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         omit: GlobalOmitOptions;
     };
     meta: {
-        modelProps: "user" | "property";
+        modelProps: "badge" | "user" | "property";
         txIsolationLevel: TransactionIsolationLevel;
     };
     model: {
+        Badge: {
+            payload: Prisma.$BadgePayload<ExtArgs>;
+            fields: Prisma.BadgeFieldRefs;
+            operations: {
+                findUnique: {
+                    args: Prisma.BadgeFindUniqueArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$BadgePayload> | null;
+                };
+                findUniqueOrThrow: {
+                    args: Prisma.BadgeFindUniqueOrThrowArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$BadgePayload>;
+                };
+                findFirst: {
+                    args: Prisma.BadgeFindFirstArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$BadgePayload> | null;
+                };
+                findFirstOrThrow: {
+                    args: Prisma.BadgeFindFirstOrThrowArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$BadgePayload>;
+                };
+                findMany: {
+                    args: Prisma.BadgeFindManyArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$BadgePayload>[];
+                };
+                create: {
+                    args: Prisma.BadgeCreateArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$BadgePayload>;
+                };
+                createMany: {
+                    args: Prisma.BadgeCreateManyArgs<ExtArgs>;
+                    result: BatchPayload;
+                };
+                createManyAndReturn: {
+                    args: Prisma.BadgeCreateManyAndReturnArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$BadgePayload>[];
+                };
+                delete: {
+                    args: Prisma.BadgeDeleteArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$BadgePayload>;
+                };
+                update: {
+                    args: Prisma.BadgeUpdateArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$BadgePayload>;
+                };
+                deleteMany: {
+                    args: Prisma.BadgeDeleteManyArgs<ExtArgs>;
+                    result: BatchPayload;
+                };
+                updateMany: {
+                    args: Prisma.BadgeUpdateManyArgs<ExtArgs>;
+                    result: BatchPayload;
+                };
+                updateManyAndReturn: {
+                    args: Prisma.BadgeUpdateManyAndReturnArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$BadgePayload>[];
+                };
+                upsert: {
+                    args: Prisma.BadgeUpsertArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$BadgePayload>;
+                };
+                aggregate: {
+                    args: Prisma.BadgeAggregateArgs<ExtArgs>;
+                    result: runtime.Types.Utils.Optional<Prisma.AggregateBadge>;
+                };
+                groupBy: {
+                    args: Prisma.BadgeGroupByArgs<ExtArgs>;
+                    result: runtime.Types.Utils.Optional<Prisma.BadgeGroupByOutputType>[];
+                };
+                count: {
+                    args: Prisma.BadgeCountArgs<ExtArgs>;
+                    result: runtime.Types.Utils.Optional<Prisma.BadgeCountAggregateOutputType> | number;
+                };
+            };
+        };
         User: {
             payload: Prisma.$UserPayload<ExtArgs>;
             fields: Prisma.UserFieldRefs;
@@ -424,12 +499,29 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
 /**
  * Enums
  */
-export declare const TransactionIsolationLevel: any;
+export declare const TransactionIsolationLevel: {
+    readonly ReadUncommitted: "ReadUncommitted";
+    readonly ReadCommitted: "ReadCommitted";
+    readonly RepeatableRead: "RepeatableRead";
+    readonly Serializable: "Serializable";
+};
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel];
+export declare const BadgeScalarFieldEnum: {
+    readonly id: "id";
+    readonly label: "label";
+    readonly icon: "icon";
+    readonly color: "color";
+};
+export type BadgeScalarFieldEnum = (typeof BadgeScalarFieldEnum)[keyof typeof BadgeScalarFieldEnum];
 export declare const UserScalarFieldEnum: {
     readonly id: "id";
+    readonly avatar: "avatar";
     readonly walletAddress: "walletAddress";
+    readonly username: "username";
+    readonly country: "country";
+    readonly totalInvested: "totalInvested";
     readonly createdAt: "createdAt";
+    readonly badgeId: "badgeId";
 };
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum];
 export declare const PropertyScalarFieldEnum: {
@@ -455,6 +547,11 @@ export declare const QueryMode: {
     readonly insensitive: "insensitive";
 };
 export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode];
+export declare const NullsOrder: {
+    readonly first: "first";
+    readonly last: "last";
+};
+export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder];
 /**
  * Field references
  */
@@ -466,6 +563,14 @@ export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 
  * Reference to a field of type 'String[]'
  */
 export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>;
+/**
+ * Reference to a field of type 'Decimal'
+ */
+export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>;
+/**
+ * Reference to a field of type 'Decimal[]'
+ */
+export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>;
 /**
  * Reference to a field of type 'DateTime'
  */
@@ -576,6 +681,7 @@ export type PrismaClientOptions = ({
     comments?: runtime.SqlCommenterPlugin[];
 };
 export type GlobalOmitConfig = {
+    badge?: Prisma.BadgeOmit;
     user?: Prisma.UserOmit;
     property?: Prisma.PropertyOmit;
 };

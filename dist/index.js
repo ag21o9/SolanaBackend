@@ -5,6 +5,11 @@ const app = express();
 app.use(express.json());
 app.use('/user', userRouter);
 app.use('/property', propertyRouter);
+app.get('/', (req, res) => {
+    res.json({
+        "message": "solana is great"
+    });
+});
 app.listen(3000, () => {
     console.log('App is listening on port 3000');
 });

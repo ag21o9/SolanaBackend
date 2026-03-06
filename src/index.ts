@@ -8,6 +8,12 @@ app.use(express.json())
 app.use('/user', userRouter)
 app.use('/property', propertyRouter)
 
+app.get('/',(req:any,res:any)=>{
+    res.json({
+        "message" : "solana is great"
+    })
+})
+
 app.listen(3000, () => {
     console.log('App is listening on port 3000')
 })

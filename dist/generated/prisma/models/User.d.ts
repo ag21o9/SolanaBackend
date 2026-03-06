@@ -7,39 +7,83 @@ import type * as Prisma from "../internal/prismaNamespace.js";
 export type UserModel = runtime.Types.Result.DefaultSelection<Prisma.$UserPayload>;
 export type AggregateUser = {
     _count: UserCountAggregateOutputType | null;
+    _avg: UserAvgAggregateOutputType | null;
+    _sum: UserSumAggregateOutputType | null;
     _min: UserMinAggregateOutputType | null;
     _max: UserMaxAggregateOutputType | null;
 };
+export type UserAvgAggregateOutputType = {
+    totalInvested: runtime.Decimal | null;
+};
+export type UserSumAggregateOutputType = {
+    totalInvested: runtime.Decimal | null;
+};
 export type UserMinAggregateOutputType = {
     id: string | null;
+    avatar: string | null;
     walletAddress: string | null;
+    username: string | null;
+    country: string | null;
+    totalInvested: runtime.Decimal | null;
     createdAt: Date | null;
+    badgeId: string | null;
 };
 export type UserMaxAggregateOutputType = {
     id: string | null;
+    avatar: string | null;
     walletAddress: string | null;
+    username: string | null;
+    country: string | null;
+    totalInvested: runtime.Decimal | null;
     createdAt: Date | null;
+    badgeId: string | null;
 };
 export type UserCountAggregateOutputType = {
     id: number;
+    avatar: number;
     walletAddress: number;
+    username: number;
+    country: number;
+    totalInvested: number;
     createdAt: number;
+    badgeId: number;
     _all: number;
+};
+export type UserAvgAggregateInputType = {
+    totalInvested?: true;
+};
+export type UserSumAggregateInputType = {
+    totalInvested?: true;
 };
 export type UserMinAggregateInputType = {
     id?: true;
+    avatar?: true;
     walletAddress?: true;
+    username?: true;
+    country?: true;
+    totalInvested?: true;
     createdAt?: true;
+    badgeId?: true;
 };
 export type UserMaxAggregateInputType = {
     id?: true;
+    avatar?: true;
     walletAddress?: true;
+    username?: true;
+    country?: true;
+    totalInvested?: true;
     createdAt?: true;
+    badgeId?: true;
 };
 export type UserCountAggregateInputType = {
     id?: true;
+    avatar?: true;
     walletAddress?: true;
+    username?: true;
+    country?: true;
+    totalInvested?: true;
     createdAt?: true;
+    badgeId?: true;
     _all?: true;
 };
 export type UserAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -80,6 +124,18 @@ export type UserAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      *
+     * Select which fields to average
+    **/
+    _avg?: UserAvgAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to sum
+    **/
+    _sum?: UserSumAggregateInputType;
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
      * Select which fields to find the minimum value
     **/
     _min?: UserMinAggregateInputType;
@@ -101,14 +157,23 @@ export type UserGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
     take?: number;
     skip?: number;
     _count?: UserCountAggregateInputType | true;
+    _avg?: UserAvgAggregateInputType;
+    _sum?: UserSumAggregateInputType;
     _min?: UserMinAggregateInputType;
     _max?: UserMaxAggregateInputType;
 };
 export type UserGroupByOutputType = {
     id: string;
+    avatar: string | null;
     walletAddress: string;
+    username: string | null;
+    country: string | null;
+    totalInvested: runtime.Decimal;
     createdAt: Date;
+    badgeId: string | null;
     _count: UserCountAggregateOutputType | null;
+    _avg: UserAvgAggregateOutputType | null;
+    _sum: UserSumAggregateOutputType | null;
     _min: UserMinAggregateOutputType | null;
     _max: UserMaxAggregateOutputType | null;
 };
@@ -120,14 +185,26 @@ export type UserWhereInput = {
     OR?: Prisma.UserWhereInput[];
     NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[];
     id?: Prisma.StringFilter<"User"> | string;
+    avatar?: Prisma.StringNullableFilter<"User"> | string | null;
     walletAddress?: Prisma.StringFilter<"User"> | string;
+    username?: Prisma.StringNullableFilter<"User"> | string | null;
+    country?: Prisma.StringNullableFilter<"User"> | string | null;
+    totalInvested?: Prisma.DecimalFilter<"User"> | runtime.Decimal | runtime.DecimalJsLike | number | string;
     createdAt?: Prisma.DateTimeFilter<"User"> | Date | string;
+    badgeId?: Prisma.StringNullableFilter<"User"> | string | null;
+    badges?: Prisma.XOR<Prisma.BadgeNullableScalarRelationFilter, Prisma.BadgeWhereInput> | null;
     properties?: Prisma.PropertyListRelationFilter;
 };
 export type UserOrderByWithRelationInput = {
     id?: Prisma.SortOrder;
+    avatar?: Prisma.SortOrderInput | Prisma.SortOrder;
     walletAddress?: Prisma.SortOrder;
+    username?: Prisma.SortOrderInput | Prisma.SortOrder;
+    country?: Prisma.SortOrderInput | Prisma.SortOrder;
+    totalInvested?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
+    badgeId?: Prisma.SortOrderInput | Prisma.SortOrder;
+    badges?: Prisma.BadgeOrderByWithRelationInput;
     properties?: Prisma.PropertyOrderByRelationAggregateInput;
 };
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -136,78 +213,115 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
     AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[];
     OR?: Prisma.UserWhereInput[];
     NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[];
+    avatar?: Prisma.StringNullableFilter<"User"> | string | null;
+    username?: Prisma.StringNullableFilter<"User"> | string | null;
+    country?: Prisma.StringNullableFilter<"User"> | string | null;
+    totalInvested?: Prisma.DecimalFilter<"User"> | runtime.Decimal | runtime.DecimalJsLike | number | string;
     createdAt?: Prisma.DateTimeFilter<"User"> | Date | string;
+    badgeId?: Prisma.StringNullableFilter<"User"> | string | null;
+    badges?: Prisma.XOR<Prisma.BadgeNullableScalarRelationFilter, Prisma.BadgeWhereInput> | null;
     properties?: Prisma.PropertyListRelationFilter;
 }, "id" | "walletAddress">;
 export type UserOrderByWithAggregationInput = {
     id?: Prisma.SortOrder;
+    avatar?: Prisma.SortOrderInput | Prisma.SortOrder;
     walletAddress?: Prisma.SortOrder;
+    username?: Prisma.SortOrderInput | Prisma.SortOrder;
+    country?: Prisma.SortOrderInput | Prisma.SortOrder;
+    totalInvested?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
+    badgeId?: Prisma.SortOrderInput | Prisma.SortOrder;
     _count?: Prisma.UserCountOrderByAggregateInput;
+    _avg?: Prisma.UserAvgOrderByAggregateInput;
     _max?: Prisma.UserMaxOrderByAggregateInput;
     _min?: Prisma.UserMinOrderByAggregateInput;
+    _sum?: Prisma.UserSumOrderByAggregateInput;
 };
 export type UserScalarWhereWithAggregatesInput = {
     AND?: Prisma.UserScalarWhereWithAggregatesInput | Prisma.UserScalarWhereWithAggregatesInput[];
     OR?: Prisma.UserScalarWhereWithAggregatesInput[];
     NOT?: Prisma.UserScalarWhereWithAggregatesInput | Prisma.UserScalarWhereWithAggregatesInput[];
     id?: Prisma.StringWithAggregatesFilter<"User"> | string;
+    avatar?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null;
     walletAddress?: Prisma.StringWithAggregatesFilter<"User"> | string;
+    username?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null;
+    country?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null;
+    totalInvested?: Prisma.DecimalWithAggregatesFilter<"User"> | runtime.Decimal | runtime.DecimalJsLike | number | string;
     createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string;
+    badgeId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null;
 };
 export type UserCreateInput = {
     id?: string;
+    avatar?: string | null;
     walletAddress: string;
+    username?: string | null;
+    country?: string | null;
+    totalInvested?: runtime.Decimal | runtime.DecimalJsLike | number | string;
     createdAt?: Date | string;
+    badges?: Prisma.BadgeCreateNestedOneWithoutUsersInput;
     properties?: Prisma.PropertyCreateNestedManyWithoutUsersInput;
 };
 export type UserUncheckedCreateInput = {
     id?: string;
+    avatar?: string | null;
     walletAddress: string;
+    username?: string | null;
+    country?: string | null;
+    totalInvested?: runtime.Decimal | runtime.DecimalJsLike | number | string;
     createdAt?: Date | string;
+    badgeId?: string | null;
     properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutUsersInput;
 };
 export type UserUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
+    avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     walletAddress?: Prisma.StringFieldUpdateOperationsInput | string;
+    username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    totalInvested?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    badges?: Prisma.BadgeUpdateOneWithoutUsersNestedInput;
     properties?: Prisma.PropertyUpdateManyWithoutUsersNestedInput;
 };
 export type UserUncheckedUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
+    avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     walletAddress?: Prisma.StringFieldUpdateOperationsInput | string;
+    username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    totalInvested?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    badgeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     properties?: Prisma.PropertyUncheckedUpdateManyWithoutUsersNestedInput;
 };
 export type UserCreateManyInput = {
     id?: string;
+    avatar?: string | null;
     walletAddress: string;
+    username?: string | null;
+    country?: string | null;
+    totalInvested?: runtime.Decimal | runtime.DecimalJsLike | number | string;
     createdAt?: Date | string;
+    badgeId?: string | null;
 };
 export type UserUpdateManyMutationInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
+    avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     walletAddress?: Prisma.StringFieldUpdateOperationsInput | string;
+    username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    totalInvested?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 export type UserUncheckedUpdateManyInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
+    avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     walletAddress?: Prisma.StringFieldUpdateOperationsInput | string;
+    username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    totalInvested?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-};
-export type UserCountOrderByAggregateInput = {
-    id?: Prisma.SortOrder;
-    walletAddress?: Prisma.SortOrder;
-    createdAt?: Prisma.SortOrder;
-};
-export type UserMaxOrderByAggregateInput = {
-    id?: Prisma.SortOrder;
-    walletAddress?: Prisma.SortOrder;
-    createdAt?: Prisma.SortOrder;
-};
-export type UserMinOrderByAggregateInput = {
-    id?: Prisma.SortOrder;
-    walletAddress?: Prisma.SortOrder;
-    createdAt?: Prisma.SortOrder;
+    badgeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
 };
 export type UserListRelationFilter = {
     every?: Prisma.UserWhereInput;
@@ -217,8 +331,89 @@ export type UserListRelationFilter = {
 export type UserOrderByRelationAggregateInput = {
     _count?: Prisma.SortOrder;
 };
-export type StringFieldUpdateOperationsInput = {
-    set?: string;
+export type UserCountOrderByAggregateInput = {
+    id?: Prisma.SortOrder;
+    avatar?: Prisma.SortOrder;
+    walletAddress?: Prisma.SortOrder;
+    username?: Prisma.SortOrder;
+    country?: Prisma.SortOrder;
+    totalInvested?: Prisma.SortOrder;
+    createdAt?: Prisma.SortOrder;
+    badgeId?: Prisma.SortOrder;
+};
+export type UserAvgOrderByAggregateInput = {
+    totalInvested?: Prisma.SortOrder;
+};
+export type UserMaxOrderByAggregateInput = {
+    id?: Prisma.SortOrder;
+    avatar?: Prisma.SortOrder;
+    walletAddress?: Prisma.SortOrder;
+    username?: Prisma.SortOrder;
+    country?: Prisma.SortOrder;
+    totalInvested?: Prisma.SortOrder;
+    createdAt?: Prisma.SortOrder;
+    badgeId?: Prisma.SortOrder;
+};
+export type UserMinOrderByAggregateInput = {
+    id?: Prisma.SortOrder;
+    avatar?: Prisma.SortOrder;
+    walletAddress?: Prisma.SortOrder;
+    username?: Prisma.SortOrder;
+    country?: Prisma.SortOrder;
+    totalInvested?: Prisma.SortOrder;
+    createdAt?: Prisma.SortOrder;
+    badgeId?: Prisma.SortOrder;
+};
+export type UserSumOrderByAggregateInput = {
+    totalInvested?: Prisma.SortOrder;
+};
+export type UserCreateNestedManyWithoutBadgesInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutBadgesInput, Prisma.UserUncheckedCreateWithoutBadgesInput> | Prisma.UserCreateWithoutBadgesInput[] | Prisma.UserUncheckedCreateWithoutBadgesInput[];
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutBadgesInput | Prisma.UserCreateOrConnectWithoutBadgesInput[];
+    createMany?: Prisma.UserCreateManyBadgesInputEnvelope;
+    connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[];
+};
+export type UserUncheckedCreateNestedManyWithoutBadgesInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutBadgesInput, Prisma.UserUncheckedCreateWithoutBadgesInput> | Prisma.UserCreateWithoutBadgesInput[] | Prisma.UserUncheckedCreateWithoutBadgesInput[];
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutBadgesInput | Prisma.UserCreateOrConnectWithoutBadgesInput[];
+    createMany?: Prisma.UserCreateManyBadgesInputEnvelope;
+    connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[];
+};
+export type UserUpdateManyWithoutBadgesNestedInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutBadgesInput, Prisma.UserUncheckedCreateWithoutBadgesInput> | Prisma.UserCreateWithoutBadgesInput[] | Prisma.UserUncheckedCreateWithoutBadgesInput[];
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutBadgesInput | Prisma.UserCreateOrConnectWithoutBadgesInput[];
+    upsert?: Prisma.UserUpsertWithWhereUniqueWithoutBadgesInput | Prisma.UserUpsertWithWhereUniqueWithoutBadgesInput[];
+    createMany?: Prisma.UserCreateManyBadgesInputEnvelope;
+    set?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[];
+    disconnect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[];
+    delete?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[];
+    connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[];
+    update?: Prisma.UserUpdateWithWhereUniqueWithoutBadgesInput | Prisma.UserUpdateWithWhereUniqueWithoutBadgesInput[];
+    updateMany?: Prisma.UserUpdateManyWithWhereWithoutBadgesInput | Prisma.UserUpdateManyWithWhereWithoutBadgesInput[];
+    deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[];
+};
+export type UserUncheckedUpdateManyWithoutBadgesNestedInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutBadgesInput, Prisma.UserUncheckedCreateWithoutBadgesInput> | Prisma.UserCreateWithoutBadgesInput[] | Prisma.UserUncheckedCreateWithoutBadgesInput[];
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutBadgesInput | Prisma.UserCreateOrConnectWithoutBadgesInput[];
+    upsert?: Prisma.UserUpsertWithWhereUniqueWithoutBadgesInput | Prisma.UserUpsertWithWhereUniqueWithoutBadgesInput[];
+    createMany?: Prisma.UserCreateManyBadgesInputEnvelope;
+    set?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[];
+    disconnect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[];
+    delete?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[];
+    connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[];
+    update?: Prisma.UserUpdateWithWhereUniqueWithoutBadgesInput | Prisma.UserUpdateWithWhereUniqueWithoutBadgesInput[];
+    updateMany?: Prisma.UserUpdateManyWithWhereWithoutBadgesInput | Prisma.UserUpdateManyWithWhereWithoutBadgesInput[];
+    deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[];
+};
+export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null;
+};
+export type DecimalFieldUpdateOperationsInput = {
+    set?: runtime.Decimal | runtime.DecimalJsLike | number | string;
+    increment?: runtime.Decimal | runtime.DecimalJsLike | number | string;
+    decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string;
+    multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string;
+    divide?: runtime.Decimal | runtime.DecimalJsLike | number | string;
 };
 export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string;
@@ -257,15 +452,79 @@ export type UserUncheckedUpdateManyWithoutPropertiesNestedInput = {
     updateMany?: Prisma.UserUpdateManyWithWhereWithoutPropertiesInput | Prisma.UserUpdateManyWithWhereWithoutPropertiesInput[];
     deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[];
 };
+export type UserCreateWithoutBadgesInput = {
+    id?: string;
+    avatar?: string | null;
+    walletAddress: string;
+    username?: string | null;
+    country?: string | null;
+    totalInvested?: runtime.Decimal | runtime.DecimalJsLike | number | string;
+    createdAt?: Date | string;
+    properties?: Prisma.PropertyCreateNestedManyWithoutUsersInput;
+};
+export type UserUncheckedCreateWithoutBadgesInput = {
+    id?: string;
+    avatar?: string | null;
+    walletAddress: string;
+    username?: string | null;
+    country?: string | null;
+    totalInvested?: runtime.Decimal | runtime.DecimalJsLike | number | string;
+    createdAt?: Date | string;
+    properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutUsersInput;
+};
+export type UserCreateOrConnectWithoutBadgesInput = {
+    where: Prisma.UserWhereUniqueInput;
+    create: Prisma.XOR<Prisma.UserCreateWithoutBadgesInput, Prisma.UserUncheckedCreateWithoutBadgesInput>;
+};
+export type UserCreateManyBadgesInputEnvelope = {
+    data: Prisma.UserCreateManyBadgesInput | Prisma.UserCreateManyBadgesInput[];
+    skipDuplicates?: boolean;
+};
+export type UserUpsertWithWhereUniqueWithoutBadgesInput = {
+    where: Prisma.UserWhereUniqueInput;
+    update: Prisma.XOR<Prisma.UserUpdateWithoutBadgesInput, Prisma.UserUncheckedUpdateWithoutBadgesInput>;
+    create: Prisma.XOR<Prisma.UserCreateWithoutBadgesInput, Prisma.UserUncheckedCreateWithoutBadgesInput>;
+};
+export type UserUpdateWithWhereUniqueWithoutBadgesInput = {
+    where: Prisma.UserWhereUniqueInput;
+    data: Prisma.XOR<Prisma.UserUpdateWithoutBadgesInput, Prisma.UserUncheckedUpdateWithoutBadgesInput>;
+};
+export type UserUpdateManyWithWhereWithoutBadgesInput = {
+    where: Prisma.UserScalarWhereInput;
+    data: Prisma.XOR<Prisma.UserUpdateManyMutationInput, Prisma.UserUncheckedUpdateManyWithoutBadgesInput>;
+};
+export type UserScalarWhereInput = {
+    AND?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[];
+    OR?: Prisma.UserScalarWhereInput[];
+    NOT?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[];
+    id?: Prisma.StringFilter<"User"> | string;
+    avatar?: Prisma.StringNullableFilter<"User"> | string | null;
+    walletAddress?: Prisma.StringFilter<"User"> | string;
+    username?: Prisma.StringNullableFilter<"User"> | string | null;
+    country?: Prisma.StringNullableFilter<"User"> | string | null;
+    totalInvested?: Prisma.DecimalFilter<"User"> | runtime.Decimal | runtime.DecimalJsLike | number | string;
+    createdAt?: Prisma.DateTimeFilter<"User"> | Date | string;
+    badgeId?: Prisma.StringNullableFilter<"User"> | string | null;
+};
 export type UserCreateWithoutPropertiesInput = {
     id?: string;
+    avatar?: string | null;
     walletAddress: string;
+    username?: string | null;
+    country?: string | null;
+    totalInvested?: runtime.Decimal | runtime.DecimalJsLike | number | string;
     createdAt?: Date | string;
+    badges?: Prisma.BadgeCreateNestedOneWithoutUsersInput;
 };
 export type UserUncheckedCreateWithoutPropertiesInput = {
     id?: string;
+    avatar?: string | null;
     walletAddress: string;
+    username?: string | null;
+    country?: string | null;
+    totalInvested?: runtime.Decimal | runtime.DecimalJsLike | number | string;
     createdAt?: Date | string;
+    badgeId?: string | null;
 };
 export type UserCreateOrConnectWithoutPropertiesInput = {
     where: Prisma.UserWhereUniqueInput;
@@ -284,28 +543,73 @@ export type UserUpdateManyWithWhereWithoutPropertiesInput = {
     where: Prisma.UserScalarWhereInput;
     data: Prisma.XOR<Prisma.UserUpdateManyMutationInput, Prisma.UserUncheckedUpdateManyWithoutPropertiesInput>;
 };
-export type UserScalarWhereInput = {
-    AND?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[];
-    OR?: Prisma.UserScalarWhereInput[];
-    NOT?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[];
-    id?: Prisma.StringFilter<"User"> | string;
-    walletAddress?: Prisma.StringFilter<"User"> | string;
-    createdAt?: Prisma.DateTimeFilter<"User"> | Date | string;
+export type UserCreateManyBadgesInput = {
+    id?: string;
+    avatar?: string | null;
+    walletAddress: string;
+    username?: string | null;
+    country?: string | null;
+    totalInvested?: runtime.Decimal | runtime.DecimalJsLike | number | string;
+    createdAt?: Date | string;
+};
+export type UserUpdateWithoutBadgesInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    walletAddress?: Prisma.StringFieldUpdateOperationsInput | string;
+    username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    totalInvested?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    properties?: Prisma.PropertyUpdateManyWithoutUsersNestedInput;
+};
+export type UserUncheckedUpdateWithoutBadgesInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    walletAddress?: Prisma.StringFieldUpdateOperationsInput | string;
+    username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    totalInvested?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    properties?: Prisma.PropertyUncheckedUpdateManyWithoutUsersNestedInput;
+};
+export type UserUncheckedUpdateManyWithoutBadgesInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    walletAddress?: Prisma.StringFieldUpdateOperationsInput | string;
+    username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    totalInvested?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
+    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 export type UserUpdateWithoutPropertiesInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
+    avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     walletAddress?: Prisma.StringFieldUpdateOperationsInput | string;
+    username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    totalInvested?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    badges?: Prisma.BadgeUpdateOneWithoutUsersNestedInput;
 };
 export type UserUncheckedUpdateWithoutPropertiesInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
+    avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     walletAddress?: Prisma.StringFieldUpdateOperationsInput | string;
+    username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    totalInvested?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    badgeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
 };
 export type UserUncheckedUpdateManyWithoutPropertiesInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
+    avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     walletAddress?: Prisma.StringFieldUpdateOperationsInput | string;
+    username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    totalInvested?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    badgeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
 };
 /**
  * Count Type UserCountOutputType
@@ -333,42 +637,76 @@ export type UserCountOutputTypeCountPropertiesArgs<ExtArgs extends runtime.Types
 };
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
+    avatar?: boolean;
     walletAddress?: boolean;
+    username?: boolean;
+    country?: boolean;
+    totalInvested?: boolean;
     createdAt?: boolean;
+    badgeId?: boolean;
+    badges?: boolean | Prisma.User$badgesArgs<ExtArgs>;
     properties?: boolean | Prisma.User$propertiesArgs<ExtArgs>;
     _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["user"]>;
 export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
+    avatar?: boolean;
     walletAddress?: boolean;
+    username?: boolean;
+    country?: boolean;
+    totalInvested?: boolean;
     createdAt?: boolean;
+    badgeId?: boolean;
+    badges?: boolean | Prisma.User$badgesArgs<ExtArgs>;
 }, ExtArgs["result"]["user"]>;
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
+    avatar?: boolean;
     walletAddress?: boolean;
+    username?: boolean;
+    country?: boolean;
+    totalInvested?: boolean;
     createdAt?: boolean;
+    badgeId?: boolean;
+    badges?: boolean | Prisma.User$badgesArgs<ExtArgs>;
 }, ExtArgs["result"]["user"]>;
 export type UserSelectScalar = {
     id?: boolean;
+    avatar?: boolean;
     walletAddress?: boolean;
+    username?: boolean;
+    country?: boolean;
+    totalInvested?: boolean;
     createdAt?: boolean;
+    badgeId?: boolean;
 };
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "walletAddress" | "createdAt", ExtArgs["result"]["user"]>;
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "avatar" | "walletAddress" | "username" | "country" | "totalInvested" | "createdAt" | "badgeId", ExtArgs["result"]["user"]>;
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    badges?: boolean | Prisma.User$badgesArgs<ExtArgs>;
     properties?: boolean | Prisma.User$propertiesArgs<ExtArgs>;
     _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
 };
-export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {};
-export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {};
+export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    badges?: boolean | Prisma.User$badgesArgs<ExtArgs>;
+};
+export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    badges?: boolean | Prisma.User$badgesArgs<ExtArgs>;
+};
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     name: "User";
     objects: {
+        badges: Prisma.$BadgePayload<ExtArgs> | null;
         properties: Prisma.$PropertyPayload<ExtArgs>[];
     };
     scalars: runtime.Types.Extensions.GetPayloadResult<{
         id: string;
+        avatar: string | null;
         walletAddress: string;
+        username: string | null;
+        country: string | null;
+        totalInvested: runtime.Decimal;
         createdAt: Date;
+        badgeId: string | null;
     }, ExtArgs["result"]["user"]>;
     composites: {};
 };
@@ -698,6 +1036,7 @@ export interface UserDelegate<ExtArgs extends runtime.Types.Extensions.InternalA
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise";
+    badges<T extends Prisma.User$badgesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$badgesArgs<ExtArgs>>): Prisma.Prisma__BadgeClient<runtime.Types.Result.GetResult<Prisma.$BadgePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>;
     properties<T extends Prisma.User$propertiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$propertiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PropertyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -725,8 +1064,13 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
  */
 export interface UserFieldRefs {
     readonly id: Prisma.FieldRef<"User", 'String'>;
+    readonly avatar: Prisma.FieldRef<"User", 'String'>;
     readonly walletAddress: Prisma.FieldRef<"User", 'String'>;
+    readonly username: Prisma.FieldRef<"User", 'String'>;
+    readonly country: Prisma.FieldRef<"User", 'String'>;
+    readonly totalInvested: Prisma.FieldRef<"User", 'Decimal'>;
     readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>;
+    readonly badgeId: Prisma.FieldRef<"User", 'String'>;
 }
 /**
  * User findUnique
@@ -966,6 +1310,10 @@ export type UserCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
      */
     data: Prisma.UserCreateManyInput | Prisma.UserCreateManyInput[];
     skipDuplicates?: boolean;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.UserIncludeCreateManyAndReturn<ExtArgs> | null;
 };
 /**
  * User update
@@ -1033,6 +1381,10 @@ export type UserUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions
      * Limit how many Users to update.
      */
     limit?: number;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.UserIncludeUpdateManyAndReturn<ExtArgs> | null;
 };
 /**
  * User upsert
@@ -1096,6 +1448,24 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
      * Limit how many Users to delete.
      */
     limit?: number;
+};
+/**
+ * User.badges
+ */
+export type User$badgesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Badge
+     */
+    select?: Prisma.BadgeSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Badge
+     */
+    omit?: Prisma.BadgeOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.BadgeInclude<ExtArgs> | null;
+    where?: Prisma.BadgeWhereInput;
 };
 /**
  * User.properties

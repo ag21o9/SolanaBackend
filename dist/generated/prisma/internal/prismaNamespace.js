@@ -68,6 +68,7 @@ export const JsonNull = runtime.JsonNull;
  */
 export const AnyNull = runtime.AnyNull;
 export const ModelName = {
+    Badge: 'Badge',
     User: 'User',
     Property: 'Property'
 };
@@ -80,10 +81,21 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
     RepeatableRead: 'RepeatableRead',
     Serializable: 'Serializable'
 });
+export const BadgeScalarFieldEnum = {
+    id: 'id',
+    label: 'label',
+    icon: 'icon',
+    color: 'color'
+};
 export const UserScalarFieldEnum = {
     id: 'id',
+    avatar: 'avatar',
     walletAddress: 'walletAddress',
-    createdAt: 'createdAt'
+    username: 'username',
+    country: 'country',
+    totalInvested: 'totalInvested',
+    createdAt: 'createdAt',
+    badgeId: 'badgeId'
 };
 export const PropertyScalarFieldEnum = {
     id: 'id',
@@ -104,6 +116,10 @@ export const SortOrder = {
 export const QueryMode = {
     default: 'default',
     insensitive: 'insensitive'
+};
+export const NullsOrder = {
+    first: 'first',
+    last: 'last'
 };
 export const defineExtension = runtime.Extensions.defineExtension;
 //# sourceMappingURL=prismaNamespace.js.map

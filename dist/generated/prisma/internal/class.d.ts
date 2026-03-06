@@ -11,8 +11,8 @@ export interface PrismaClientConstructor {
    * const prisma = new PrismaClient({
    *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
    * })
-   * // Fetch zero or more Users
-   * const users = await prisma.user.findMany()
+   * // Fetch zero or more Badges
+   * const badges = await prisma.badge.findMany()
    * ```
    *
    * Read more in our [docs](https://pris.ly/d/client).
@@ -30,8 +30,8 @@ export interface PrismaClientConstructor {
  * const prisma = new PrismaClient({
  *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
  * })
- * // Fetch zero or more Users
- * const users = await prisma.user.findMany()
+ * // Fetch zero or more Badges
+ * const badges = await prisma.badge.findMany()
  * ```
  *
  * Read more in our [docs](https://pris.ly/d/client).
@@ -116,13 +116,24 @@ export interface PrismaClient<in LogOpts extends Prisma.LogLevel = never, in out
         extArgs: ExtArgs;
     }>>;
     /**
- * `prisma.user`: Exposes CRUD operations for the **User** model.
+ * `prisma.badge`: Exposes CRUD operations for the **Badge** model.
   * Example usage:
   * ```ts
-  * // Fetch zero or more Users
-  * const users = await prisma.user.findMany()
+  * // Fetch zero or more Badges
+  * const badges = await prisma.badge.findMany()
   * ```
   */
+    get badge(): Prisma.BadgeDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.user`: Exposes CRUD operations for the **User** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more Users
+      * const users = await prisma.user.findMany()
+      * ```
+      */
     get user(): Prisma.UserDelegate<ExtArgs, {
         omit: OmitOpts;
     }>;
