@@ -13,47 +13,231 @@ datasource db {
   provider = "postgresql"
 }
 
-model Badge {
-  id    String @id @default(uuid())
-  users User[]
-  label String
-  icon  String
-  color String
-}
-
 model User {
-  id            String     @id @default(uuid())
-  avatar        String?
-  walletAddress String     @unique
-  username      String?
-  country       String?
-  totalInvested Decimal    @default(0)
-  createdAt     DateTime   @default(now())
-  badgeId       String?
-  badges        Badge?     @relation(fields: [badgeId], references: [id])
-  properties    Property[]
+  id              String   @id @default(cuid())
+  walletAddress   String   @unique
+  walletType      WalletType?
+  username        String?  @unique
+  avatarUrl       String?
+  country         String?
+  bio             String?
+  kycStatus       KycStatus @default(none)
+  referralCode    String?  @unique
+  referredBy      User?    @relation("UserReferrals", fields: [referredById], references: [id])
+  referredById    String?
+  joinDate        DateTime @default(now())
+  isActive        Boolean  @default(true)
+
+  properties      Property[]
+  investments     Investment[]
+  transactions    Transaction[]
+  listingDrafts   ListingDraft[]
+  notifications   Notification[]
+  yieldClaims     YieldClaim[]
+
+  @@map("users")
+  users User[] @relation("UserReferrals")
 }
 
 model Property {
-  id String @id @default(uuid())
+  id                String   @id @default(cuid())
+  ownerWallet       String
+  name              String
+  type              PropertyType
+  tokenModel        TokenModel
+  country           String
+  city              String?
+  addressFull       String?
+  description       String?
+  yearBuilt         Int?
+  areaSqft          Int?
+  totalValuation    BigInt?
+  pricePerShare     Int?
+  totalShares       Int?
+  availableShares   Int?
+  yieldPercent      Decimal? @db.Decimal(5, 2)
+  monthlyRental     BigInt?
+  operatingCosts    BigInt?
+  managementFeePct  Decimal? @db.Decimal(4, 2)
+  insuranceCost     BigInt?
+  capRate           Decimal? @db.Decimal(5, 2)
+  occupancyPct      Int?
+  status            PropertyStatus
+  mintAddress       String?  @map("mint_address")
+  metadataUri       String?  @map("metadata_uri")
+  collectionAddress String?  @map("collection_address")
+  treasuryPda       String?  @map("treasury_pda")
+  coverImageUrl     String?  @map("cover_image_url")
+  images            String[] // JSON array as string or use Json[]
+  isFeatured        Boolean  @default(false)
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @updatedAt @map("updated_at")
 
-  // Off-chain ID for search
-  propertyId String @unique
+  owner             User     @relation(fields: [ownerWallet], references: [walletAddress])
+  investments       Investment[]
+  transactions      Transaction[]
+  yieldDistributions YieldDistribution[]
+  listingDrafts     ListingDraft[]
 
-  // Basic Info
-  name        String
-  city        String
-  area        String
-  description String
+  @@map("properties")
+  yieldClaims YieldClaim[]
+}
 
-  // Blockchain References
-  mintAddress String @unique
-  metadataUri String
+model Investment {
+  id                String   @id @default(cuid())
+  userWallet        String
+  propertyId        String
+  sharesOwned       Int      @map("shares_owned")
+  avgCostPerShare   Decimal  @db.Decimal(12, 2) @map("avg_cost_per_share")
+  purchasePrice     BigInt   @map("purchase_price")
+  currentValue      BigInt   @map("current_value")
+  yieldEarned       BigInt   @map("yield_earned")
+  claimableYield    BigInt   @map("claimable_yield")
+  lastYieldClaim    DateTime? @map("last_yield_claim")
+  tokenAccount      String   @map("token_account")
+  investedAt        DateTime @map("invested_at")
 
-  // Indexing owner (not source of truth)
-  ownerWallet String
+  user              User     @relation(fields: [userWallet], references: [walletAddress])
+  property          Property @relation(fields: [propertyId], references: [id])
 
-  createdAt DateTime @default(now())
+  @@unique([userWallet, propertyId])
+  @@map("investments")
+}
 
-  users User[]
+model Transaction {
+  id             String         @id @default(cuid())
+  type           TransactionType
+  userWallet     String
+  propertyId     String
+  shares         Int?
+  amountUsdc     BigInt         @map("amount_usdc")
+  platformFee    BigInt         @map("platform_fee")
+  netAmount      BigInt         @map("net_amount")
+  txSignature    String         @map("tx_signature")
+  status         TransactionStatus
+  blockTime      BigInt         @map("block_time")
+  createdAt      DateTime       @default(now()) @map("created_at")
+
+  user           User           @relation(fields: [userWallet], references: [walletAddress])
+  property       Property       @relation(fields: [propertyId], references: [id])
+
+  @@map("transactions")
+}
+
+model YieldDistribution {
+  id           String   @id @default(cuid())
+  propertyId   String
+  periodStart  DateTime @map("period_start")
+  periodEnd    DateTime @map("period_end")
+  totalRental  BigInt   @map("total_rental")
+  distributedAt DateTime @map("distributed_at")
+  txSignature  String   @map("tx_signature")
+
+  property     Property @relation(fields: [propertyId], references: [id])
+  yieldClaims  YieldClaim[]
+
+  @@map("yield_distributions")
+}
+
+model YieldClaim {
+  id              String            @id @default(cuid())
+  userWallet      String
+  propertyId      String
+  amountUsdc      BigInt            @map("amount_usdc")
+  distributionId  String
+  txSignature     String            @map("tx_signature")
+  claimedAt       DateTime          @map("claimed_at")
+
+  user            User              @relation(fields: [userWallet], references: [walletAddress])
+  property        Property          @relation(fields: [propertyId], references: [id])
+  distribution    YieldDistribution @relation(fields: [distributionId], references: [id])
+
+  @@unique([userWallet, propertyId, distributionId])
+  @@map("yield_claims")
+}
+
+model ListingDraft {
+  id            String   @id @default(cuid())
+  userWallet    String
+  stepCompleted Int      @map("step_completed")
+  step1Data     Json?    @map("step1_data")
+  step2Data     Json?    @map("step2_data")
+  step3Data     Json?    @map("step3_data")
+  step4Data     Json?    @map("step4_data")
+  submittedAt   DateTime? @map("submitted_at")
+  propertyId    String? 
+  property      Property? @relation(fields: [propertyId], references: [id])
+
+  user          User     @relation(fields: [userWallet], references: [walletAddress])
+
+  @@map("listing_drafts")
+}
+
+model Notification {
+  id        String @id @default(cuid())
+  userWallet String
+  type      NotificationType
+  title     String
+  body      String
+  isRead    Boolean @default(false) @map("is_read")
+  metadata  Json?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user      User   @relation(fields: [userWallet], references: [walletAddress])
+
+  @@map("notifications")
+}
+
+enum WalletType {
+  phantom
+  solflare
+}
+
+enum KycStatus {
+  none
+  pending
+  approved
+  rejected
+}
+enum PropertyType {
+  Residential
+  Commercial
+  Industrial
+  MixedUse
+}
+
+enum TokenModel {
+  nft
+  spl
+}
+
+enum PropertyStatus {
+  draft
+  pending
+  approved
+  rejected
+  live
+  soldOut
+}
+
+enum TransactionType {
+  buy
+  sell
+  yieldClaim
+  listFee
+  transfer
+}
+
+enum TransactionStatus {
+  pending
+  confirmed
+  failed
+}
+
+enum NotificationType {
+  yieldReady
+  buyConfirmed
+  sellConfirmed
+  listingApproved
+  listingRejected
 }

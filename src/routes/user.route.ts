@@ -117,22 +117,19 @@ userRouter.put("/profile", async (req, res) => {
             return res.status(401).json({ message: "Unauthorized" });
         }
 
-        const { username, country, badgeId } = req.body as {
+        const { username, country } = req.body as {
             username?: string;
             country?: string;
-            badgeId?: string;
+
         };
 
         const data: {
             username?: string;
             country?: string;
-            badgeId?: string | null;
-            avatar?: string;
         } = {};
 
         if (typeof username === "string") data.username = username;
         if (typeof country === "string") data.country = country;
-        if (badgeId !== undefined) data.badgeId = badgeId || null;
 
         // if (req.file?.buffer) {
         //     const uploaded = await uploadFile(req.file.buffer, req.file.originalname);
