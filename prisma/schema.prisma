@@ -1,0 +1,59 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Badge {
+  id    String @id @default(uuid())
+  users User[]
+  label String
+  icon  String
+  color String
+}
+
+model User {
+  id            String     @id @default(uuid())
+  avatar        String?
+  walletAddress String     @unique
+  username      String?
+  country       String?
+  totalInvested Decimal    @default(0)
+  createdAt     DateTime   @default(now())
+  badgeId       String?
+  badges        Badge?     @relation(fields: [badgeId], references: [id])
+  properties    Property[]
+}
+
+model Property {
+  id String @id @default(uuid())
+
+  // Off-chain ID for search
+  propertyId String @unique
+
+  // Basic Info
+  name        String
+  city        String
+  area        String
+  description String
+
+  // Blockchain References
+  mintAddress String @unique
+  metadataUri String
+
+  // Indexing owner (not source of truth)
+  ownerWallet String
+
+  createdAt DateTime @default(now())
+
+  users User[]
+}
