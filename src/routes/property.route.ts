@@ -66,8 +66,34 @@ function normalizePropertyType(value: unknown): 'Residential' | 'Commercial' | '
 
 function normalizeTokenModel(value: unknown): 'nft' | 'spl' | null {
     if (typeof value !== 'string') return null
-    const normalized = value.trim().toLowerCase()
-    if (normalized === 'nft' || normalized === 'spl') return normalized
+
+    const normalized = value
+        .trim()
+        .toLowerCase()
+        .replace(/[\s_-]+/g, '')
+
+    const nftAliases = new Set([
+        'nft',
+        'nonfungible',
+        'nonfungibletoken',
+        'unique',
+    ])
+
+    const splAliases = new Set([
+        'spl',
+        'spltoken',
+        'fungible',
+        'fungibletoken',
+        'fractional',
+        'fractionaltoken',
+        'fractionalized',
+        'shares',
+        'sharetoken',
+    ])
+
+    if (nftAliases.has(normalized)) return 'nft'
+    if (splAliases.has(normalized)) return 'spl'
+
     return null
 }
 
@@ -76,15 +102,43 @@ function getOptionalString(value: unknown): string | undefined {
 }
 
 function getOptionalInt(value: unknown): number | undefined {
-    if (typeof value !== 'number' || !Number.isFinite(value)) return undefined
-    return Math.trunc(value)
+    const parsed = typeof value === 'string' ? Number(value) : value
+    if (typeof parsed !== 'number' || !Number.isFinite(parsed)) return undefined
+    return Math.trunc(parsed)
 }
 
 function getOptionalPositiveInt(value: unknown): number | undefined {
-    if (typeof value !== 'number' || !Number.isFinite(value)) return undefined
-    const parsed = Math.trunc(value)
+    const parsedValue = typeof value === 'string' ? Number(value) : value
+    if (typeof parsedValue !== 'number' || !Number.isFinite(parsedValue)) return undefined
+    const parsed = Math.trunc(parsedValue)
     if (parsed <= 0) return undefined
     return parsed
+}
+
+function asRecord(value: unknown): Record<string, unknown> {
+    return value && typeof value === 'object' ? (value as Record<string, unknown>) : {}
+}
+
+function getValueByPath(input: unknown, path: string): unknown {
+    const keys = path.split('.')
+    let cursor: unknown = input
+
+    for (const key of keys) {
+        if (!cursor || typeof cursor !== 'object') return undefined
+        cursor = (cursor as Record<string, unknown>)[key]
+    }
+
+    return cursor
+}
+
+function getFirstValueByPaths(input: unknown, paths: string[]): unknown {
+    for (const path of paths) {
+        const value = getValueByPath(input, path)
+        if (value !== undefined && value !== null) {
+            return value
+        }
+    }
+    return undefined
 }
 
 function getSolanaConnection(): Connection {
@@ -245,7 +299,7 @@ function getMediaFromStep3(step3Data: unknown): { images: string[]; coverImageUr
 
     const merged = [...imagesFromImagesKey, ...imagesFromGalleryKey]
     const uniqueImages = Array.from(new Set(merged))
-    const coverImageUrl = getOptionalString(step3.coverImage)
+    const coverImageUrl = getOptionalString(step3.coverImage) ?? getOptionalString(step3.coverImageUrl)
 
     if (coverImageUrl && !uniqueImages.includes(coverImageUrl)) {
         uniqueImages.unshift(coverImageUrl)
@@ -730,18 +784,45 @@ propertyRouter.post('/mint/property', async (req, res) => {
             return res.status(400).json({ message: 'Submit draft for review before minting' })
         }
 
-        const step1 = (draft.step1Data as Record<string, unknown> | null) ?? {}
-        const step2 = (draft.step2Data as Record<string, unknown> | null) ?? {}
+        const step1Raw = (draft.step1Data as Record<string, unknown> | null) ?? {}
+        const step2Raw = (draft.step2Data as Record<string, unknown> | null) ?? {}
         const step3 = draft.step3Data
 
-        const name = getOptionalString(step1.name)
-        const country = getOptionalString(step1.country)
-        const propertyType = normalizePropertyType(step1.type)
-        const tokenModel = normalizeTokenModel(step2.tokenModel ?? 'spl')
+        const step1 = {
+            ...asRecord(step1Raw),
+            ...asRecord(step1Raw.basicInfo),
+            ...asRecord(step1Raw.step1Data),
+            ...asRecord(step1Raw.propertyInfo),
+            ...asRecord(step1Raw.data),
+        }
+
+        const step2 = {
+            ...asRecord(step2Raw),
+            ...asRecord(step2Raw.tokenomics),
+            ...asRecord(step2Raw.step2Data),
+            ...asRecord(step2Raw.data),
+        }
+
+        const name = getOptionalString(getFirstValueByPaths(step1, ['name', 'propertyName', 'title']))
+        const country = getOptionalString(getFirstValueByPaths(step1, ['country', 'location.country']))
+        const propertyType = normalizePropertyType(getFirstValueByPaths(step1, ['type', 'propertyType']))
+        const tokenModelInput = getFirstValueByPaths(step2, ['tokenModel', 'model', 'tokenType'])
+        const tokenModel = normalizeTokenModel(tokenModelInput ?? 'spl')
 
         if (!name || !country || !propertyType || !tokenModel) {
+            const missingFields: string[] = []
+            if (!name) missingFields.push('name')
+            if (!country) missingFields.push('country')
+            if (!propertyType) missingFields.push('type')
+            if (!tokenModel) missingFields.push('tokenModel')
+
             return res.status(400).json({
                 message: 'Draft is missing required fields for property mint (name, country, type, tokenModel)',
+                missingFields,
+                debug: {
+                    step1Keys: Object.keys(step1),
+                    step2Keys: Object.keys(step2),
+                },
             })
         }
 
@@ -752,7 +833,7 @@ propertyRouter.post('/mint/property', async (req, res) => {
         const description = getOptionalString(step1.description)
         const yearBuilt = getOptionalInt(step1.yearBuilt)
         const areaSqft = getOptionalInt(step1.areaSqft)
-        const totalShares = getOptionalPositiveInt(step2.totalShares)
+        const totalShares = getOptionalPositiveInt(getFirstValueByPaths(step2, ['totalShares', 'shares', 'tokenSupply']))
 
         const metadataUri = await uploadPropertyMetadata({
             draftId,
