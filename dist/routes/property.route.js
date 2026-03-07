@@ -1,5 +1,8 @@
 import { Router } from 'express';
 import jwt from 'jsonwebtoken';
+import bs58 from 'bs58';
+import { Connection, Keypair, PublicKey, SystemProgram, Transaction, clusterApiUrl, sendAndConfirmTransaction, } from '@solana/web3.js';
+import { ASSOCIATED_TOKEN_PROGRAM_ID, MINT_SIZE, TOKEN_PROGRAM_ID, createAssociatedTokenAccountInstruction, createInitializeMintInstruction, createMintToInstruction, getAssociatedTokenAddress, getMinimumBalanceForRentExemptMint, } from '@solana/spl-token';
 import { prisma } from '../prisma.config.js';
 import { upload, uploadFile } from '../config/imageKit.config.js';
 const propertyRouter = Router();
@@ -59,6 +62,92 @@ function getOptionalInt(value) {
     if (typeof value !== 'number' || !Number.isFinite(value))
         return undefined;
     return Math.trunc(value);
+}
+function getOptionalPositiveInt(value) {
+    if (typeof value !== 'number' || !Number.isFinite(value))
+        return undefined;
+    const parsed = Math.trunc(value);
+    if (parsed <= 0)
+        return undefined;
+    return parsed;
+}
+function getSolanaConnection() {
+    const rpcUrl = process.env.SOLANA_RPC_URL ?? clusterApiUrl('devnet');
+    return new Connection(rpcUrl, 'confirmed');
+}
+function getPlatformSigner() {
+    const secret = process.env.PLATFORM_SIGNER_SECRET;
+    if (!secret) {
+        throw new Error('Missing PLATFORM_SIGNER_SECRET env var');
+    }
+    try {
+        // Supports base58 key and JSON-array formats.
+        if (secret.trim().startsWith('[')) {
+            const parsed = JSON.parse(secret);
+            if (!Array.isArray(parsed)) {
+                throw new Error('PLATFORM_SIGNER_SECRET JSON must be a number array');
+            }
+            return Keypair.fromSecretKey(Uint8Array.from(parsed));
+        }
+        return Keypair.fromSecretKey(bs58.decode(secret.trim()));
+    }
+    catch (error) {
+        throw new Error(`Invalid PLATFORM_SIGNER_SECRET format: ${error.message}`);
+    }
+}
+async function mintPropertyToken(params) {
+    const connection = getSolanaConnection();
+    const payer = getPlatformSigner();
+    const owner = new PublicKey(params.ownerWallet);
+    const mintKeypair = Keypair.generate();
+    const decimals = params.tokenModel === 'nft' ? 0 : 0;
+    const totalSupply = params.tokenModel === 'nft'
+        ? 1n
+        : BigInt(params.totalShares && params.totalShares > 0 ? params.totalShares : 1);
+    const lamportsForMint = await getMinimumBalanceForRentExemptMint(connection);
+    const ownerTokenAccount = await getAssociatedTokenAddress(mintKeypair.publicKey, owner, false, TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID);
+    const treasuryTokenAccount = await getAssociatedTokenAddress(mintKeypair.publicKey, payer.publicKey, false, TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID);
+    const tx = new Transaction().add(SystemProgram.createAccount({
+        fromPubkey: payer.publicKey,
+        newAccountPubkey: mintKeypair.publicKey,
+        space: MINT_SIZE,
+        lamports: lamportsForMint,
+        programId: TOKEN_PROGRAM_ID,
+    }), createInitializeMintInstruction(mintKeypair.publicKey, decimals, payer.publicKey, payer.publicKey, TOKEN_PROGRAM_ID), createAssociatedTokenAccountInstruction(payer.publicKey, ownerTokenAccount, owner, mintKeypair.publicKey, TOKEN_PROGRAM_ID, ASSOCIATED_TOKEN_PROGRAM_ID), createMintToInstruction(mintKeypair.publicKey, ownerTokenAccount, payer.publicKey, totalSupply, [], TOKEN_PROGRAM_ID));
+    const txSignature = await sendAndConfirmTransaction(connection, tx, [payer, mintKeypair], {
+        commitment: 'confirmed',
+    });
+    return {
+        mintAddress: mintKeypair.publicKey.toBase58(),
+        treasuryPDA: treasuryTokenAccount.toBase58(),
+        txSignature,
+    };
+}
+async function uploadPropertyMetadata(params) {
+    const metadata = {
+        name: params.name,
+        symbol: params.tokenModel === 'nft' ? 'PROP-NFT' : 'PROP-SPL',
+        description: params.description ?? `${params.propertyType} property token`,
+        image: params.image,
+        external_url: process.env.METADATA_EXTERNAL_URL,
+        attributes: [
+            { trait_type: 'country', value: params.country },
+            { trait_type: 'city', value: params.city ?? 'N/A' },
+            { trait_type: 'property_type', value: params.propertyType },
+            { trait_type: 'token_model', value: params.tokenModel },
+            { trait_type: 'owner_wallet', value: params.ownerWallet },
+        ],
+        properties: {
+            category: 'image',
+            files: params.images.map((uri) => ({ uri, type: 'image/jpeg' })),
+        },
+    };
+    const buffer = Buffer.from(JSON.stringify(metadata, null, 2), 'utf8');
+    const uploaded = await uploadFile(buffer, `property-metadata-${params.draftId}.json`);
+    if (!uploaded.url) {
+        throw new Error('Metadata upload did not return a URL');
+    }
+    return uploaded.url;
 }
 function getMediaFromStep3(step3Data) {
     if (!step3Data || typeof step3Data !== 'object') {
@@ -512,15 +601,29 @@ propertyRouter.post('/mint/property', async (req, res) => {
             });
         }
         const { images, coverImageUrl } = getMediaFromStep3(step3);
-        // TODO: replace with real Solana mint flow
-        const mintAddress = `mint_${draftId}`;
-        const metadataUri = `https://metadata.example.com/${draftId}.json`;
-        const treasuryPDA = `treasury_${draftId}`;
         const city = getOptionalString(step1.city);
         const addressFull = getOptionalString(step1.addressFull);
         const description = getOptionalString(step1.description);
         const yearBuilt = getOptionalInt(step1.yearBuilt);
         const areaSqft = getOptionalInt(step1.areaSqft);
+        const totalShares = getOptionalPositiveInt(step2.totalShares);
+        const metadataUri = await uploadPropertyMetadata({
+            draftId,
+            name,
+            images,
+            ownerWallet: userWallet,
+            country,
+            tokenModel,
+            propertyType,
+            ...(description !== undefined ? { description } : {}),
+            ...(coverImageUrl !== undefined ? { image: coverImageUrl } : {}),
+            ...(city !== undefined ? { city } : {}),
+        });
+        const { mintAddress, treasuryPDA, txSignature } = await mintPropertyToken({
+            ownerWallet: userWallet,
+            tokenModel,
+            ...(totalShares !== undefined ? { totalShares } : {}),
+        });
         const propertyData = {
             ownerWallet: userWallet,
             name,
@@ -568,6 +671,7 @@ propertyRouter.post('/mint/property', async (req, res) => {
             mintAddress,
             metadataUri,
             treasuryPDA,
+            txSignature,
             property,
         });
     }
