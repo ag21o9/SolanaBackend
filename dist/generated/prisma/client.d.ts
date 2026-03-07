@@ -12,8 +12,8 @@ export * from "./enums.js";
  * const prisma = new PrismaClient({
  *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
  * })
- * // Fetch zero or more Badges
- * const badges = await prisma.badge.findMany()
+ * // Fetch zero or more Users
+ * const users = await prisma.user.findMany()
  * ```
  *
  * Read more in our [docs](https://pris.ly/d/client).
@@ -21,11 +21,6 @@ export * from "./enums.js";
 export declare const PrismaClient: $Class.PrismaClientConstructor;
 export type PrismaClient<LogOpts extends Prisma.LogLevel = never, OmitOpts extends Prisma.PrismaClientOptions["omit"] = Prisma.PrismaClientOptions["omit"], ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = $Class.PrismaClient<LogOpts, OmitOpts, ExtArgs>;
 export { Prisma };
-/**
- * Model Badge
- *
- */
-export type Badge = Prisma.BadgeModel;
 /**
  * Model User
  *
@@ -36,4 +31,34 @@ export type User = Prisma.UserModel;
  *
  */
 export type Property = Prisma.PropertyModel;
+/**
+ * Model Investment
+ *
+ */
+export type Investment = Prisma.InvestmentModel;
+/**
+ * Model Transaction
+ *
+ */
+export type Transaction = Prisma.TransactionModel;
+/**
+ * Model YieldDistribution
+ *
+ */
+export type YieldDistribution = Prisma.YieldDistributionModel;
+/**
+ * Model YieldClaim
+ *
+ */
+export type YieldClaim = Prisma.YieldClaimModel;
+/**
+ * Model ListingDraft
+ *
+ */
+export type ListingDraft = Prisma.ListingDraftModel;
+/**
+ * Model Notification
+ *
+ */
+export type Notification = Prisma.NotificationModel;
 //# sourceMappingURL=client.d.ts.map

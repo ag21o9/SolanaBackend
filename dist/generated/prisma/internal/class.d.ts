@@ -11,8 +11,8 @@ export interface PrismaClientConstructor {
    * const prisma = new PrismaClient({
    *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
    * })
-   * // Fetch zero or more Badges
-   * const badges = await prisma.badge.findMany()
+   * // Fetch zero or more Users
+   * const users = await prisma.user.findMany()
    * ```
    *
    * Read more in our [docs](https://pris.ly/d/client).
@@ -30,8 +30,8 @@ export interface PrismaClientConstructor {
  * const prisma = new PrismaClient({
  *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
  * })
- * // Fetch zero or more Badges
- * const badges = await prisma.badge.findMany()
+ * // Fetch zero or more Users
+ * const users = await prisma.user.findMany()
  * ```
  *
  * Read more in our [docs](https://pris.ly/d/client).
@@ -116,24 +116,13 @@ export interface PrismaClient<in LogOpts extends Prisma.LogLevel = never, in out
         extArgs: ExtArgs;
     }>>;
     /**
- * `prisma.badge`: Exposes CRUD operations for the **Badge** model.
+ * `prisma.user`: Exposes CRUD operations for the **User** model.
   * Example usage:
   * ```ts
-  * // Fetch zero or more Badges
-  * const badges = await prisma.badge.findMany()
+  * // Fetch zero or more Users
+  * const users = await prisma.user.findMany()
   * ```
   */
-    get badge(): Prisma.BadgeDelegate<ExtArgs, {
-        omit: OmitOpts;
-    }>;
-    /**
-     * `prisma.user`: Exposes CRUD operations for the **User** model.
-      * Example usage:
-      * ```ts
-      * // Fetch zero or more Users
-      * const users = await prisma.user.findMany()
-      * ```
-      */
     get user(): Prisma.UserDelegate<ExtArgs, {
         omit: OmitOpts;
     }>;
@@ -146,6 +135,72 @@ export interface PrismaClient<in LogOpts extends Prisma.LogLevel = never, in out
       * ```
       */
     get property(): Prisma.PropertyDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.investment`: Exposes CRUD operations for the **Investment** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more Investments
+      * const investments = await prisma.investment.findMany()
+      * ```
+      */
+    get investment(): Prisma.InvestmentDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.transaction`: Exposes CRUD operations for the **Transaction** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more Transactions
+      * const transactions = await prisma.transaction.findMany()
+      * ```
+      */
+    get transaction(): Prisma.TransactionDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.yieldDistribution`: Exposes CRUD operations for the **YieldDistribution** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more YieldDistributions
+      * const yieldDistributions = await prisma.yieldDistribution.findMany()
+      * ```
+      */
+    get yieldDistribution(): Prisma.YieldDistributionDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.yieldClaim`: Exposes CRUD operations for the **YieldClaim** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more YieldClaims
+      * const yieldClaims = await prisma.yieldClaim.findMany()
+      * ```
+      */
+    get yieldClaim(): Prisma.YieldClaimDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.listingDraft`: Exposes CRUD operations for the **ListingDraft** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more ListingDrafts
+      * const listingDrafts = await prisma.listingDraft.findMany()
+      * ```
+      */
+    get listingDraft(): Prisma.ListingDraftDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
+    /**
+     * `prisma.notification`: Exposes CRUD operations for the **Notification** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more Notifications
+      * const notifications = await prisma.notification.findMany()
+      * ```
+      */
+    get notification(): Prisma.NotificationDelegate<ExtArgs, {
         omit: OmitOpts;
     }>;
 }

@@ -14,33 +14,33 @@ datasource db {
 }
 
 model User {
-  id              String   @id @default(cuid())
-  walletAddress   String   @unique
-  walletType      WalletType?
-  username        String?  @unique
-  avatarUrl       String?
-  country         String?
-  bio             String?
-  kycStatus       KycStatus @default(none)
-  referralCode    String?  @unique
-  referredBy      User?    @relation("UserReferrals", fields: [referredById], references: [id])
-  referredById    String?
-  joinDate        DateTime @default(now())
-  isActive        Boolean  @default(true)
+  id            String      @id @default(cuid())
+  walletAddress String      @unique
+  walletType    WalletType?
+  username      String?     @unique
+  avatarUrl     String?
+  country       String?
+  bio           String?
+  kycStatus     KycStatus   @default(none)
+  referralCode  String?     @unique
+  referredBy    User?       @relation("UserReferrals", fields: [referredById], references: [id])
+  referredById  String?
+  joinDate      DateTime    @default(now())
+  isActive      Boolean     @default(true)
 
-  properties      Property[]
-  investments     Investment[]
-  transactions    Transaction[]
-  listingDrafts   ListingDraft[]
-  notifications   Notification[]
-  yieldClaims     YieldClaim[]
+  properties    Property[]
+  investments   Investment[]
+  transactions  Transaction[]
+  listingDrafts ListingDraft[]
+  notifications Notification[]
+  yieldClaims   YieldClaim[]
+  users         User[]         @relation("UserReferrals")
 
   @@map("users")
-  users User[] @relation("UserReferrals")
 }
 
 model Property {
-  id                String   @id @default(cuid())
+  id                String         @id @default(cuid())
   ownerWallet       String
   name              String
   type              PropertyType
@@ -55,135 +55,135 @@ model Property {
   pricePerShare     Int?
   totalShares       Int?
   availableShares   Int?
-  yieldPercent      Decimal? @db.Decimal(5, 2)
+  yieldPercent      Decimal?       @db.Decimal(5, 2)
   monthlyRental     BigInt?
   operatingCosts    BigInt?
-  managementFeePct  Decimal? @db.Decimal(4, 2)
+  managementFeePct  Decimal?       @db.Decimal(4, 2)
   insuranceCost     BigInt?
-  capRate           Decimal? @db.Decimal(5, 2)
+  capRate           Decimal?       @db.Decimal(5, 2)
   occupancyPct      Int?
   status            PropertyStatus
-  mintAddress       String?  @map("mint_address")
-  metadataUri       String?  @map("metadata_uri")
-  collectionAddress String?  @map("collection_address")
-  treasuryPda       String?  @map("treasury_pda")
-  coverImageUrl     String?  @map("cover_image_url")
+  mintAddress       String?        @map("mint_address")
+  metadataUri       String?        @map("metadata_uri")
+  collectionAddress String?        @map("collection_address")
+  treasuryPda       String?        @map("treasury_pda")
+  coverImageUrl     String?        @map("cover_image_url")
   images            String[] // JSON array as string or use Json[]
-  isFeatured        Boolean  @default(false)
-  createdAt         DateTime @default(now()) @map("created_at")
-  updatedAt         DateTime @updatedAt @map("updated_at")
+  isFeatured        Boolean        @default(false)
+  createdAt         DateTime       @default(now()) @map("created_at")
+  updatedAt         DateTime       @updatedAt @map("updated_at")
 
-  owner             User     @relation(fields: [ownerWallet], references: [walletAddress])
-  investments       Investment[]
-  transactions      Transaction[]
+  owner              User                @relation(fields: [ownerWallet], references: [walletAddress])
+  investments        Investment[]
+  transactions       Transaction[]
   yieldDistributions YieldDistribution[]
-  listingDrafts     ListingDraft[]
+  listingDrafts      ListingDraft[]
+  yieldClaims        YieldClaim[]
 
   @@map("properties")
-  yieldClaims YieldClaim[]
 }
 
 model Investment {
-  id                String   @id @default(cuid())
-  userWallet        String
-  propertyId        String
-  sharesOwned       Int      @map("shares_owned")
-  avgCostPerShare   Decimal  @db.Decimal(12, 2) @map("avg_cost_per_share")
-  purchasePrice     BigInt   @map("purchase_price")
-  currentValue      BigInt   @map("current_value")
-  yieldEarned       BigInt   @map("yield_earned")
-  claimableYield    BigInt   @map("claimable_yield")
-  lastYieldClaim    DateTime? @map("last_yield_claim")
-  tokenAccount      String   @map("token_account")
-  investedAt        DateTime @map("invested_at")
+  id              String    @id @default(cuid())
+  userWallet      String
+  propertyId      String
+  sharesOwned     Int       @map("shares_owned")
+  avgCostPerShare Decimal   @map("avg_cost_per_share") @db.Decimal(12, 2)
+  purchasePrice   BigInt    @map("purchase_price")
+  currentValue    BigInt    @map("current_value")
+  yieldEarned     BigInt    @map("yield_earned")
+  claimableYield  BigInt    @map("claimable_yield")
+  lastYieldClaim  DateTime? @map("last_yield_claim")
+  tokenAccount    String    @map("token_account")
+  investedAt      DateTime  @map("invested_at")
 
-  user              User     @relation(fields: [userWallet], references: [walletAddress])
-  property          Property @relation(fields: [propertyId], references: [id])
+  user     User     @relation(fields: [userWallet], references: [walletAddress])
+  property Property @relation(fields: [propertyId], references: [id])
 
   @@unique([userWallet, propertyId])
   @@map("investments")
 }
 
 model Transaction {
-  id             String         @id @default(cuid())
-  type           TransactionType
-  userWallet     String
-  propertyId     String
-  shares         Int?
-  amountUsdc     BigInt         @map("amount_usdc")
-  platformFee    BigInt         @map("platform_fee")
-  netAmount      BigInt         @map("net_amount")
-  txSignature    String         @map("tx_signature")
-  status         TransactionStatus
-  blockTime      BigInt         @map("block_time")
-  createdAt      DateTime       @default(now()) @map("created_at")
+  id          String            @id @default(cuid())
+  type        TransactionType
+  userWallet  String
+  propertyId  String
+  shares      Int?
+  amountUsdc  BigInt            @map("amount_usdc")
+  platformFee BigInt            @map("platform_fee")
+  netAmount   BigInt            @map("net_amount")
+  txSignature String            @map("tx_signature")
+  status      TransactionStatus
+  blockTime   BigInt            @map("block_time")
+  createdAt   DateTime          @default(now()) @map("created_at")
 
-  user           User           @relation(fields: [userWallet], references: [walletAddress])
-  property       Property       @relation(fields: [propertyId], references: [id])
+  user     User     @relation(fields: [userWallet], references: [walletAddress])
+  property Property @relation(fields: [propertyId], references: [id])
 
   @@map("transactions")
 }
 
 model YieldDistribution {
-  id           String   @id @default(cuid())
-  propertyId   String
-  periodStart  DateTime @map("period_start")
-  periodEnd    DateTime @map("period_end")
-  totalRental  BigInt   @map("total_rental")
+  id            String   @id @default(cuid())
+  propertyId    String
+  periodStart   DateTime @map("period_start")
+  periodEnd     DateTime @map("period_end")
+  totalRental   BigInt   @map("total_rental")
   distributedAt DateTime @map("distributed_at")
-  txSignature  String   @map("tx_signature")
+  txSignature   String   @map("tx_signature")
 
-  property     Property @relation(fields: [propertyId], references: [id])
-  yieldClaims  YieldClaim[]
+  property    Property     @relation(fields: [propertyId], references: [id])
+  yieldClaims YieldClaim[]
 
   @@map("yield_distributions")
 }
 
 model YieldClaim {
-  id              String            @id @default(cuid())
-  userWallet      String
-  propertyId      String
-  amountUsdc      BigInt            @map("amount_usdc")
-  distributionId  String
-  txSignature     String            @map("tx_signature")
-  claimedAt       DateTime          @map("claimed_at")
+  id             String   @id @default(cuid())
+  userWallet     String
+  propertyId     String
+  amountUsdc     BigInt   @map("amount_usdc")
+  distributionId String
+  txSignature    String   @map("tx_signature")
+  claimedAt      DateTime @map("claimed_at")
 
-  user            User              @relation(fields: [userWallet], references: [walletAddress])
-  property        Property          @relation(fields: [propertyId], references: [id])
-  distribution    YieldDistribution @relation(fields: [distributionId], references: [id])
+  user         User              @relation(fields: [userWallet], references: [walletAddress])
+  property     Property          @relation(fields: [propertyId], references: [id])
+  distribution YieldDistribution @relation(fields: [distributionId], references: [id])
 
   @@unique([userWallet, propertyId, distributionId])
   @@map("yield_claims")
 }
 
 model ListingDraft {
-  id            String   @id @default(cuid())
+  id            String    @id @default(cuid())
   userWallet    String
-  stepCompleted Int      @map("step_completed")
-  step1Data     Json?    @map("step1_data")
-  step2Data     Json?    @map("step2_data")
-  step3Data     Json?    @map("step3_data")
-  step4Data     Json?    @map("step4_data")
+  stepCompleted Int       @map("step_completed")
+  step1Data     Json?     @map("step1_data")
+  step2Data     Json?     @map("step2_data")
+  step3Data     Json?     @map("step3_data")
+  step4Data     Json?     @map("step4_data")
   submittedAt   DateTime? @map("submitted_at")
-  propertyId    String? 
+  propertyId    String?
   property      Property? @relation(fields: [propertyId], references: [id])
 
-  user          User     @relation(fields: [userWallet], references: [walletAddress])
+  user User @relation(fields: [userWallet], references: [walletAddress])
 
   @@map("listing_drafts")
 }
 
 model Notification {
-  id        String @id @default(cuid())
+  id         String           @id @default(cuid())
   userWallet String
-  type      NotificationType
-  title     String
-  body      String
-  isRead    Boolean @default(false) @map("is_read")
-  metadata  Json?
-  createdAt DateTime @default(now()) @map("created_at")
+  type       NotificationType
+  title      String
+  body       String
+  isRead     Boolean          @default(false) @map("is_read")
+  metadata   Json?
+  createdAt  DateTime         @default(now()) @map("created_at")
 
-  user      User   @relation(fields: [userWallet], references: [walletAddress])
+  user User @relation(fields: [userWallet], references: [walletAddress])
 
   @@map("notifications")
 }
@@ -199,6 +199,7 @@ enum KycStatus {
   approved
   rejected
 }
+
 enum PropertyType {
   Residential
   Commercial

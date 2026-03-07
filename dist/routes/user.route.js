@@ -95,14 +95,12 @@ userRouter.put("/profile", async (req, res) => {
         if (!userId) {
             return res.status(401).json({ message: "Unauthorized" });
         }
-        const { username, country, badgeId } = req.body;
+        const { username, country } = req.body;
         const data = {};
         if (typeof username === "string")
             data.username = username;
         if (typeof country === "string")
             data.country = country;
-        if (badgeId !== undefined)
-            data.badgeId = badgeId || null;
         // if (req.file?.buffer) {
         //     const uploaded = await uploadFile(req.file.buffer, req.file.originalname);
         //     data.avatar = uploaded.url;
@@ -119,6 +117,42 @@ userRouter.put("/profile", async (req, res) => {
     catch (error) {
         console.log(error);
         return res.status(500).json({ message: "Failed to update profile" });
+    }
+});
+userRouter.get("/profile", async (req, res) => {
+    try {
+        const userId = getUserIdFromAuthHeader(req.headers.authorization);
+        if (!userId) {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
+        const user = await prisma.user.findUnique({
+            where: { id: userId },
+            select: {
+                id: true,
+                walletAddress: true,
+                walletType: true,
+                username: true,
+                avatarUrl: true,
+                country: true,
+                bio: true,
+                kycStatus: true,
+                referralCode: true,
+                referredById: true,
+                joinDate: true,
+                isActive: true,
+            },
+        });
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        return res.json({
+            message: "Profile fetched successfully",
+            user,
+        });
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Failed to fetch profile" });
     }
 });
 export default userRouter;

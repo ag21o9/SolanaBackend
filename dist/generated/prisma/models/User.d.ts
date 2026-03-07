@@ -1,4 +1,5 @@
 import type * as runtime from "@prisma/client/runtime/client";
+import type * as $Enums from "../enums.js";
 import type * as Prisma from "../internal/prismaNamespace.js";
 /**
  * Model User
@@ -7,83 +8,93 @@ import type * as Prisma from "../internal/prismaNamespace.js";
 export type UserModel = runtime.Types.Result.DefaultSelection<Prisma.$UserPayload>;
 export type AggregateUser = {
     _count: UserCountAggregateOutputType | null;
-    _avg: UserAvgAggregateOutputType | null;
-    _sum: UserSumAggregateOutputType | null;
     _min: UserMinAggregateOutputType | null;
     _max: UserMaxAggregateOutputType | null;
 };
-export type UserAvgAggregateOutputType = {
-    totalInvested: runtime.Decimal | null;
-};
-export type UserSumAggregateOutputType = {
-    totalInvested: runtime.Decimal | null;
-};
 export type UserMinAggregateOutputType = {
     id: string | null;
-    avatar: string | null;
     walletAddress: string | null;
+    walletType: $Enums.WalletType | null;
     username: string | null;
+    avatarUrl: string | null;
     country: string | null;
-    totalInvested: runtime.Decimal | null;
-    createdAt: Date | null;
-    badgeId: string | null;
+    bio: string | null;
+    kycStatus: $Enums.KycStatus | null;
+    referralCode: string | null;
+    referredById: string | null;
+    joinDate: Date | null;
+    isActive: boolean | null;
 };
 export type UserMaxAggregateOutputType = {
     id: string | null;
-    avatar: string | null;
     walletAddress: string | null;
+    walletType: $Enums.WalletType | null;
     username: string | null;
+    avatarUrl: string | null;
     country: string | null;
-    totalInvested: runtime.Decimal | null;
-    createdAt: Date | null;
-    badgeId: string | null;
+    bio: string | null;
+    kycStatus: $Enums.KycStatus | null;
+    referralCode: string | null;
+    referredById: string | null;
+    joinDate: Date | null;
+    isActive: boolean | null;
 };
 export type UserCountAggregateOutputType = {
     id: number;
-    avatar: number;
     walletAddress: number;
+    walletType: number;
     username: number;
+    avatarUrl: number;
     country: number;
-    totalInvested: number;
-    createdAt: number;
-    badgeId: number;
+    bio: number;
+    kycStatus: number;
+    referralCode: number;
+    referredById: number;
+    joinDate: number;
+    isActive: number;
     _all: number;
-};
-export type UserAvgAggregateInputType = {
-    totalInvested?: true;
-};
-export type UserSumAggregateInputType = {
-    totalInvested?: true;
 };
 export type UserMinAggregateInputType = {
     id?: true;
-    avatar?: true;
     walletAddress?: true;
+    walletType?: true;
     username?: true;
+    avatarUrl?: true;
     country?: true;
-    totalInvested?: true;
-    createdAt?: true;
-    badgeId?: true;
+    bio?: true;
+    kycStatus?: true;
+    referralCode?: true;
+    referredById?: true;
+    joinDate?: true;
+    isActive?: true;
 };
 export type UserMaxAggregateInputType = {
     id?: true;
-    avatar?: true;
     walletAddress?: true;
+    walletType?: true;
     username?: true;
+    avatarUrl?: true;
     country?: true;
-    totalInvested?: true;
-    createdAt?: true;
-    badgeId?: true;
+    bio?: true;
+    kycStatus?: true;
+    referralCode?: true;
+    referredById?: true;
+    joinDate?: true;
+    isActive?: true;
 };
 export type UserCountAggregateInputType = {
     id?: true;
-    avatar?: true;
     walletAddress?: true;
+    walletType?: true;
     username?: true;
+    avatarUrl?: true;
     country?: true;
-    totalInvested?: true;
-    createdAt?: true;
-    badgeId?: true;
+    bio?: true;
+    kycStatus?: true;
+    referralCode?: true;
+    referredById?: true;
+    joinDate?: true;
+    isActive?: true;
     _all?: true;
 };
 export type UserAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -124,18 +135,6 @@ export type UserAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      *
-     * Select which fields to average
-    **/
-    _avg?: UserAvgAggregateInputType;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
-     * Select which fields to sum
-    **/
-    _sum?: UserSumAggregateInputType;
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
      * Select which fields to find the minimum value
     **/
     _min?: UserMinAggregateInputType;
@@ -157,23 +156,23 @@ export type UserGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
     take?: number;
     skip?: number;
     _count?: UserCountAggregateInputType | true;
-    _avg?: UserAvgAggregateInputType;
-    _sum?: UserSumAggregateInputType;
     _min?: UserMinAggregateInputType;
     _max?: UserMaxAggregateInputType;
 };
 export type UserGroupByOutputType = {
     id: string;
-    avatar: string | null;
     walletAddress: string;
+    walletType: $Enums.WalletType | null;
     username: string | null;
+    avatarUrl: string | null;
     country: string | null;
-    totalInvested: runtime.Decimal;
-    createdAt: Date;
-    badgeId: string | null;
+    bio: string | null;
+    kycStatus: $Enums.KycStatus;
+    referralCode: string | null;
+    referredById: string | null;
+    joinDate: Date;
+    isActive: boolean;
     _count: UserCountAggregateOutputType | null;
-    _avg: UserAvgAggregateOutputType | null;
-    _sum: UserSumAggregateOutputType | null;
     _min: UserMinAggregateOutputType | null;
     _max: UserMaxAggregateOutputType | null;
 };
@@ -185,143 +184,235 @@ export type UserWhereInput = {
     OR?: Prisma.UserWhereInput[];
     NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[];
     id?: Prisma.StringFilter<"User"> | string;
-    avatar?: Prisma.StringNullableFilter<"User"> | string | null;
     walletAddress?: Prisma.StringFilter<"User"> | string;
+    walletType?: Prisma.EnumWalletTypeNullableFilter<"User"> | $Enums.WalletType | null;
     username?: Prisma.StringNullableFilter<"User"> | string | null;
+    avatarUrl?: Prisma.StringNullableFilter<"User"> | string | null;
     country?: Prisma.StringNullableFilter<"User"> | string | null;
-    totalInvested?: Prisma.DecimalFilter<"User"> | runtime.Decimal | runtime.DecimalJsLike | number | string;
-    createdAt?: Prisma.DateTimeFilter<"User"> | Date | string;
-    badgeId?: Prisma.StringNullableFilter<"User"> | string | null;
-    badges?: Prisma.XOR<Prisma.BadgeNullableScalarRelationFilter, Prisma.BadgeWhereInput> | null;
+    bio?: Prisma.StringNullableFilter<"User"> | string | null;
+    kycStatus?: Prisma.EnumKycStatusFilter<"User"> | $Enums.KycStatus;
+    referralCode?: Prisma.StringNullableFilter<"User"> | string | null;
+    referredById?: Prisma.StringNullableFilter<"User"> | string | null;
+    joinDate?: Prisma.DateTimeFilter<"User"> | Date | string;
+    isActive?: Prisma.BoolFilter<"User"> | boolean;
+    referredBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null;
     properties?: Prisma.PropertyListRelationFilter;
+    investments?: Prisma.InvestmentListRelationFilter;
+    transactions?: Prisma.TransactionListRelationFilter;
+    listingDrafts?: Prisma.ListingDraftListRelationFilter;
+    notifications?: Prisma.NotificationListRelationFilter;
+    yieldClaims?: Prisma.YieldClaimListRelationFilter;
+    users?: Prisma.UserListRelationFilter;
 };
 export type UserOrderByWithRelationInput = {
     id?: Prisma.SortOrder;
-    avatar?: Prisma.SortOrderInput | Prisma.SortOrder;
     walletAddress?: Prisma.SortOrder;
+    walletType?: Prisma.SortOrderInput | Prisma.SortOrder;
     username?: Prisma.SortOrderInput | Prisma.SortOrder;
+    avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder;
     country?: Prisma.SortOrderInput | Prisma.SortOrder;
-    totalInvested?: Prisma.SortOrder;
-    createdAt?: Prisma.SortOrder;
-    badgeId?: Prisma.SortOrderInput | Prisma.SortOrder;
-    badges?: Prisma.BadgeOrderByWithRelationInput;
+    bio?: Prisma.SortOrderInput | Prisma.SortOrder;
+    kycStatus?: Prisma.SortOrder;
+    referralCode?: Prisma.SortOrderInput | Prisma.SortOrder;
+    referredById?: Prisma.SortOrderInput | Prisma.SortOrder;
+    joinDate?: Prisma.SortOrder;
+    isActive?: Prisma.SortOrder;
+    referredBy?: Prisma.UserOrderByWithRelationInput;
     properties?: Prisma.PropertyOrderByRelationAggregateInput;
+    investments?: Prisma.InvestmentOrderByRelationAggregateInput;
+    transactions?: Prisma.TransactionOrderByRelationAggregateInput;
+    listingDrafts?: Prisma.ListingDraftOrderByRelationAggregateInput;
+    notifications?: Prisma.NotificationOrderByRelationAggregateInput;
+    yieldClaims?: Prisma.YieldClaimOrderByRelationAggregateInput;
+    users?: Prisma.UserOrderByRelationAggregateInput;
 };
 export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: string;
     walletAddress?: string;
+    username?: string;
+    referralCode?: string;
     AND?: Prisma.UserWhereInput | Prisma.UserWhereInput[];
     OR?: Prisma.UserWhereInput[];
     NOT?: Prisma.UserWhereInput | Prisma.UserWhereInput[];
-    avatar?: Prisma.StringNullableFilter<"User"> | string | null;
-    username?: Prisma.StringNullableFilter<"User"> | string | null;
+    walletType?: Prisma.EnumWalletTypeNullableFilter<"User"> | $Enums.WalletType | null;
+    avatarUrl?: Prisma.StringNullableFilter<"User"> | string | null;
     country?: Prisma.StringNullableFilter<"User"> | string | null;
-    totalInvested?: Prisma.DecimalFilter<"User"> | runtime.Decimal | runtime.DecimalJsLike | number | string;
-    createdAt?: Prisma.DateTimeFilter<"User"> | Date | string;
-    badgeId?: Prisma.StringNullableFilter<"User"> | string | null;
-    badges?: Prisma.XOR<Prisma.BadgeNullableScalarRelationFilter, Prisma.BadgeWhereInput> | null;
+    bio?: Prisma.StringNullableFilter<"User"> | string | null;
+    kycStatus?: Prisma.EnumKycStatusFilter<"User"> | $Enums.KycStatus;
+    referredById?: Prisma.StringNullableFilter<"User"> | string | null;
+    joinDate?: Prisma.DateTimeFilter<"User"> | Date | string;
+    isActive?: Prisma.BoolFilter<"User"> | boolean;
+    referredBy?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null;
     properties?: Prisma.PropertyListRelationFilter;
-}, "id" | "walletAddress">;
+    investments?: Prisma.InvestmentListRelationFilter;
+    transactions?: Prisma.TransactionListRelationFilter;
+    listingDrafts?: Prisma.ListingDraftListRelationFilter;
+    notifications?: Prisma.NotificationListRelationFilter;
+    yieldClaims?: Prisma.YieldClaimListRelationFilter;
+    users?: Prisma.UserListRelationFilter;
+}, "id" | "walletAddress" | "username" | "referralCode">;
 export type UserOrderByWithAggregationInput = {
     id?: Prisma.SortOrder;
-    avatar?: Prisma.SortOrderInput | Prisma.SortOrder;
     walletAddress?: Prisma.SortOrder;
+    walletType?: Prisma.SortOrderInput | Prisma.SortOrder;
     username?: Prisma.SortOrderInput | Prisma.SortOrder;
+    avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder;
     country?: Prisma.SortOrderInput | Prisma.SortOrder;
-    totalInvested?: Prisma.SortOrder;
-    createdAt?: Prisma.SortOrder;
-    badgeId?: Prisma.SortOrderInput | Prisma.SortOrder;
+    bio?: Prisma.SortOrderInput | Prisma.SortOrder;
+    kycStatus?: Prisma.SortOrder;
+    referralCode?: Prisma.SortOrderInput | Prisma.SortOrder;
+    referredById?: Prisma.SortOrderInput | Prisma.SortOrder;
+    joinDate?: Prisma.SortOrder;
+    isActive?: Prisma.SortOrder;
     _count?: Prisma.UserCountOrderByAggregateInput;
-    _avg?: Prisma.UserAvgOrderByAggregateInput;
     _max?: Prisma.UserMaxOrderByAggregateInput;
     _min?: Prisma.UserMinOrderByAggregateInput;
-    _sum?: Prisma.UserSumOrderByAggregateInput;
 };
 export type UserScalarWhereWithAggregatesInput = {
     AND?: Prisma.UserScalarWhereWithAggregatesInput | Prisma.UserScalarWhereWithAggregatesInput[];
     OR?: Prisma.UserScalarWhereWithAggregatesInput[];
     NOT?: Prisma.UserScalarWhereWithAggregatesInput | Prisma.UserScalarWhereWithAggregatesInput[];
     id?: Prisma.StringWithAggregatesFilter<"User"> | string;
-    avatar?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null;
     walletAddress?: Prisma.StringWithAggregatesFilter<"User"> | string;
+    walletType?: Prisma.EnumWalletTypeNullableWithAggregatesFilter<"User"> | $Enums.WalletType | null;
     username?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null;
+    avatarUrl?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null;
     country?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null;
-    totalInvested?: Prisma.DecimalWithAggregatesFilter<"User"> | runtime.Decimal | runtime.DecimalJsLike | number | string;
-    createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string;
-    badgeId?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null;
+    bio?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null;
+    kycStatus?: Prisma.EnumKycStatusWithAggregatesFilter<"User"> | $Enums.KycStatus;
+    referralCode?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null;
+    referredById?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null;
+    joinDate?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string;
+    isActive?: Prisma.BoolWithAggregatesFilter<"User"> | boolean;
 };
 export type UserCreateInput = {
     id?: string;
-    avatar?: string | null;
     walletAddress: string;
+    walletType?: $Enums.WalletType | null;
     username?: string | null;
+    avatarUrl?: string | null;
     country?: string | null;
-    totalInvested?: runtime.Decimal | runtime.DecimalJsLike | number | string;
-    createdAt?: Date | string;
-    badges?: Prisma.BadgeCreateNestedOneWithoutUsersInput;
-    properties?: Prisma.PropertyCreateNestedManyWithoutUsersInput;
+    bio?: string | null;
+    kycStatus?: $Enums.KycStatus;
+    referralCode?: string | null;
+    joinDate?: Date | string;
+    isActive?: boolean;
+    referredBy?: Prisma.UserCreateNestedOneWithoutUsersInput;
+    properties?: Prisma.PropertyCreateNestedManyWithoutOwnerInput;
+    investments?: Prisma.InvestmentCreateNestedManyWithoutUserInput;
+    transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput;
+    listingDrafts?: Prisma.ListingDraftCreateNestedManyWithoutUserInput;
+    notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
+    yieldClaims?: Prisma.YieldClaimCreateNestedManyWithoutUserInput;
+    users?: Prisma.UserCreateNestedManyWithoutReferredByInput;
 };
 export type UserUncheckedCreateInput = {
     id?: string;
-    avatar?: string | null;
     walletAddress: string;
+    walletType?: $Enums.WalletType | null;
     username?: string | null;
+    avatarUrl?: string | null;
     country?: string | null;
-    totalInvested?: runtime.Decimal | runtime.DecimalJsLike | number | string;
-    createdAt?: Date | string;
-    badgeId?: string | null;
-    properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutUsersInput;
+    bio?: string | null;
+    kycStatus?: $Enums.KycStatus;
+    referralCode?: string | null;
+    referredById?: string | null;
+    joinDate?: Date | string;
+    isActive?: boolean;
+    properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutOwnerInput;
+    investments?: Prisma.InvestmentUncheckedCreateNestedManyWithoutUserInput;
+    transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput;
+    listingDrafts?: Prisma.ListingDraftUncheckedCreateNestedManyWithoutUserInput;
+    notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
+    yieldClaims?: Prisma.YieldClaimUncheckedCreateNestedManyWithoutUserInput;
+    users?: Prisma.UserUncheckedCreateNestedManyWithoutReferredByInput;
 };
 export type UserUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
-    avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     walletAddress?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletType?: Prisma.NullableEnumWalletTypeFieldUpdateOperationsInput | $Enums.WalletType | null;
     username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    totalInvested?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
-    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    badges?: Prisma.BadgeUpdateOneWithoutUsersNestedInput;
-    properties?: Prisma.PropertyUpdateManyWithoutUsersNestedInput;
+    bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus;
+    referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    joinDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    referredBy?: Prisma.UserUpdateOneWithoutUsersNestedInput;
+    properties?: Prisma.PropertyUpdateManyWithoutOwnerNestedInput;
+    investments?: Prisma.InvestmentUpdateManyWithoutUserNestedInput;
+    transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput;
+    listingDrafts?: Prisma.ListingDraftUpdateManyWithoutUserNestedInput;
+    notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
+    yieldClaims?: Prisma.YieldClaimUpdateManyWithoutUserNestedInput;
+    users?: Prisma.UserUpdateManyWithoutReferredByNestedInput;
 };
 export type UserUncheckedUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
-    avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     walletAddress?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletType?: Prisma.NullableEnumWalletTypeFieldUpdateOperationsInput | $Enums.WalletType | null;
     username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    totalInvested?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
-    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    badgeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    properties?: Prisma.PropertyUncheckedUpdateManyWithoutUsersNestedInput;
+    bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus;
+    referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    referredById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    joinDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    properties?: Prisma.PropertyUncheckedUpdateManyWithoutOwnerNestedInput;
+    investments?: Prisma.InvestmentUncheckedUpdateManyWithoutUserNestedInput;
+    transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput;
+    listingDrafts?: Prisma.ListingDraftUncheckedUpdateManyWithoutUserNestedInput;
+    notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
+    yieldClaims?: Prisma.YieldClaimUncheckedUpdateManyWithoutUserNestedInput;
+    users?: Prisma.UserUncheckedUpdateManyWithoutReferredByNestedInput;
 };
 export type UserCreateManyInput = {
     id?: string;
-    avatar?: string | null;
     walletAddress: string;
+    walletType?: $Enums.WalletType | null;
     username?: string | null;
+    avatarUrl?: string | null;
     country?: string | null;
-    totalInvested?: runtime.Decimal | runtime.DecimalJsLike | number | string;
-    createdAt?: Date | string;
-    badgeId?: string | null;
+    bio?: string | null;
+    kycStatus?: $Enums.KycStatus;
+    referralCode?: string | null;
+    referredById?: string | null;
+    joinDate?: Date | string;
+    isActive?: boolean;
 };
 export type UserUpdateManyMutationInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
-    avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     walletAddress?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletType?: Prisma.NullableEnumWalletTypeFieldUpdateOperationsInput | $Enums.WalletType | null;
     username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    totalInvested?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
-    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus;
+    referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    joinDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
 };
 export type UserUncheckedUpdateManyInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
-    avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     walletAddress?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletType?: Prisma.NullableEnumWalletTypeFieldUpdateOperationsInput | $Enums.WalletType | null;
     username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    totalInvested?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
-    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    badgeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus;
+    referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    referredById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    joinDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+};
+export type UserNullableScalarRelationFilter = {
+    is?: Prisma.UserWhereInput | null;
+    isNot?: Prisma.UserWhereInput | null;
 };
 export type UserListRelationFilter = {
     every?: Prisma.UserWhereInput;
@@ -333,292 +424,1007 @@ export type UserOrderByRelationAggregateInput = {
 };
 export type UserCountOrderByAggregateInput = {
     id?: Prisma.SortOrder;
-    avatar?: Prisma.SortOrder;
     walletAddress?: Prisma.SortOrder;
+    walletType?: Prisma.SortOrder;
     username?: Prisma.SortOrder;
+    avatarUrl?: Prisma.SortOrder;
     country?: Prisma.SortOrder;
-    totalInvested?: Prisma.SortOrder;
-    createdAt?: Prisma.SortOrder;
-    badgeId?: Prisma.SortOrder;
-};
-export type UserAvgOrderByAggregateInput = {
-    totalInvested?: Prisma.SortOrder;
+    bio?: Prisma.SortOrder;
+    kycStatus?: Prisma.SortOrder;
+    referralCode?: Prisma.SortOrder;
+    referredById?: Prisma.SortOrder;
+    joinDate?: Prisma.SortOrder;
+    isActive?: Prisma.SortOrder;
 };
 export type UserMaxOrderByAggregateInput = {
     id?: Prisma.SortOrder;
-    avatar?: Prisma.SortOrder;
     walletAddress?: Prisma.SortOrder;
+    walletType?: Prisma.SortOrder;
     username?: Prisma.SortOrder;
+    avatarUrl?: Prisma.SortOrder;
     country?: Prisma.SortOrder;
-    totalInvested?: Prisma.SortOrder;
-    createdAt?: Prisma.SortOrder;
-    badgeId?: Prisma.SortOrder;
+    bio?: Prisma.SortOrder;
+    kycStatus?: Prisma.SortOrder;
+    referralCode?: Prisma.SortOrder;
+    referredById?: Prisma.SortOrder;
+    joinDate?: Prisma.SortOrder;
+    isActive?: Prisma.SortOrder;
 };
 export type UserMinOrderByAggregateInput = {
     id?: Prisma.SortOrder;
-    avatar?: Prisma.SortOrder;
     walletAddress?: Prisma.SortOrder;
+    walletType?: Prisma.SortOrder;
     username?: Prisma.SortOrder;
+    avatarUrl?: Prisma.SortOrder;
     country?: Prisma.SortOrder;
-    totalInvested?: Prisma.SortOrder;
-    createdAt?: Prisma.SortOrder;
-    badgeId?: Prisma.SortOrder;
+    bio?: Prisma.SortOrder;
+    kycStatus?: Prisma.SortOrder;
+    referralCode?: Prisma.SortOrder;
+    referredById?: Prisma.SortOrder;
+    joinDate?: Prisma.SortOrder;
+    isActive?: Prisma.SortOrder;
 };
-export type UserSumOrderByAggregateInput = {
-    totalInvested?: Prisma.SortOrder;
+export type UserScalarRelationFilter = {
+    is?: Prisma.UserWhereInput;
+    isNot?: Prisma.UserWhereInput;
 };
-export type UserCreateNestedManyWithoutBadgesInput = {
-    create?: Prisma.XOR<Prisma.UserCreateWithoutBadgesInput, Prisma.UserUncheckedCreateWithoutBadgesInput> | Prisma.UserCreateWithoutBadgesInput[] | Prisma.UserUncheckedCreateWithoutBadgesInput[];
-    connectOrCreate?: Prisma.UserCreateOrConnectWithoutBadgesInput | Prisma.UserCreateOrConnectWithoutBadgesInput[];
-    createMany?: Prisma.UserCreateManyBadgesInputEnvelope;
+export type UserCreateNestedOneWithoutUsersInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutUsersInput, Prisma.UserUncheckedCreateWithoutUsersInput>;
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutUsersInput;
+    connect?: Prisma.UserWhereUniqueInput;
+};
+export type UserCreateNestedManyWithoutReferredByInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutReferredByInput, Prisma.UserUncheckedCreateWithoutReferredByInput> | Prisma.UserCreateWithoutReferredByInput[] | Prisma.UserUncheckedCreateWithoutReferredByInput[];
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutReferredByInput | Prisma.UserCreateOrConnectWithoutReferredByInput[];
+    createMany?: Prisma.UserCreateManyReferredByInputEnvelope;
     connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[];
 };
-export type UserUncheckedCreateNestedManyWithoutBadgesInput = {
-    create?: Prisma.XOR<Prisma.UserCreateWithoutBadgesInput, Prisma.UserUncheckedCreateWithoutBadgesInput> | Prisma.UserCreateWithoutBadgesInput[] | Prisma.UserUncheckedCreateWithoutBadgesInput[];
-    connectOrCreate?: Prisma.UserCreateOrConnectWithoutBadgesInput | Prisma.UserCreateOrConnectWithoutBadgesInput[];
-    createMany?: Prisma.UserCreateManyBadgesInputEnvelope;
+export type UserUncheckedCreateNestedManyWithoutReferredByInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutReferredByInput, Prisma.UserUncheckedCreateWithoutReferredByInput> | Prisma.UserCreateWithoutReferredByInput[] | Prisma.UserUncheckedCreateWithoutReferredByInput[];
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutReferredByInput | Prisma.UserCreateOrConnectWithoutReferredByInput[];
+    createMany?: Prisma.UserCreateManyReferredByInputEnvelope;
     connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[];
 };
-export type UserUpdateManyWithoutBadgesNestedInput = {
-    create?: Prisma.XOR<Prisma.UserCreateWithoutBadgesInput, Prisma.UserUncheckedCreateWithoutBadgesInput> | Prisma.UserCreateWithoutBadgesInput[] | Prisma.UserUncheckedCreateWithoutBadgesInput[];
-    connectOrCreate?: Prisma.UserCreateOrConnectWithoutBadgesInput | Prisma.UserCreateOrConnectWithoutBadgesInput[];
-    upsert?: Prisma.UserUpsertWithWhereUniqueWithoutBadgesInput | Prisma.UserUpsertWithWhereUniqueWithoutBadgesInput[];
-    createMany?: Prisma.UserCreateManyBadgesInputEnvelope;
-    set?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[];
-    disconnect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[];
-    delete?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[];
-    connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[];
-    update?: Prisma.UserUpdateWithWhereUniqueWithoutBadgesInput | Prisma.UserUpdateWithWhereUniqueWithoutBadgesInput[];
-    updateMany?: Prisma.UserUpdateManyWithWhereWithoutBadgesInput | Prisma.UserUpdateManyWithWhereWithoutBadgesInput[];
-    deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[];
+export type StringFieldUpdateOperationsInput = {
+    set?: string;
 };
-export type UserUncheckedUpdateManyWithoutBadgesNestedInput = {
-    create?: Prisma.XOR<Prisma.UserCreateWithoutBadgesInput, Prisma.UserUncheckedCreateWithoutBadgesInput> | Prisma.UserCreateWithoutBadgesInput[] | Prisma.UserUncheckedCreateWithoutBadgesInput[];
-    connectOrCreate?: Prisma.UserCreateOrConnectWithoutBadgesInput | Prisma.UserCreateOrConnectWithoutBadgesInput[];
-    upsert?: Prisma.UserUpsertWithWhereUniqueWithoutBadgesInput | Prisma.UserUpsertWithWhereUniqueWithoutBadgesInput[];
-    createMany?: Prisma.UserCreateManyBadgesInputEnvelope;
-    set?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[];
-    disconnect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[];
-    delete?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[];
-    connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[];
-    update?: Prisma.UserUpdateWithWhereUniqueWithoutBadgesInput | Prisma.UserUpdateWithWhereUniqueWithoutBadgesInput[];
-    updateMany?: Prisma.UserUpdateManyWithWhereWithoutBadgesInput | Prisma.UserUpdateManyWithWhereWithoutBadgesInput[];
-    deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[];
+export type NullableEnumWalletTypeFieldUpdateOperationsInput = {
+    set?: $Enums.WalletType | null;
 };
 export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null;
 };
-export type DecimalFieldUpdateOperationsInput = {
-    set?: runtime.Decimal | runtime.DecimalJsLike | number | string;
-    increment?: runtime.Decimal | runtime.DecimalJsLike | number | string;
-    decrement?: runtime.Decimal | runtime.DecimalJsLike | number | string;
-    multiply?: runtime.Decimal | runtime.DecimalJsLike | number | string;
-    divide?: runtime.Decimal | runtime.DecimalJsLike | number | string;
+export type EnumKycStatusFieldUpdateOperationsInput = {
+    set?: $Enums.KycStatus;
 };
 export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string;
 };
-export type UserCreateNestedManyWithoutPropertiesInput = {
-    create?: Prisma.XOR<Prisma.UserCreateWithoutPropertiesInput, Prisma.UserUncheckedCreateWithoutPropertiesInput> | Prisma.UserCreateWithoutPropertiesInput[] | Prisma.UserUncheckedCreateWithoutPropertiesInput[];
-    connectOrCreate?: Prisma.UserCreateOrConnectWithoutPropertiesInput | Prisma.UserCreateOrConnectWithoutPropertiesInput[];
-    connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[];
+export type BoolFieldUpdateOperationsInput = {
+    set?: boolean;
 };
-export type UserUncheckedCreateNestedManyWithoutPropertiesInput = {
-    create?: Prisma.XOR<Prisma.UserCreateWithoutPropertiesInput, Prisma.UserUncheckedCreateWithoutPropertiesInput> | Prisma.UserCreateWithoutPropertiesInput[] | Prisma.UserUncheckedCreateWithoutPropertiesInput[];
-    connectOrCreate?: Prisma.UserCreateOrConnectWithoutPropertiesInput | Prisma.UserCreateOrConnectWithoutPropertiesInput[];
-    connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[];
+export type UserUpdateOneWithoutUsersNestedInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutUsersInput, Prisma.UserUncheckedCreateWithoutUsersInput>;
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutUsersInput;
+    upsert?: Prisma.UserUpsertWithoutUsersInput;
+    disconnect?: Prisma.UserWhereInput | boolean;
+    delete?: Prisma.UserWhereInput | boolean;
+    connect?: Prisma.UserWhereUniqueInput;
+    update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutUsersInput, Prisma.UserUpdateWithoutUsersInput>, Prisma.UserUncheckedUpdateWithoutUsersInput>;
 };
-export type UserUpdateManyWithoutPropertiesNestedInput = {
-    create?: Prisma.XOR<Prisma.UserCreateWithoutPropertiesInput, Prisma.UserUncheckedCreateWithoutPropertiesInput> | Prisma.UserCreateWithoutPropertiesInput[] | Prisma.UserUncheckedCreateWithoutPropertiesInput[];
-    connectOrCreate?: Prisma.UserCreateOrConnectWithoutPropertiesInput | Prisma.UserCreateOrConnectWithoutPropertiesInput[];
-    upsert?: Prisma.UserUpsertWithWhereUniqueWithoutPropertiesInput | Prisma.UserUpsertWithWhereUniqueWithoutPropertiesInput[];
+export type UserUpdateManyWithoutReferredByNestedInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutReferredByInput, Prisma.UserUncheckedCreateWithoutReferredByInput> | Prisma.UserCreateWithoutReferredByInput[] | Prisma.UserUncheckedCreateWithoutReferredByInput[];
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutReferredByInput | Prisma.UserCreateOrConnectWithoutReferredByInput[];
+    upsert?: Prisma.UserUpsertWithWhereUniqueWithoutReferredByInput | Prisma.UserUpsertWithWhereUniqueWithoutReferredByInput[];
+    createMany?: Prisma.UserCreateManyReferredByInputEnvelope;
     set?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[];
     disconnect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[];
     delete?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[];
     connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[];
-    update?: Prisma.UserUpdateWithWhereUniqueWithoutPropertiesInput | Prisma.UserUpdateWithWhereUniqueWithoutPropertiesInput[];
-    updateMany?: Prisma.UserUpdateManyWithWhereWithoutPropertiesInput | Prisma.UserUpdateManyWithWhereWithoutPropertiesInput[];
+    update?: Prisma.UserUpdateWithWhereUniqueWithoutReferredByInput | Prisma.UserUpdateWithWhereUniqueWithoutReferredByInput[];
+    updateMany?: Prisma.UserUpdateManyWithWhereWithoutReferredByInput | Prisma.UserUpdateManyWithWhereWithoutReferredByInput[];
     deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[];
 };
-export type UserUncheckedUpdateManyWithoutPropertiesNestedInput = {
-    create?: Prisma.XOR<Prisma.UserCreateWithoutPropertiesInput, Prisma.UserUncheckedCreateWithoutPropertiesInput> | Prisma.UserCreateWithoutPropertiesInput[] | Prisma.UserUncheckedCreateWithoutPropertiesInput[];
-    connectOrCreate?: Prisma.UserCreateOrConnectWithoutPropertiesInput | Prisma.UserCreateOrConnectWithoutPropertiesInput[];
-    upsert?: Prisma.UserUpsertWithWhereUniqueWithoutPropertiesInput | Prisma.UserUpsertWithWhereUniqueWithoutPropertiesInput[];
+export type UserUncheckedUpdateManyWithoutReferredByNestedInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutReferredByInput, Prisma.UserUncheckedCreateWithoutReferredByInput> | Prisma.UserCreateWithoutReferredByInput[] | Prisma.UserUncheckedCreateWithoutReferredByInput[];
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutReferredByInput | Prisma.UserCreateOrConnectWithoutReferredByInput[];
+    upsert?: Prisma.UserUpsertWithWhereUniqueWithoutReferredByInput | Prisma.UserUpsertWithWhereUniqueWithoutReferredByInput[];
+    createMany?: Prisma.UserCreateManyReferredByInputEnvelope;
     set?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[];
     disconnect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[];
     delete?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[];
     connect?: Prisma.UserWhereUniqueInput | Prisma.UserWhereUniqueInput[];
-    update?: Prisma.UserUpdateWithWhereUniqueWithoutPropertiesInput | Prisma.UserUpdateWithWhereUniqueWithoutPropertiesInput[];
-    updateMany?: Prisma.UserUpdateManyWithWhereWithoutPropertiesInput | Prisma.UserUpdateManyWithWhereWithoutPropertiesInput[];
+    update?: Prisma.UserUpdateWithWhereUniqueWithoutReferredByInput | Prisma.UserUpdateWithWhereUniqueWithoutReferredByInput[];
+    updateMany?: Prisma.UserUpdateManyWithWhereWithoutReferredByInput | Prisma.UserUpdateManyWithWhereWithoutReferredByInput[];
     deleteMany?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[];
 };
-export type UserCreateWithoutBadgesInput = {
-    id?: string;
-    avatar?: string | null;
-    walletAddress: string;
-    username?: string | null;
-    country?: string | null;
-    totalInvested?: runtime.Decimal | runtime.DecimalJsLike | number | string;
-    createdAt?: Date | string;
-    properties?: Prisma.PropertyCreateNestedManyWithoutUsersInput;
+export type UserCreateNestedOneWithoutPropertiesInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutPropertiesInput, Prisma.UserUncheckedCreateWithoutPropertiesInput>;
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutPropertiesInput;
+    connect?: Prisma.UserWhereUniqueInput;
 };
-export type UserUncheckedCreateWithoutBadgesInput = {
-    id?: string;
-    avatar?: string | null;
-    walletAddress: string;
-    username?: string | null;
-    country?: string | null;
-    totalInvested?: runtime.Decimal | runtime.DecimalJsLike | number | string;
-    createdAt?: Date | string;
-    properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutUsersInput;
+export type UserUpdateOneRequiredWithoutPropertiesNestedInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutPropertiesInput, Prisma.UserUncheckedCreateWithoutPropertiesInput>;
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutPropertiesInput;
+    upsert?: Prisma.UserUpsertWithoutPropertiesInput;
+    connect?: Prisma.UserWhereUniqueInput;
+    update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutPropertiesInput, Prisma.UserUpdateWithoutPropertiesInput>, Prisma.UserUncheckedUpdateWithoutPropertiesInput>;
 };
-export type UserCreateOrConnectWithoutBadgesInput = {
+export type UserCreateNestedOneWithoutInvestmentsInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutInvestmentsInput, Prisma.UserUncheckedCreateWithoutInvestmentsInput>;
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutInvestmentsInput;
+    connect?: Prisma.UserWhereUniqueInput;
+};
+export type UserUpdateOneRequiredWithoutInvestmentsNestedInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutInvestmentsInput, Prisma.UserUncheckedCreateWithoutInvestmentsInput>;
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutInvestmentsInput;
+    upsert?: Prisma.UserUpsertWithoutInvestmentsInput;
+    connect?: Prisma.UserWhereUniqueInput;
+    update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutInvestmentsInput, Prisma.UserUpdateWithoutInvestmentsInput>, Prisma.UserUncheckedUpdateWithoutInvestmentsInput>;
+};
+export type UserCreateNestedOneWithoutTransactionsInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutTransactionsInput, Prisma.UserUncheckedCreateWithoutTransactionsInput>;
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutTransactionsInput;
+    connect?: Prisma.UserWhereUniqueInput;
+};
+export type UserUpdateOneRequiredWithoutTransactionsNestedInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutTransactionsInput, Prisma.UserUncheckedCreateWithoutTransactionsInput>;
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutTransactionsInput;
+    upsert?: Prisma.UserUpsertWithoutTransactionsInput;
+    connect?: Prisma.UserWhereUniqueInput;
+    update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutTransactionsInput, Prisma.UserUpdateWithoutTransactionsInput>, Prisma.UserUncheckedUpdateWithoutTransactionsInput>;
+};
+export type UserCreateNestedOneWithoutYieldClaimsInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutYieldClaimsInput, Prisma.UserUncheckedCreateWithoutYieldClaimsInput>;
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutYieldClaimsInput;
+    connect?: Prisma.UserWhereUniqueInput;
+};
+export type UserUpdateOneRequiredWithoutYieldClaimsNestedInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutYieldClaimsInput, Prisma.UserUncheckedCreateWithoutYieldClaimsInput>;
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutYieldClaimsInput;
+    upsert?: Prisma.UserUpsertWithoutYieldClaimsInput;
+    connect?: Prisma.UserWhereUniqueInput;
+    update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutYieldClaimsInput, Prisma.UserUpdateWithoutYieldClaimsInput>, Prisma.UserUncheckedUpdateWithoutYieldClaimsInput>;
+};
+export type UserCreateNestedOneWithoutListingDraftsInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutListingDraftsInput, Prisma.UserUncheckedCreateWithoutListingDraftsInput>;
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutListingDraftsInput;
+    connect?: Prisma.UserWhereUniqueInput;
+};
+export type UserUpdateOneRequiredWithoutListingDraftsNestedInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutListingDraftsInput, Prisma.UserUncheckedCreateWithoutListingDraftsInput>;
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutListingDraftsInput;
+    upsert?: Prisma.UserUpsertWithoutListingDraftsInput;
+    connect?: Prisma.UserWhereUniqueInput;
+    update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutListingDraftsInput, Prisma.UserUpdateWithoutListingDraftsInput>, Prisma.UserUncheckedUpdateWithoutListingDraftsInput>;
+};
+export type UserCreateNestedOneWithoutNotificationsInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>;
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotificationsInput;
+    connect?: Prisma.UserWhereUniqueInput;
+};
+export type UserUpdateOneRequiredWithoutNotificationsNestedInput = {
+    create?: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>;
+    connectOrCreate?: Prisma.UserCreateOrConnectWithoutNotificationsInput;
+    upsert?: Prisma.UserUpsertWithoutNotificationsInput;
+    connect?: Prisma.UserWhereUniqueInput;
+    update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutNotificationsInput, Prisma.UserUpdateWithoutNotificationsInput>, Prisma.UserUncheckedUpdateWithoutNotificationsInput>;
+};
+export type UserCreateWithoutUsersInput = {
+    id?: string;
+    walletAddress: string;
+    walletType?: $Enums.WalletType | null;
+    username?: string | null;
+    avatarUrl?: string | null;
+    country?: string | null;
+    bio?: string | null;
+    kycStatus?: $Enums.KycStatus;
+    referralCode?: string | null;
+    joinDate?: Date | string;
+    isActive?: boolean;
+    referredBy?: Prisma.UserCreateNestedOneWithoutUsersInput;
+    properties?: Prisma.PropertyCreateNestedManyWithoutOwnerInput;
+    investments?: Prisma.InvestmentCreateNestedManyWithoutUserInput;
+    transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput;
+    listingDrafts?: Prisma.ListingDraftCreateNestedManyWithoutUserInput;
+    notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
+    yieldClaims?: Prisma.YieldClaimCreateNestedManyWithoutUserInput;
+};
+export type UserUncheckedCreateWithoutUsersInput = {
+    id?: string;
+    walletAddress: string;
+    walletType?: $Enums.WalletType | null;
+    username?: string | null;
+    avatarUrl?: string | null;
+    country?: string | null;
+    bio?: string | null;
+    kycStatus?: $Enums.KycStatus;
+    referralCode?: string | null;
+    referredById?: string | null;
+    joinDate?: Date | string;
+    isActive?: boolean;
+    properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutOwnerInput;
+    investments?: Prisma.InvestmentUncheckedCreateNestedManyWithoutUserInput;
+    transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput;
+    listingDrafts?: Prisma.ListingDraftUncheckedCreateNestedManyWithoutUserInput;
+    notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
+    yieldClaims?: Prisma.YieldClaimUncheckedCreateNestedManyWithoutUserInput;
+};
+export type UserCreateOrConnectWithoutUsersInput = {
     where: Prisma.UserWhereUniqueInput;
-    create: Prisma.XOR<Prisma.UserCreateWithoutBadgesInput, Prisma.UserUncheckedCreateWithoutBadgesInput>;
+    create: Prisma.XOR<Prisma.UserCreateWithoutUsersInput, Prisma.UserUncheckedCreateWithoutUsersInput>;
 };
-export type UserCreateManyBadgesInputEnvelope = {
-    data: Prisma.UserCreateManyBadgesInput | Prisma.UserCreateManyBadgesInput[];
+export type UserCreateWithoutReferredByInput = {
+    id?: string;
+    walletAddress: string;
+    walletType?: $Enums.WalletType | null;
+    username?: string | null;
+    avatarUrl?: string | null;
+    country?: string | null;
+    bio?: string | null;
+    kycStatus?: $Enums.KycStatus;
+    referralCode?: string | null;
+    joinDate?: Date | string;
+    isActive?: boolean;
+    properties?: Prisma.PropertyCreateNestedManyWithoutOwnerInput;
+    investments?: Prisma.InvestmentCreateNestedManyWithoutUserInput;
+    transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput;
+    listingDrafts?: Prisma.ListingDraftCreateNestedManyWithoutUserInput;
+    notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
+    yieldClaims?: Prisma.YieldClaimCreateNestedManyWithoutUserInput;
+    users?: Prisma.UserCreateNestedManyWithoutReferredByInput;
+};
+export type UserUncheckedCreateWithoutReferredByInput = {
+    id?: string;
+    walletAddress: string;
+    walletType?: $Enums.WalletType | null;
+    username?: string | null;
+    avatarUrl?: string | null;
+    country?: string | null;
+    bio?: string | null;
+    kycStatus?: $Enums.KycStatus;
+    referralCode?: string | null;
+    joinDate?: Date | string;
+    isActive?: boolean;
+    properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutOwnerInput;
+    investments?: Prisma.InvestmentUncheckedCreateNestedManyWithoutUserInput;
+    transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput;
+    listingDrafts?: Prisma.ListingDraftUncheckedCreateNestedManyWithoutUserInput;
+    notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
+    yieldClaims?: Prisma.YieldClaimUncheckedCreateNestedManyWithoutUserInput;
+    users?: Prisma.UserUncheckedCreateNestedManyWithoutReferredByInput;
+};
+export type UserCreateOrConnectWithoutReferredByInput = {
+    where: Prisma.UserWhereUniqueInput;
+    create: Prisma.XOR<Prisma.UserCreateWithoutReferredByInput, Prisma.UserUncheckedCreateWithoutReferredByInput>;
+};
+export type UserCreateManyReferredByInputEnvelope = {
+    data: Prisma.UserCreateManyReferredByInput | Prisma.UserCreateManyReferredByInput[];
     skipDuplicates?: boolean;
 };
-export type UserUpsertWithWhereUniqueWithoutBadgesInput = {
-    where: Prisma.UserWhereUniqueInput;
-    update: Prisma.XOR<Prisma.UserUpdateWithoutBadgesInput, Prisma.UserUncheckedUpdateWithoutBadgesInput>;
-    create: Prisma.XOR<Prisma.UserCreateWithoutBadgesInput, Prisma.UserUncheckedCreateWithoutBadgesInput>;
+export type UserUpsertWithoutUsersInput = {
+    update: Prisma.XOR<Prisma.UserUpdateWithoutUsersInput, Prisma.UserUncheckedUpdateWithoutUsersInput>;
+    create: Prisma.XOR<Prisma.UserCreateWithoutUsersInput, Prisma.UserUncheckedCreateWithoutUsersInput>;
+    where?: Prisma.UserWhereInput;
 };
-export type UserUpdateWithWhereUniqueWithoutBadgesInput = {
-    where: Prisma.UserWhereUniqueInput;
-    data: Prisma.XOR<Prisma.UserUpdateWithoutBadgesInput, Prisma.UserUncheckedUpdateWithoutBadgesInput>;
+export type UserUpdateToOneWithWhereWithoutUsersInput = {
+    where?: Prisma.UserWhereInput;
+    data: Prisma.XOR<Prisma.UserUpdateWithoutUsersInput, Prisma.UserUncheckedUpdateWithoutUsersInput>;
 };
-export type UserUpdateManyWithWhereWithoutBadgesInput = {
+export type UserUpdateWithoutUsersInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletAddress?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletType?: Prisma.NullableEnumWalletTypeFieldUpdateOperationsInput | $Enums.WalletType | null;
+    username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus;
+    referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    joinDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    referredBy?: Prisma.UserUpdateOneWithoutUsersNestedInput;
+    properties?: Prisma.PropertyUpdateManyWithoutOwnerNestedInput;
+    investments?: Prisma.InvestmentUpdateManyWithoutUserNestedInput;
+    transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput;
+    listingDrafts?: Prisma.ListingDraftUpdateManyWithoutUserNestedInput;
+    notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
+    yieldClaims?: Prisma.YieldClaimUpdateManyWithoutUserNestedInput;
+};
+export type UserUncheckedUpdateWithoutUsersInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletAddress?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletType?: Prisma.NullableEnumWalletTypeFieldUpdateOperationsInput | $Enums.WalletType | null;
+    username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus;
+    referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    referredById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    joinDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    properties?: Prisma.PropertyUncheckedUpdateManyWithoutOwnerNestedInput;
+    investments?: Prisma.InvestmentUncheckedUpdateManyWithoutUserNestedInput;
+    transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput;
+    listingDrafts?: Prisma.ListingDraftUncheckedUpdateManyWithoutUserNestedInput;
+    notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
+    yieldClaims?: Prisma.YieldClaimUncheckedUpdateManyWithoutUserNestedInput;
+};
+export type UserUpsertWithWhereUniqueWithoutReferredByInput = {
+    where: Prisma.UserWhereUniqueInput;
+    update: Prisma.XOR<Prisma.UserUpdateWithoutReferredByInput, Prisma.UserUncheckedUpdateWithoutReferredByInput>;
+    create: Prisma.XOR<Prisma.UserCreateWithoutReferredByInput, Prisma.UserUncheckedCreateWithoutReferredByInput>;
+};
+export type UserUpdateWithWhereUniqueWithoutReferredByInput = {
+    where: Prisma.UserWhereUniqueInput;
+    data: Prisma.XOR<Prisma.UserUpdateWithoutReferredByInput, Prisma.UserUncheckedUpdateWithoutReferredByInput>;
+};
+export type UserUpdateManyWithWhereWithoutReferredByInput = {
     where: Prisma.UserScalarWhereInput;
-    data: Prisma.XOR<Prisma.UserUpdateManyMutationInput, Prisma.UserUncheckedUpdateManyWithoutBadgesInput>;
+    data: Prisma.XOR<Prisma.UserUpdateManyMutationInput, Prisma.UserUncheckedUpdateManyWithoutReferredByInput>;
 };
 export type UserScalarWhereInput = {
     AND?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[];
     OR?: Prisma.UserScalarWhereInput[];
     NOT?: Prisma.UserScalarWhereInput | Prisma.UserScalarWhereInput[];
     id?: Prisma.StringFilter<"User"> | string;
-    avatar?: Prisma.StringNullableFilter<"User"> | string | null;
     walletAddress?: Prisma.StringFilter<"User"> | string;
+    walletType?: Prisma.EnumWalletTypeNullableFilter<"User"> | $Enums.WalletType | null;
     username?: Prisma.StringNullableFilter<"User"> | string | null;
+    avatarUrl?: Prisma.StringNullableFilter<"User"> | string | null;
     country?: Prisma.StringNullableFilter<"User"> | string | null;
-    totalInvested?: Prisma.DecimalFilter<"User"> | runtime.Decimal | runtime.DecimalJsLike | number | string;
-    createdAt?: Prisma.DateTimeFilter<"User"> | Date | string;
-    badgeId?: Prisma.StringNullableFilter<"User"> | string | null;
+    bio?: Prisma.StringNullableFilter<"User"> | string | null;
+    kycStatus?: Prisma.EnumKycStatusFilter<"User"> | $Enums.KycStatus;
+    referralCode?: Prisma.StringNullableFilter<"User"> | string | null;
+    referredById?: Prisma.StringNullableFilter<"User"> | string | null;
+    joinDate?: Prisma.DateTimeFilter<"User"> | Date | string;
+    isActive?: Prisma.BoolFilter<"User"> | boolean;
 };
 export type UserCreateWithoutPropertiesInput = {
     id?: string;
-    avatar?: string | null;
     walletAddress: string;
+    walletType?: $Enums.WalletType | null;
     username?: string | null;
+    avatarUrl?: string | null;
     country?: string | null;
-    totalInvested?: runtime.Decimal | runtime.DecimalJsLike | number | string;
-    createdAt?: Date | string;
-    badges?: Prisma.BadgeCreateNestedOneWithoutUsersInput;
+    bio?: string | null;
+    kycStatus?: $Enums.KycStatus;
+    referralCode?: string | null;
+    joinDate?: Date | string;
+    isActive?: boolean;
+    referredBy?: Prisma.UserCreateNestedOneWithoutUsersInput;
+    investments?: Prisma.InvestmentCreateNestedManyWithoutUserInput;
+    transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput;
+    listingDrafts?: Prisma.ListingDraftCreateNestedManyWithoutUserInput;
+    notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
+    yieldClaims?: Prisma.YieldClaimCreateNestedManyWithoutUserInput;
+    users?: Prisma.UserCreateNestedManyWithoutReferredByInput;
 };
 export type UserUncheckedCreateWithoutPropertiesInput = {
     id?: string;
-    avatar?: string | null;
     walletAddress: string;
+    walletType?: $Enums.WalletType | null;
     username?: string | null;
+    avatarUrl?: string | null;
     country?: string | null;
-    totalInvested?: runtime.Decimal | runtime.DecimalJsLike | number | string;
-    createdAt?: Date | string;
-    badgeId?: string | null;
+    bio?: string | null;
+    kycStatus?: $Enums.KycStatus;
+    referralCode?: string | null;
+    referredById?: string | null;
+    joinDate?: Date | string;
+    isActive?: boolean;
+    investments?: Prisma.InvestmentUncheckedCreateNestedManyWithoutUserInput;
+    transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput;
+    listingDrafts?: Prisma.ListingDraftUncheckedCreateNestedManyWithoutUserInput;
+    notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
+    yieldClaims?: Prisma.YieldClaimUncheckedCreateNestedManyWithoutUserInput;
+    users?: Prisma.UserUncheckedCreateNestedManyWithoutReferredByInput;
 };
 export type UserCreateOrConnectWithoutPropertiesInput = {
     where: Prisma.UserWhereUniqueInput;
     create: Prisma.XOR<Prisma.UserCreateWithoutPropertiesInput, Prisma.UserUncheckedCreateWithoutPropertiesInput>;
 };
-export type UserUpsertWithWhereUniqueWithoutPropertiesInput = {
-    where: Prisma.UserWhereUniqueInput;
+export type UserUpsertWithoutPropertiesInput = {
     update: Prisma.XOR<Prisma.UserUpdateWithoutPropertiesInput, Prisma.UserUncheckedUpdateWithoutPropertiesInput>;
     create: Prisma.XOR<Prisma.UserCreateWithoutPropertiesInput, Prisma.UserUncheckedCreateWithoutPropertiesInput>;
+    where?: Prisma.UserWhereInput;
 };
-export type UserUpdateWithWhereUniqueWithoutPropertiesInput = {
-    where: Prisma.UserWhereUniqueInput;
+export type UserUpdateToOneWithWhereWithoutPropertiesInput = {
+    where?: Prisma.UserWhereInput;
     data: Prisma.XOR<Prisma.UserUpdateWithoutPropertiesInput, Prisma.UserUncheckedUpdateWithoutPropertiesInput>;
-};
-export type UserUpdateManyWithWhereWithoutPropertiesInput = {
-    where: Prisma.UserScalarWhereInput;
-    data: Prisma.XOR<Prisma.UserUpdateManyMutationInput, Prisma.UserUncheckedUpdateManyWithoutPropertiesInput>;
-};
-export type UserCreateManyBadgesInput = {
-    id?: string;
-    avatar?: string | null;
-    walletAddress: string;
-    username?: string | null;
-    country?: string | null;
-    totalInvested?: runtime.Decimal | runtime.DecimalJsLike | number | string;
-    createdAt?: Date | string;
-};
-export type UserUpdateWithoutBadgesInput = {
-    id?: Prisma.StringFieldUpdateOperationsInput | string;
-    avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    walletAddress?: Prisma.StringFieldUpdateOperationsInput | string;
-    username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    totalInvested?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
-    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    properties?: Prisma.PropertyUpdateManyWithoutUsersNestedInput;
-};
-export type UserUncheckedUpdateWithoutBadgesInput = {
-    id?: Prisma.StringFieldUpdateOperationsInput | string;
-    avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    walletAddress?: Prisma.StringFieldUpdateOperationsInput | string;
-    username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    totalInvested?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
-    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    properties?: Prisma.PropertyUncheckedUpdateManyWithoutUsersNestedInput;
-};
-export type UserUncheckedUpdateManyWithoutBadgesInput = {
-    id?: Prisma.StringFieldUpdateOperationsInput | string;
-    avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    walletAddress?: Prisma.StringFieldUpdateOperationsInput | string;
-    username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    totalInvested?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
-    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
 };
 export type UserUpdateWithoutPropertiesInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
-    avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     walletAddress?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletType?: Prisma.NullableEnumWalletTypeFieldUpdateOperationsInput | $Enums.WalletType | null;
     username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    totalInvested?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
-    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    badges?: Prisma.BadgeUpdateOneWithoutUsersNestedInput;
+    bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus;
+    referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    joinDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    referredBy?: Prisma.UserUpdateOneWithoutUsersNestedInput;
+    investments?: Prisma.InvestmentUpdateManyWithoutUserNestedInput;
+    transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput;
+    listingDrafts?: Prisma.ListingDraftUpdateManyWithoutUserNestedInput;
+    notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
+    yieldClaims?: Prisma.YieldClaimUpdateManyWithoutUserNestedInput;
+    users?: Prisma.UserUpdateManyWithoutReferredByNestedInput;
 };
 export type UserUncheckedUpdateWithoutPropertiesInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
-    avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     walletAddress?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletType?: Prisma.NullableEnumWalletTypeFieldUpdateOperationsInput | $Enums.WalletType | null;
     username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    totalInvested?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
-    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    badgeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus;
+    referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    referredById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    joinDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    investments?: Prisma.InvestmentUncheckedUpdateManyWithoutUserNestedInput;
+    transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput;
+    listingDrafts?: Prisma.ListingDraftUncheckedUpdateManyWithoutUserNestedInput;
+    notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
+    yieldClaims?: Prisma.YieldClaimUncheckedUpdateManyWithoutUserNestedInput;
+    users?: Prisma.UserUncheckedUpdateManyWithoutReferredByNestedInput;
 };
-export type UserUncheckedUpdateManyWithoutPropertiesInput = {
+export type UserCreateWithoutInvestmentsInput = {
+    id?: string;
+    walletAddress: string;
+    walletType?: $Enums.WalletType | null;
+    username?: string | null;
+    avatarUrl?: string | null;
+    country?: string | null;
+    bio?: string | null;
+    kycStatus?: $Enums.KycStatus;
+    referralCode?: string | null;
+    joinDate?: Date | string;
+    isActive?: boolean;
+    referredBy?: Prisma.UserCreateNestedOneWithoutUsersInput;
+    properties?: Prisma.PropertyCreateNestedManyWithoutOwnerInput;
+    transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput;
+    listingDrafts?: Prisma.ListingDraftCreateNestedManyWithoutUserInput;
+    notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
+    yieldClaims?: Prisma.YieldClaimCreateNestedManyWithoutUserInput;
+    users?: Prisma.UserCreateNestedManyWithoutReferredByInput;
+};
+export type UserUncheckedCreateWithoutInvestmentsInput = {
+    id?: string;
+    walletAddress: string;
+    walletType?: $Enums.WalletType | null;
+    username?: string | null;
+    avatarUrl?: string | null;
+    country?: string | null;
+    bio?: string | null;
+    kycStatus?: $Enums.KycStatus;
+    referralCode?: string | null;
+    referredById?: string | null;
+    joinDate?: Date | string;
+    isActive?: boolean;
+    properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutOwnerInput;
+    transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput;
+    listingDrafts?: Prisma.ListingDraftUncheckedCreateNestedManyWithoutUserInput;
+    notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
+    yieldClaims?: Prisma.YieldClaimUncheckedCreateNestedManyWithoutUserInput;
+    users?: Prisma.UserUncheckedCreateNestedManyWithoutReferredByInput;
+};
+export type UserCreateOrConnectWithoutInvestmentsInput = {
+    where: Prisma.UserWhereUniqueInput;
+    create: Prisma.XOR<Prisma.UserCreateWithoutInvestmentsInput, Prisma.UserUncheckedCreateWithoutInvestmentsInput>;
+};
+export type UserUpsertWithoutInvestmentsInput = {
+    update: Prisma.XOR<Prisma.UserUpdateWithoutInvestmentsInput, Prisma.UserUncheckedUpdateWithoutInvestmentsInput>;
+    create: Prisma.XOR<Prisma.UserCreateWithoutInvestmentsInput, Prisma.UserUncheckedCreateWithoutInvestmentsInput>;
+    where?: Prisma.UserWhereInput;
+};
+export type UserUpdateToOneWithWhereWithoutInvestmentsInput = {
+    where?: Prisma.UserWhereInput;
+    data: Prisma.XOR<Prisma.UserUpdateWithoutInvestmentsInput, Prisma.UserUncheckedUpdateWithoutInvestmentsInput>;
+};
+export type UserUpdateWithoutInvestmentsInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
-    avatar?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     walletAddress?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletType?: Prisma.NullableEnumWalletTypeFieldUpdateOperationsInput | $Enums.WalletType | null;
     username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
-    totalInvested?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
-    createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    badgeId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus;
+    referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    joinDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    referredBy?: Prisma.UserUpdateOneWithoutUsersNestedInput;
+    properties?: Prisma.PropertyUpdateManyWithoutOwnerNestedInput;
+    transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput;
+    listingDrafts?: Prisma.ListingDraftUpdateManyWithoutUserNestedInput;
+    notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
+    yieldClaims?: Prisma.YieldClaimUpdateManyWithoutUserNestedInput;
+    users?: Prisma.UserUpdateManyWithoutReferredByNestedInput;
+};
+export type UserUncheckedUpdateWithoutInvestmentsInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletAddress?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletType?: Prisma.NullableEnumWalletTypeFieldUpdateOperationsInput | $Enums.WalletType | null;
+    username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus;
+    referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    referredById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    joinDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    properties?: Prisma.PropertyUncheckedUpdateManyWithoutOwnerNestedInput;
+    transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput;
+    listingDrafts?: Prisma.ListingDraftUncheckedUpdateManyWithoutUserNestedInput;
+    notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
+    yieldClaims?: Prisma.YieldClaimUncheckedUpdateManyWithoutUserNestedInput;
+    users?: Prisma.UserUncheckedUpdateManyWithoutReferredByNestedInput;
+};
+export type UserCreateWithoutTransactionsInput = {
+    id?: string;
+    walletAddress: string;
+    walletType?: $Enums.WalletType | null;
+    username?: string | null;
+    avatarUrl?: string | null;
+    country?: string | null;
+    bio?: string | null;
+    kycStatus?: $Enums.KycStatus;
+    referralCode?: string | null;
+    joinDate?: Date | string;
+    isActive?: boolean;
+    referredBy?: Prisma.UserCreateNestedOneWithoutUsersInput;
+    properties?: Prisma.PropertyCreateNestedManyWithoutOwnerInput;
+    investments?: Prisma.InvestmentCreateNestedManyWithoutUserInput;
+    listingDrafts?: Prisma.ListingDraftCreateNestedManyWithoutUserInput;
+    notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
+    yieldClaims?: Prisma.YieldClaimCreateNestedManyWithoutUserInput;
+    users?: Prisma.UserCreateNestedManyWithoutReferredByInput;
+};
+export type UserUncheckedCreateWithoutTransactionsInput = {
+    id?: string;
+    walletAddress: string;
+    walletType?: $Enums.WalletType | null;
+    username?: string | null;
+    avatarUrl?: string | null;
+    country?: string | null;
+    bio?: string | null;
+    kycStatus?: $Enums.KycStatus;
+    referralCode?: string | null;
+    referredById?: string | null;
+    joinDate?: Date | string;
+    isActive?: boolean;
+    properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutOwnerInput;
+    investments?: Prisma.InvestmentUncheckedCreateNestedManyWithoutUserInput;
+    listingDrafts?: Prisma.ListingDraftUncheckedCreateNestedManyWithoutUserInput;
+    notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
+    yieldClaims?: Prisma.YieldClaimUncheckedCreateNestedManyWithoutUserInput;
+    users?: Prisma.UserUncheckedCreateNestedManyWithoutReferredByInput;
+};
+export type UserCreateOrConnectWithoutTransactionsInput = {
+    where: Prisma.UserWhereUniqueInput;
+    create: Prisma.XOR<Prisma.UserCreateWithoutTransactionsInput, Prisma.UserUncheckedCreateWithoutTransactionsInput>;
+};
+export type UserUpsertWithoutTransactionsInput = {
+    update: Prisma.XOR<Prisma.UserUpdateWithoutTransactionsInput, Prisma.UserUncheckedUpdateWithoutTransactionsInput>;
+    create: Prisma.XOR<Prisma.UserCreateWithoutTransactionsInput, Prisma.UserUncheckedCreateWithoutTransactionsInput>;
+    where?: Prisma.UserWhereInput;
+};
+export type UserUpdateToOneWithWhereWithoutTransactionsInput = {
+    where?: Prisma.UserWhereInput;
+    data: Prisma.XOR<Prisma.UserUpdateWithoutTransactionsInput, Prisma.UserUncheckedUpdateWithoutTransactionsInput>;
+};
+export type UserUpdateWithoutTransactionsInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletAddress?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletType?: Prisma.NullableEnumWalletTypeFieldUpdateOperationsInput | $Enums.WalletType | null;
+    username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus;
+    referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    joinDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    referredBy?: Prisma.UserUpdateOneWithoutUsersNestedInput;
+    properties?: Prisma.PropertyUpdateManyWithoutOwnerNestedInput;
+    investments?: Prisma.InvestmentUpdateManyWithoutUserNestedInput;
+    listingDrafts?: Prisma.ListingDraftUpdateManyWithoutUserNestedInput;
+    notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
+    yieldClaims?: Prisma.YieldClaimUpdateManyWithoutUserNestedInput;
+    users?: Prisma.UserUpdateManyWithoutReferredByNestedInput;
+};
+export type UserUncheckedUpdateWithoutTransactionsInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletAddress?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletType?: Prisma.NullableEnumWalletTypeFieldUpdateOperationsInput | $Enums.WalletType | null;
+    username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus;
+    referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    referredById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    joinDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    properties?: Prisma.PropertyUncheckedUpdateManyWithoutOwnerNestedInput;
+    investments?: Prisma.InvestmentUncheckedUpdateManyWithoutUserNestedInput;
+    listingDrafts?: Prisma.ListingDraftUncheckedUpdateManyWithoutUserNestedInput;
+    notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
+    yieldClaims?: Prisma.YieldClaimUncheckedUpdateManyWithoutUserNestedInput;
+    users?: Prisma.UserUncheckedUpdateManyWithoutReferredByNestedInput;
+};
+export type UserCreateWithoutYieldClaimsInput = {
+    id?: string;
+    walletAddress: string;
+    walletType?: $Enums.WalletType | null;
+    username?: string | null;
+    avatarUrl?: string | null;
+    country?: string | null;
+    bio?: string | null;
+    kycStatus?: $Enums.KycStatus;
+    referralCode?: string | null;
+    joinDate?: Date | string;
+    isActive?: boolean;
+    referredBy?: Prisma.UserCreateNestedOneWithoutUsersInput;
+    properties?: Prisma.PropertyCreateNestedManyWithoutOwnerInput;
+    investments?: Prisma.InvestmentCreateNestedManyWithoutUserInput;
+    transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput;
+    listingDrafts?: Prisma.ListingDraftCreateNestedManyWithoutUserInput;
+    notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
+    users?: Prisma.UserCreateNestedManyWithoutReferredByInput;
+};
+export type UserUncheckedCreateWithoutYieldClaimsInput = {
+    id?: string;
+    walletAddress: string;
+    walletType?: $Enums.WalletType | null;
+    username?: string | null;
+    avatarUrl?: string | null;
+    country?: string | null;
+    bio?: string | null;
+    kycStatus?: $Enums.KycStatus;
+    referralCode?: string | null;
+    referredById?: string | null;
+    joinDate?: Date | string;
+    isActive?: boolean;
+    properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutOwnerInput;
+    investments?: Prisma.InvestmentUncheckedCreateNestedManyWithoutUserInput;
+    transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput;
+    listingDrafts?: Prisma.ListingDraftUncheckedCreateNestedManyWithoutUserInput;
+    notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
+    users?: Prisma.UserUncheckedCreateNestedManyWithoutReferredByInput;
+};
+export type UserCreateOrConnectWithoutYieldClaimsInput = {
+    where: Prisma.UserWhereUniqueInput;
+    create: Prisma.XOR<Prisma.UserCreateWithoutYieldClaimsInput, Prisma.UserUncheckedCreateWithoutYieldClaimsInput>;
+};
+export type UserUpsertWithoutYieldClaimsInput = {
+    update: Prisma.XOR<Prisma.UserUpdateWithoutYieldClaimsInput, Prisma.UserUncheckedUpdateWithoutYieldClaimsInput>;
+    create: Prisma.XOR<Prisma.UserCreateWithoutYieldClaimsInput, Prisma.UserUncheckedCreateWithoutYieldClaimsInput>;
+    where?: Prisma.UserWhereInput;
+};
+export type UserUpdateToOneWithWhereWithoutYieldClaimsInput = {
+    where?: Prisma.UserWhereInput;
+    data: Prisma.XOR<Prisma.UserUpdateWithoutYieldClaimsInput, Prisma.UserUncheckedUpdateWithoutYieldClaimsInput>;
+};
+export type UserUpdateWithoutYieldClaimsInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletAddress?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletType?: Prisma.NullableEnumWalletTypeFieldUpdateOperationsInput | $Enums.WalletType | null;
+    username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus;
+    referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    joinDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    referredBy?: Prisma.UserUpdateOneWithoutUsersNestedInput;
+    properties?: Prisma.PropertyUpdateManyWithoutOwnerNestedInput;
+    investments?: Prisma.InvestmentUpdateManyWithoutUserNestedInput;
+    transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput;
+    listingDrafts?: Prisma.ListingDraftUpdateManyWithoutUserNestedInput;
+    notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
+    users?: Prisma.UserUpdateManyWithoutReferredByNestedInput;
+};
+export type UserUncheckedUpdateWithoutYieldClaimsInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletAddress?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletType?: Prisma.NullableEnumWalletTypeFieldUpdateOperationsInput | $Enums.WalletType | null;
+    username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus;
+    referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    referredById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    joinDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    properties?: Prisma.PropertyUncheckedUpdateManyWithoutOwnerNestedInput;
+    investments?: Prisma.InvestmentUncheckedUpdateManyWithoutUserNestedInput;
+    transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput;
+    listingDrafts?: Prisma.ListingDraftUncheckedUpdateManyWithoutUserNestedInput;
+    notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
+    users?: Prisma.UserUncheckedUpdateManyWithoutReferredByNestedInput;
+};
+export type UserCreateWithoutListingDraftsInput = {
+    id?: string;
+    walletAddress: string;
+    walletType?: $Enums.WalletType | null;
+    username?: string | null;
+    avatarUrl?: string | null;
+    country?: string | null;
+    bio?: string | null;
+    kycStatus?: $Enums.KycStatus;
+    referralCode?: string | null;
+    joinDate?: Date | string;
+    isActive?: boolean;
+    referredBy?: Prisma.UserCreateNestedOneWithoutUsersInput;
+    properties?: Prisma.PropertyCreateNestedManyWithoutOwnerInput;
+    investments?: Prisma.InvestmentCreateNestedManyWithoutUserInput;
+    transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput;
+    notifications?: Prisma.NotificationCreateNestedManyWithoutUserInput;
+    yieldClaims?: Prisma.YieldClaimCreateNestedManyWithoutUserInput;
+    users?: Prisma.UserCreateNestedManyWithoutReferredByInput;
+};
+export type UserUncheckedCreateWithoutListingDraftsInput = {
+    id?: string;
+    walletAddress: string;
+    walletType?: $Enums.WalletType | null;
+    username?: string | null;
+    avatarUrl?: string | null;
+    country?: string | null;
+    bio?: string | null;
+    kycStatus?: $Enums.KycStatus;
+    referralCode?: string | null;
+    referredById?: string | null;
+    joinDate?: Date | string;
+    isActive?: boolean;
+    properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutOwnerInput;
+    investments?: Prisma.InvestmentUncheckedCreateNestedManyWithoutUserInput;
+    transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput;
+    notifications?: Prisma.NotificationUncheckedCreateNestedManyWithoutUserInput;
+    yieldClaims?: Prisma.YieldClaimUncheckedCreateNestedManyWithoutUserInput;
+    users?: Prisma.UserUncheckedCreateNestedManyWithoutReferredByInput;
+};
+export type UserCreateOrConnectWithoutListingDraftsInput = {
+    where: Prisma.UserWhereUniqueInput;
+    create: Prisma.XOR<Prisma.UserCreateWithoutListingDraftsInput, Prisma.UserUncheckedCreateWithoutListingDraftsInput>;
+};
+export type UserUpsertWithoutListingDraftsInput = {
+    update: Prisma.XOR<Prisma.UserUpdateWithoutListingDraftsInput, Prisma.UserUncheckedUpdateWithoutListingDraftsInput>;
+    create: Prisma.XOR<Prisma.UserCreateWithoutListingDraftsInput, Prisma.UserUncheckedCreateWithoutListingDraftsInput>;
+    where?: Prisma.UserWhereInput;
+};
+export type UserUpdateToOneWithWhereWithoutListingDraftsInput = {
+    where?: Prisma.UserWhereInput;
+    data: Prisma.XOR<Prisma.UserUpdateWithoutListingDraftsInput, Prisma.UserUncheckedUpdateWithoutListingDraftsInput>;
+};
+export type UserUpdateWithoutListingDraftsInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletAddress?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletType?: Prisma.NullableEnumWalletTypeFieldUpdateOperationsInput | $Enums.WalletType | null;
+    username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus;
+    referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    joinDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    referredBy?: Prisma.UserUpdateOneWithoutUsersNestedInput;
+    properties?: Prisma.PropertyUpdateManyWithoutOwnerNestedInput;
+    investments?: Prisma.InvestmentUpdateManyWithoutUserNestedInput;
+    transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput;
+    notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
+    yieldClaims?: Prisma.YieldClaimUpdateManyWithoutUserNestedInput;
+    users?: Prisma.UserUpdateManyWithoutReferredByNestedInput;
+};
+export type UserUncheckedUpdateWithoutListingDraftsInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletAddress?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletType?: Prisma.NullableEnumWalletTypeFieldUpdateOperationsInput | $Enums.WalletType | null;
+    username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus;
+    referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    referredById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    joinDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    properties?: Prisma.PropertyUncheckedUpdateManyWithoutOwnerNestedInput;
+    investments?: Prisma.InvestmentUncheckedUpdateManyWithoutUserNestedInput;
+    transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput;
+    notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
+    yieldClaims?: Prisma.YieldClaimUncheckedUpdateManyWithoutUserNestedInput;
+    users?: Prisma.UserUncheckedUpdateManyWithoutReferredByNestedInput;
+};
+export type UserCreateWithoutNotificationsInput = {
+    id?: string;
+    walletAddress: string;
+    walletType?: $Enums.WalletType | null;
+    username?: string | null;
+    avatarUrl?: string | null;
+    country?: string | null;
+    bio?: string | null;
+    kycStatus?: $Enums.KycStatus;
+    referralCode?: string | null;
+    joinDate?: Date | string;
+    isActive?: boolean;
+    referredBy?: Prisma.UserCreateNestedOneWithoutUsersInput;
+    properties?: Prisma.PropertyCreateNestedManyWithoutOwnerInput;
+    investments?: Prisma.InvestmentCreateNestedManyWithoutUserInput;
+    transactions?: Prisma.TransactionCreateNestedManyWithoutUserInput;
+    listingDrafts?: Prisma.ListingDraftCreateNestedManyWithoutUserInput;
+    yieldClaims?: Prisma.YieldClaimCreateNestedManyWithoutUserInput;
+    users?: Prisma.UserCreateNestedManyWithoutReferredByInput;
+};
+export type UserUncheckedCreateWithoutNotificationsInput = {
+    id?: string;
+    walletAddress: string;
+    walletType?: $Enums.WalletType | null;
+    username?: string | null;
+    avatarUrl?: string | null;
+    country?: string | null;
+    bio?: string | null;
+    kycStatus?: $Enums.KycStatus;
+    referralCode?: string | null;
+    referredById?: string | null;
+    joinDate?: Date | string;
+    isActive?: boolean;
+    properties?: Prisma.PropertyUncheckedCreateNestedManyWithoutOwnerInput;
+    investments?: Prisma.InvestmentUncheckedCreateNestedManyWithoutUserInput;
+    transactions?: Prisma.TransactionUncheckedCreateNestedManyWithoutUserInput;
+    listingDrafts?: Prisma.ListingDraftUncheckedCreateNestedManyWithoutUserInput;
+    yieldClaims?: Prisma.YieldClaimUncheckedCreateNestedManyWithoutUserInput;
+    users?: Prisma.UserUncheckedCreateNestedManyWithoutReferredByInput;
+};
+export type UserCreateOrConnectWithoutNotificationsInput = {
+    where: Prisma.UserWhereUniqueInput;
+    create: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>;
+};
+export type UserUpsertWithoutNotificationsInput = {
+    update: Prisma.XOR<Prisma.UserUpdateWithoutNotificationsInput, Prisma.UserUncheckedUpdateWithoutNotificationsInput>;
+    create: Prisma.XOR<Prisma.UserCreateWithoutNotificationsInput, Prisma.UserUncheckedCreateWithoutNotificationsInput>;
+    where?: Prisma.UserWhereInput;
+};
+export type UserUpdateToOneWithWhereWithoutNotificationsInput = {
+    where?: Prisma.UserWhereInput;
+    data: Prisma.XOR<Prisma.UserUpdateWithoutNotificationsInput, Prisma.UserUncheckedUpdateWithoutNotificationsInput>;
+};
+export type UserUpdateWithoutNotificationsInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletAddress?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletType?: Prisma.NullableEnumWalletTypeFieldUpdateOperationsInput | $Enums.WalletType | null;
+    username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus;
+    referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    joinDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    referredBy?: Prisma.UserUpdateOneWithoutUsersNestedInput;
+    properties?: Prisma.PropertyUpdateManyWithoutOwnerNestedInput;
+    investments?: Prisma.InvestmentUpdateManyWithoutUserNestedInput;
+    transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput;
+    listingDrafts?: Prisma.ListingDraftUpdateManyWithoutUserNestedInput;
+    yieldClaims?: Prisma.YieldClaimUpdateManyWithoutUserNestedInput;
+    users?: Prisma.UserUpdateManyWithoutReferredByNestedInput;
+};
+export type UserUncheckedUpdateWithoutNotificationsInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletAddress?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletType?: Prisma.NullableEnumWalletTypeFieldUpdateOperationsInput | $Enums.WalletType | null;
+    username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus;
+    referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    referredById?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    joinDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    properties?: Prisma.PropertyUncheckedUpdateManyWithoutOwnerNestedInput;
+    investments?: Prisma.InvestmentUncheckedUpdateManyWithoutUserNestedInput;
+    transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput;
+    listingDrafts?: Prisma.ListingDraftUncheckedUpdateManyWithoutUserNestedInput;
+    yieldClaims?: Prisma.YieldClaimUncheckedUpdateManyWithoutUserNestedInput;
+    users?: Prisma.UserUncheckedUpdateManyWithoutReferredByNestedInput;
+};
+export type UserCreateManyReferredByInput = {
+    id?: string;
+    walletAddress: string;
+    walletType?: $Enums.WalletType | null;
+    username?: string | null;
+    avatarUrl?: string | null;
+    country?: string | null;
+    bio?: string | null;
+    kycStatus?: $Enums.KycStatus;
+    referralCode?: string | null;
+    joinDate?: Date | string;
+    isActive?: boolean;
+};
+export type UserUpdateWithoutReferredByInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletAddress?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletType?: Prisma.NullableEnumWalletTypeFieldUpdateOperationsInput | $Enums.WalletType | null;
+    username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus;
+    referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    joinDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    properties?: Prisma.PropertyUpdateManyWithoutOwnerNestedInput;
+    investments?: Prisma.InvestmentUpdateManyWithoutUserNestedInput;
+    transactions?: Prisma.TransactionUpdateManyWithoutUserNestedInput;
+    listingDrafts?: Prisma.ListingDraftUpdateManyWithoutUserNestedInput;
+    notifications?: Prisma.NotificationUpdateManyWithoutUserNestedInput;
+    yieldClaims?: Prisma.YieldClaimUpdateManyWithoutUserNestedInput;
+    users?: Prisma.UserUpdateManyWithoutReferredByNestedInput;
+};
+export type UserUncheckedUpdateWithoutReferredByInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletAddress?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletType?: Prisma.NullableEnumWalletTypeFieldUpdateOperationsInput | $Enums.WalletType | null;
+    username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus;
+    referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    joinDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
+    properties?: Prisma.PropertyUncheckedUpdateManyWithoutOwnerNestedInput;
+    investments?: Prisma.InvestmentUncheckedUpdateManyWithoutUserNestedInput;
+    transactions?: Prisma.TransactionUncheckedUpdateManyWithoutUserNestedInput;
+    listingDrafts?: Prisma.ListingDraftUncheckedUpdateManyWithoutUserNestedInput;
+    notifications?: Prisma.NotificationUncheckedUpdateManyWithoutUserNestedInput;
+    yieldClaims?: Prisma.YieldClaimUncheckedUpdateManyWithoutUserNestedInput;
+    users?: Prisma.UserUncheckedUpdateManyWithoutReferredByNestedInput;
+};
+export type UserUncheckedUpdateManyWithoutReferredByInput = {
+    id?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletAddress?: Prisma.StringFieldUpdateOperationsInput | string;
+    walletType?: Prisma.NullableEnumWalletTypeFieldUpdateOperationsInput | $Enums.WalletType | null;
+    username?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    bio?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    kycStatus?: Prisma.EnumKycStatusFieldUpdateOperationsInput | $Enums.KycStatus;
+    referralCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
+    joinDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
+    isActive?: Prisma.BoolFieldUpdateOperationsInput | boolean;
 };
 /**
  * Count Type UserCountOutputType
  */
 export type UserCountOutputType = {
     properties: number;
+    investments: number;
+    transactions: number;
+    listingDrafts: number;
+    notifications: number;
+    yieldClaims: number;
+    users: number;
 };
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     properties?: boolean | UserCountOutputTypeCountPropertiesArgs;
+    investments?: boolean | UserCountOutputTypeCountInvestmentsArgs;
+    transactions?: boolean | UserCountOutputTypeCountTransactionsArgs;
+    listingDrafts?: boolean | UserCountOutputTypeCountListingDraftsArgs;
+    notifications?: boolean | UserCountOutputTypeCountNotificationsArgs;
+    yieldClaims?: boolean | UserCountOutputTypeCountYieldClaimsArgs;
+    users?: boolean | UserCountOutputTypeCountUsersArgs;
 };
 /**
  * UserCountOutputType without action
@@ -635,78 +1441,152 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
 export type UserCountOutputTypeCountPropertiesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     where?: Prisma.PropertyWhereInput;
 };
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountInvestmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.InvestmentWhereInput;
+};
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountTransactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.TransactionWhereInput;
+};
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountListingDraftsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.ListingDraftWhereInput;
+};
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.NotificationWhereInput;
+};
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountYieldClaimsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.YieldClaimWhereInput;
+};
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountUsersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.UserWhereInput;
+};
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
-    avatar?: boolean;
     walletAddress?: boolean;
+    walletType?: boolean;
     username?: boolean;
+    avatarUrl?: boolean;
     country?: boolean;
-    totalInvested?: boolean;
-    createdAt?: boolean;
-    badgeId?: boolean;
-    badges?: boolean | Prisma.User$badgesArgs<ExtArgs>;
+    bio?: boolean;
+    kycStatus?: boolean;
+    referralCode?: boolean;
+    referredById?: boolean;
+    joinDate?: boolean;
+    isActive?: boolean;
+    referredBy?: boolean | Prisma.User$referredByArgs<ExtArgs>;
     properties?: boolean | Prisma.User$propertiesArgs<ExtArgs>;
+    investments?: boolean | Prisma.User$investmentsArgs<ExtArgs>;
+    transactions?: boolean | Prisma.User$transactionsArgs<ExtArgs>;
+    listingDrafts?: boolean | Prisma.User$listingDraftsArgs<ExtArgs>;
+    notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>;
+    yieldClaims?: boolean | Prisma.User$yieldClaimsArgs<ExtArgs>;
+    users?: boolean | Prisma.User$usersArgs<ExtArgs>;
     _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["user"]>;
 export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
-    avatar?: boolean;
     walletAddress?: boolean;
+    walletType?: boolean;
     username?: boolean;
+    avatarUrl?: boolean;
     country?: boolean;
-    totalInvested?: boolean;
-    createdAt?: boolean;
-    badgeId?: boolean;
-    badges?: boolean | Prisma.User$badgesArgs<ExtArgs>;
+    bio?: boolean;
+    kycStatus?: boolean;
+    referralCode?: boolean;
+    referredById?: boolean;
+    joinDate?: boolean;
+    isActive?: boolean;
+    referredBy?: boolean | Prisma.User$referredByArgs<ExtArgs>;
 }, ExtArgs["result"]["user"]>;
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
-    avatar?: boolean;
     walletAddress?: boolean;
+    walletType?: boolean;
     username?: boolean;
+    avatarUrl?: boolean;
     country?: boolean;
-    totalInvested?: boolean;
-    createdAt?: boolean;
-    badgeId?: boolean;
-    badges?: boolean | Prisma.User$badgesArgs<ExtArgs>;
+    bio?: boolean;
+    kycStatus?: boolean;
+    referralCode?: boolean;
+    referredById?: boolean;
+    joinDate?: boolean;
+    isActive?: boolean;
+    referredBy?: boolean | Prisma.User$referredByArgs<ExtArgs>;
 }, ExtArgs["result"]["user"]>;
 export type UserSelectScalar = {
     id?: boolean;
-    avatar?: boolean;
     walletAddress?: boolean;
+    walletType?: boolean;
     username?: boolean;
+    avatarUrl?: boolean;
     country?: boolean;
-    totalInvested?: boolean;
-    createdAt?: boolean;
-    badgeId?: boolean;
+    bio?: boolean;
+    kycStatus?: boolean;
+    referralCode?: boolean;
+    referredById?: boolean;
+    joinDate?: boolean;
+    isActive?: boolean;
 };
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "avatar" | "walletAddress" | "username" | "country" | "totalInvested" | "createdAt" | "badgeId", ExtArgs["result"]["user"]>;
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "walletAddress" | "walletType" | "username" | "avatarUrl" | "country" | "bio" | "kycStatus" | "referralCode" | "referredById" | "joinDate" | "isActive", ExtArgs["result"]["user"]>;
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    badges?: boolean | Prisma.User$badgesArgs<ExtArgs>;
+    referredBy?: boolean | Prisma.User$referredByArgs<ExtArgs>;
     properties?: boolean | Prisma.User$propertiesArgs<ExtArgs>;
+    investments?: boolean | Prisma.User$investmentsArgs<ExtArgs>;
+    transactions?: boolean | Prisma.User$transactionsArgs<ExtArgs>;
+    listingDrafts?: boolean | Prisma.User$listingDraftsArgs<ExtArgs>;
+    notifications?: boolean | Prisma.User$notificationsArgs<ExtArgs>;
+    yieldClaims?: boolean | Prisma.User$yieldClaimsArgs<ExtArgs>;
+    users?: boolean | Prisma.User$usersArgs<ExtArgs>;
     _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    badges?: boolean | Prisma.User$badgesArgs<ExtArgs>;
+    referredBy?: boolean | Prisma.User$referredByArgs<ExtArgs>;
 };
 export type UserIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    badges?: boolean | Prisma.User$badgesArgs<ExtArgs>;
+    referredBy?: boolean | Prisma.User$referredByArgs<ExtArgs>;
 };
 export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     name: "User";
     objects: {
-        badges: Prisma.$BadgePayload<ExtArgs> | null;
+        referredBy: Prisma.$UserPayload<ExtArgs> | null;
         properties: Prisma.$PropertyPayload<ExtArgs>[];
+        investments: Prisma.$InvestmentPayload<ExtArgs>[];
+        transactions: Prisma.$TransactionPayload<ExtArgs>[];
+        listingDrafts: Prisma.$ListingDraftPayload<ExtArgs>[];
+        notifications: Prisma.$NotificationPayload<ExtArgs>[];
+        yieldClaims: Prisma.$YieldClaimPayload<ExtArgs>[];
+        users: Prisma.$UserPayload<ExtArgs>[];
     };
     scalars: runtime.Types.Extensions.GetPayloadResult<{
         id: string;
-        avatar: string | null;
         walletAddress: string;
+        walletType: $Enums.WalletType | null;
         username: string | null;
+        avatarUrl: string | null;
         country: string | null;
-        totalInvested: runtime.Decimal;
-        createdAt: Date;
-        badgeId: string | null;
+        bio: string | null;
+        kycStatus: $Enums.KycStatus;
+        referralCode: string | null;
+        referredById: string | null;
+        joinDate: Date;
+        isActive: boolean;
     }, ExtArgs["result"]["user"]>;
     composites: {};
 };
@@ -1036,8 +1916,14 @@ export interface UserDelegate<ExtArgs extends runtime.Types.Extensions.InternalA
  */
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise";
-    badges<T extends Prisma.User$badgesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$badgesArgs<ExtArgs>>): Prisma.Prisma__BadgeClient<runtime.Types.Result.GetResult<Prisma.$BadgePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>;
+    referredBy<T extends Prisma.User$referredByArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$referredByArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>;
     properties<T extends Prisma.User$propertiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$propertiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PropertyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
+    investments<T extends Prisma.User$investmentsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$investmentsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$InvestmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
+    transactions<T extends Prisma.User$transactionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$transactionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
+    listingDrafts<T extends Prisma.User$listingDraftsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$listingDraftsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ListingDraftPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
+    notifications<T extends Prisma.User$notificationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
+    yieldClaims<T extends Prisma.User$yieldClaimsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$yieldClaimsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$YieldClaimPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
+    users<T extends Prisma.User$usersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$usersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1064,13 +1950,17 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
  */
 export interface UserFieldRefs {
     readonly id: Prisma.FieldRef<"User", 'String'>;
-    readonly avatar: Prisma.FieldRef<"User", 'String'>;
     readonly walletAddress: Prisma.FieldRef<"User", 'String'>;
+    readonly walletType: Prisma.FieldRef<"User", 'WalletType'>;
     readonly username: Prisma.FieldRef<"User", 'String'>;
+    readonly avatarUrl: Prisma.FieldRef<"User", 'String'>;
     readonly country: Prisma.FieldRef<"User", 'String'>;
-    readonly totalInvested: Prisma.FieldRef<"User", 'Decimal'>;
-    readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>;
-    readonly badgeId: Prisma.FieldRef<"User", 'String'>;
+    readonly bio: Prisma.FieldRef<"User", 'String'>;
+    readonly kycStatus: Prisma.FieldRef<"User", 'KycStatus'>;
+    readonly referralCode: Prisma.FieldRef<"User", 'String'>;
+    readonly referredById: Prisma.FieldRef<"User", 'String'>;
+    readonly joinDate: Prisma.FieldRef<"User", 'DateTime'>;
+    readonly isActive: Prisma.FieldRef<"User", 'Boolean'>;
 }
 /**
  * User findUnique
@@ -1450,22 +2340,22 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
     limit?: number;
 };
 /**
- * User.badges
+ * User.referredBy
  */
-export type User$badgesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type User$referredByArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Badge
+     * Select specific fields to fetch from the User
      */
-    select?: Prisma.BadgeSelect<ExtArgs> | null;
+    select?: Prisma.UserSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the Badge
+     * Omit specific fields from the User
      */
-    omit?: Prisma.BadgeOmit<ExtArgs> | null;
+    omit?: Prisma.UserOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: Prisma.BadgeInclude<ExtArgs> | null;
-    where?: Prisma.BadgeWhereInput;
+    include?: Prisma.UserInclude<ExtArgs> | null;
+    where?: Prisma.UserWhereInput;
 };
 /**
  * User.properties
@@ -1489,6 +2379,144 @@ export type User$propertiesArgs<ExtArgs extends runtime.Types.Extensions.Interna
     take?: number;
     skip?: number;
     distinct?: Prisma.PropertyScalarFieldEnum | Prisma.PropertyScalarFieldEnum[];
+};
+/**
+ * User.investments
+ */
+export type User$investmentsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Investment
+     */
+    select?: Prisma.InvestmentSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Investment
+     */
+    omit?: Prisma.InvestmentOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.InvestmentInclude<ExtArgs> | null;
+    where?: Prisma.InvestmentWhereInput;
+    orderBy?: Prisma.InvestmentOrderByWithRelationInput | Prisma.InvestmentOrderByWithRelationInput[];
+    cursor?: Prisma.InvestmentWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: Prisma.InvestmentScalarFieldEnum | Prisma.InvestmentScalarFieldEnum[];
+};
+/**
+ * User.transactions
+ */
+export type User$transactionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Transaction
+     */
+    select?: Prisma.TransactionSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Transaction
+     */
+    omit?: Prisma.TransactionOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.TransactionInclude<ExtArgs> | null;
+    where?: Prisma.TransactionWhereInput;
+    orderBy?: Prisma.TransactionOrderByWithRelationInput | Prisma.TransactionOrderByWithRelationInput[];
+    cursor?: Prisma.TransactionWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: Prisma.TransactionScalarFieldEnum | Prisma.TransactionScalarFieldEnum[];
+};
+/**
+ * User.listingDrafts
+ */
+export type User$listingDraftsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ListingDraft
+     */
+    select?: Prisma.ListingDraftSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the ListingDraft
+     */
+    omit?: Prisma.ListingDraftOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.ListingDraftInclude<ExtArgs> | null;
+    where?: Prisma.ListingDraftWhereInput;
+    orderBy?: Prisma.ListingDraftOrderByWithRelationInput | Prisma.ListingDraftOrderByWithRelationInput[];
+    cursor?: Prisma.ListingDraftWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: Prisma.ListingDraftScalarFieldEnum | Prisma.ListingDraftScalarFieldEnum[];
+};
+/**
+ * User.notifications
+ */
+export type User$notificationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Notification
+     */
+    select?: Prisma.NotificationSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the Notification
+     */
+    omit?: Prisma.NotificationOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.NotificationInclude<ExtArgs> | null;
+    where?: Prisma.NotificationWhereInput;
+    orderBy?: Prisma.NotificationOrderByWithRelationInput | Prisma.NotificationOrderByWithRelationInput[];
+    cursor?: Prisma.NotificationWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: Prisma.NotificationScalarFieldEnum | Prisma.NotificationScalarFieldEnum[];
+};
+/**
+ * User.yieldClaims
+ */
+export type User$yieldClaimsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the YieldClaim
+     */
+    select?: Prisma.YieldClaimSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the YieldClaim
+     */
+    omit?: Prisma.YieldClaimOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.YieldClaimInclude<ExtArgs> | null;
+    where?: Prisma.YieldClaimWhereInput;
+    orderBy?: Prisma.YieldClaimOrderByWithRelationInput | Prisma.YieldClaimOrderByWithRelationInput[];
+    cursor?: Prisma.YieldClaimWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: Prisma.YieldClaimScalarFieldEnum | Prisma.YieldClaimScalarFieldEnum[];
+};
+/**
+ * User.users
+ */
+export type User$usersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: Prisma.UserSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: Prisma.UserOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.UserInclude<ExtArgs> | null;
+    where?: Prisma.UserWhereInput;
+    orderBy?: Prisma.UserOrderByWithRelationInput | Prisma.UserOrderByWithRelationInput[];
+    cursor?: Prisma.UserWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: Prisma.UserScalarFieldEnum | Prisma.UserScalarFieldEnum[];
 };
 /**
  * User without action

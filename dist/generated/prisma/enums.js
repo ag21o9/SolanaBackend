@@ -7,6 +7,51 @@
 *
 * 🟢 You can import this file directly.
 */
-// This file is empty because there are no enums in the schema.
-export {};
+export const WalletType = {
+    phantom: 'phantom',
+    solflare: 'solflare'
+};
+export const KycStatus = {
+    none: 'none',
+    pending: 'pending',
+    approved: 'approved',
+    rejected: 'rejected'
+};
+export const PropertyType = {
+    Residential: 'Residential',
+    Commercial: 'Commercial',
+    Industrial: 'Industrial',
+    MixedUse: 'MixedUse'
+};
+export const TokenModel = {
+    nft: 'nft',
+    spl: 'spl'
+};
+export const PropertyStatus = {
+    draft: 'draft',
+    pending: 'pending',
+    approved: 'approved',
+    rejected: 'rejected',
+    live: 'live',
+    soldOut: 'soldOut'
+};
+export const TransactionType = {
+    buy: 'buy',
+    sell: 'sell',
+    yieldClaim: 'yieldClaim',
+    listFee: 'listFee',
+    transfer: 'transfer'
+};
+export const TransactionStatus = {
+    pending: 'pending',
+    confirmed: 'confirmed',
+    failed: 'failed'
+};
+export const NotificationType = {
+    yieldReady: 'yieldReady',
+    buyConfirmed: 'buyConfirmed',
+    sellConfirmed: 'sellConfirmed',
+    listingApproved: 'listingApproved',
+    listingRejected: 'listingRejected'
+};
 //# sourceMappingURL=enums.js.map

@@ -151,4 +151,43 @@ userRouter.put("/profile", async (req, res) => {
     }
 });
 
+userRouter.get("/profile", async (req, res) => {
+    try {
+        const userId = getUserIdFromAuthHeader(req.headers.authorization);
+        if (!userId) {
+            return res.status(401).json({ message: "Unauthorized" });
+        }
+
+        const user = await prisma.user.findUnique({
+            where: { id: userId },
+            select: {
+                id: true,
+                walletAddress: true,
+                walletType: true,
+                username: true,
+                avatarUrl: true,
+                country: true,
+                bio: true,
+                kycStatus: true,
+                referralCode: true,
+                referredById: true,
+                joinDate: true,
+                isActive: true,
+            },
+        });
+
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        return res.json({
+            message: "Profile fetched successfully",
+            user,
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Failed to fetch profile" });
+    }
+});
+
 export default userRouter;

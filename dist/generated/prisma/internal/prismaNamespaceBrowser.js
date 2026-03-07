@@ -39,9 +39,14 @@ export const JsonNull = runtime.JsonNull;
  */
 export const AnyNull = runtime.AnyNull;
 export const ModelName = {
-    Badge: 'Badge',
     User: 'User',
-    Property: 'Property'
+    Property: 'Property',
+    Investment: 'Investment',
+    Transaction: 'Transaction',
+    YieldDistribution: 'YieldDistribution',
+    YieldClaim: 'YieldClaim',
+    ListingDraft: 'ListingDraft',
+    Notification: 'Notification'
 };
 /*
  * Enums
@@ -52,37 +57,128 @@ export const TransactionIsolationLevel = runtime.makeStrictEnum({
     RepeatableRead: 'RepeatableRead',
     Serializable: 'Serializable'
 });
-export const BadgeScalarFieldEnum = {
-    id: 'id',
-    label: 'label',
-    icon: 'icon',
-    color: 'color'
-};
 export const UserScalarFieldEnum = {
     id: 'id',
-    avatar: 'avatar',
     walletAddress: 'walletAddress',
+    walletType: 'walletType',
     username: 'username',
+    avatarUrl: 'avatarUrl',
     country: 'country',
-    totalInvested: 'totalInvested',
-    createdAt: 'createdAt',
-    badgeId: 'badgeId'
+    bio: 'bio',
+    kycStatus: 'kycStatus',
+    referralCode: 'referralCode',
+    referredById: 'referredById',
+    joinDate: 'joinDate',
+    isActive: 'isActive'
 };
 export const PropertyScalarFieldEnum = {
     id: 'id',
-    propertyId: 'propertyId',
+    ownerWallet: 'ownerWallet',
     name: 'name',
+    type: 'type',
+    tokenModel: 'tokenModel',
+    country: 'country',
     city: 'city',
-    area: 'area',
+    addressFull: 'addressFull',
     description: 'description',
+    yearBuilt: 'yearBuilt',
+    areaSqft: 'areaSqft',
+    totalValuation: 'totalValuation',
+    pricePerShare: 'pricePerShare',
+    totalShares: 'totalShares',
+    availableShares: 'availableShares',
+    yieldPercent: 'yieldPercent',
+    monthlyRental: 'monthlyRental',
+    operatingCosts: 'operatingCosts',
+    managementFeePct: 'managementFeePct',
+    insuranceCost: 'insuranceCost',
+    capRate: 'capRate',
+    occupancyPct: 'occupancyPct',
+    status: 'status',
     mintAddress: 'mintAddress',
     metadataUri: 'metadataUri',
-    ownerWallet: 'ownerWallet',
+    collectionAddress: 'collectionAddress',
+    treasuryPda: 'treasuryPda',
+    coverImageUrl: 'coverImageUrl',
+    images: 'images',
+    isFeatured: 'isFeatured',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
+export const InvestmentScalarFieldEnum = {
+    id: 'id',
+    userWallet: 'userWallet',
+    propertyId: 'propertyId',
+    sharesOwned: 'sharesOwned',
+    avgCostPerShare: 'avgCostPerShare',
+    purchasePrice: 'purchasePrice',
+    currentValue: 'currentValue',
+    yieldEarned: 'yieldEarned',
+    claimableYield: 'claimableYield',
+    lastYieldClaim: 'lastYieldClaim',
+    tokenAccount: 'tokenAccount',
+    investedAt: 'investedAt'
+};
+export const TransactionScalarFieldEnum = {
+    id: 'id',
+    type: 'type',
+    userWallet: 'userWallet',
+    propertyId: 'propertyId',
+    shares: 'shares',
+    amountUsdc: 'amountUsdc',
+    platformFee: 'platformFee',
+    netAmount: 'netAmount',
+    txSignature: 'txSignature',
+    status: 'status',
+    blockTime: 'blockTime',
+    createdAt: 'createdAt'
+};
+export const YieldDistributionScalarFieldEnum = {
+    id: 'id',
+    propertyId: 'propertyId',
+    periodStart: 'periodStart',
+    periodEnd: 'periodEnd',
+    totalRental: 'totalRental',
+    distributedAt: 'distributedAt',
+    txSignature: 'txSignature'
+};
+export const YieldClaimScalarFieldEnum = {
+    id: 'id',
+    userWallet: 'userWallet',
+    propertyId: 'propertyId',
+    amountUsdc: 'amountUsdc',
+    distributionId: 'distributionId',
+    txSignature: 'txSignature',
+    claimedAt: 'claimedAt'
+};
+export const ListingDraftScalarFieldEnum = {
+    id: 'id',
+    userWallet: 'userWallet',
+    stepCompleted: 'stepCompleted',
+    step1Data: 'step1Data',
+    step2Data: 'step2Data',
+    step3Data: 'step3Data',
+    step4Data: 'step4Data',
+    submittedAt: 'submittedAt',
+    propertyId: 'propertyId'
+};
+export const NotificationScalarFieldEnum = {
+    id: 'id',
+    userWallet: 'userWallet',
+    type: 'type',
+    title: 'title',
+    body: 'body',
+    isRead: 'isRead',
+    metadata: 'metadata',
     createdAt: 'createdAt'
 };
 export const SortOrder = {
     asc: 'asc',
     desc: 'desc'
+};
+export const NullableJsonNullValueInput = {
+    DbNull: DbNull,
+    JsonNull: JsonNull
 };
 export const QueryMode = {
     default: 'default',
@@ -91,5 +187,10 @@ export const QueryMode = {
 export const NullsOrder = {
     first: 'first',
     last: 'last'
+};
+export const JsonNullValueFilter = {
+    DbNull: DbNull,
+    JsonNull: JsonNull,
+    AnyNull: AnyNull
 };
 //# sourceMappingURL=prismaNamespaceBrowser.js.map
