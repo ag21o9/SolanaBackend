@@ -115,6 +115,42 @@ function getOptionalPositiveInt(value: unknown): number | undefined {
     return parsed
 }
 
+function getOptionalNonNegativeInt(value: unknown): number | undefined {
+    const parsedValue = typeof value === 'string' ? Number(value) : value
+    if (typeof parsedValue !== 'number' || !Number.isFinite(parsedValue)) return undefined
+    const parsed = Math.trunc(parsedValue)
+    if (parsed < 0) return undefined
+    return parsed
+}
+
+function getOptionalDecimal(value: unknown): number | undefined {
+    const parsed = typeof value === 'string' ? Number(value) : value
+    if (typeof parsed !== 'number' || !Number.isFinite(parsed)) return undefined
+    return parsed
+}
+
+function getOptionalBigInt(value: unknown): bigint | undefined {
+    if (typeof value === 'bigint') return value
+
+    if (typeof value === 'number') {
+        if (!Number.isFinite(value)) return undefined
+        return BigInt(Math.trunc(value))
+    }
+
+    if (typeof value === 'string') {
+        const trimmed = value.trim()
+        if (!trimmed || !/^-?\d+$/.test(trimmed)) return undefined
+
+        try {
+            return BigInt(trimmed)
+        } catch {
+            return undefined
+        }
+    }
+
+    return undefined
+}
+
 function asRecord(value: unknown): Record<string, unknown> {
     return value && typeof value === 'object' ? (value as Record<string, unknown>) : {}
 }
@@ -683,9 +719,24 @@ propertyRouter.patch('/listings/:draftId', async (req, res) => {
             stepCompleted: Math.max(existing.stepCompleted, stepNumber),
         }
 
-        if (stepNumber === 2) data.step2Data = tokenomics ?? {}
-        if (stepNumber === 3) data.step3Data = mediaUploads ?? {}
-        if (stepNumber === 4) data.step4Data = legalDocs ?? {}
+        if (stepNumber === 2) {
+            data.step2Data = {
+                ...asRecord(existing.step2Data),
+                ...asRecord(tokenomics),
+            }
+        }
+        if (stepNumber === 3) {
+            data.step3Data = {
+                ...asRecord(existing.step3Data),
+                ...asRecord(mediaUploads),
+            }
+        }
+        if (stepNumber === 4) {
+            data.step4Data = {
+                ...asRecord(existing.step4Data),
+                ...asRecord(legalDocs),
+            }
+        }
 
         const draft = await prisma.listingDraft.update({
             where: { id: draftId },
@@ -833,7 +884,20 @@ propertyRouter.post('/mint/property', async (req, res) => {
         const description = getOptionalString(step1.description)
         const yearBuilt = getOptionalInt(step1.yearBuilt)
         const areaSqft = getOptionalInt(step1.areaSqft)
-        const totalShares = getOptionalPositiveInt(getFirstValueByPaths(step2, ['totalShares', 'shares', 'tokenSupply']))
+        const totalSharesInput = getOptionalPositiveInt(getFirstValueByPaths(step2, ['totalShares', 'shares', 'tokenSupply']))
+        const totalShares = totalSharesInput ?? (tokenModel === 'nft' ? 1 : undefined)
+        const availableSharesInput = getOptionalNonNegativeInt(getFirstValueByPaths(step2, ['availableShares', 'sharesAvailable']))
+        const availableShares = availableSharesInput ?? totalShares
+
+        const totalValuation = getOptionalBigInt(getFirstValueByPaths(step2, ['totalValuation', 'valuation', 'propertyValue']))
+        const pricePerShare = getOptionalPositiveInt(getFirstValueByPaths(step2, ['pricePerShare', 'sharePrice']))
+        const yieldPercent = getOptionalDecimal(getFirstValueByPaths(step2, ['yieldPercent', 'rentalYieldPct']))
+        const monthlyRental = getOptionalBigInt(getFirstValueByPaths(step2, ['monthlyRental', 'monthlyRent']))
+        const operatingCosts = getOptionalBigInt(getFirstValueByPaths(step2, ['operatingCosts', 'monthlyOperatingCosts']))
+        const managementFeePct = getOptionalDecimal(getFirstValueByPaths(step2, ['managementFeePct', 'managementFee']))
+        const insuranceCost = getOptionalBigInt(getFirstValueByPaths(step2, ['insuranceCost', 'monthlyInsuranceCost']))
+        const capRate = getOptionalDecimal(getFirstValueByPaths(step2, ['capRate', 'capRatePct']))
+        const occupancyPct = getOptionalNonNegativeInt(getFirstValueByPaths(step2, ['occupancyPct', 'occupancy']))
 
         const metadataUri = await uploadPropertyMetadata({
             draftId,
@@ -872,6 +936,17 @@ propertyRouter.post('/mint/property', async (req, res) => {
         if (description !== undefined) propertyData.description = description
         if (yearBuilt !== undefined) propertyData.yearBuilt = yearBuilt
         if (areaSqft !== undefined) propertyData.areaSqft = areaSqft
+        if (totalValuation !== undefined) propertyData.totalValuation = totalValuation
+        if (pricePerShare !== undefined) propertyData.pricePerShare = pricePerShare
+        if (totalShares !== undefined) propertyData.totalShares = totalShares
+        if (availableShares !== undefined) propertyData.availableShares = availableShares
+        if (yieldPercent !== undefined) propertyData.yieldPercent = yieldPercent
+        if (monthlyRental !== undefined) propertyData.monthlyRental = monthlyRental
+        if (operatingCosts !== undefined) propertyData.operatingCosts = operatingCosts
+        if (managementFeePct !== undefined) propertyData.managementFeePct = managementFeePct
+        if (insuranceCost !== undefined) propertyData.insuranceCost = insuranceCost
+        if (capRate !== undefined) propertyData.capRate = capRate
+        if (occupancyPct !== undefined) propertyData.occupancyPct = occupancyPct
         if (coverImageUrl !== undefined) propertyData.coverImageUrl = coverImageUrl
 
         let property
