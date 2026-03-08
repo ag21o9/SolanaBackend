@@ -20,6 +20,7 @@ import {
     getAssociatedTokenAddress,
     getMinimumBalanceForRentExemptMint,
 } from '@solana/spl-token'
+import { Prisma } from '../generated/prisma/client.js'
 import { prisma } from '../prisma.config.js'
 import { upload, uploadFile } from '../config/imageKit.config.js'
 
@@ -175,6 +176,23 @@ function getFirstValueByPaths(input: unknown, paths: string[]): unknown {
         }
     }
     return undefined
+}
+
+function toJsonSafe(value: unknown): unknown {
+    if (typeof value === 'bigint') return value.toString()
+    if (value instanceof Date) return value.toISOString()
+    if (Prisma.Decimal.isDecimal(value)) return value.toString()
+
+    if (Array.isArray(value)) {
+        return value.map((item) => toJsonSafe(item))
+    }
+
+    if (value && typeof value === 'object') {
+        const entries = Object.entries(value as Record<string, unknown>).map(([key, item]) => [key, toJsonSafe(item)])
+        return Object.fromEntries(entries)
+    }
+
+    return value
 }
 
 function getSolanaConnection(): Connection {
@@ -616,7 +634,7 @@ propertyRouter.get('/properties', async (req, res) => {
 
         return res.json({
             message: 'Properties fetched successfully',
-            data: items,
+            data: toJsonSafe(items),
             pagination: {
                 page: currentPage,
                 limit: take,
@@ -627,6 +645,55 @@ propertyRouter.get('/properties', async (req, res) => {
     } catch (error) {
         console.log(error)
         return res.status(500).json({ message: 'Failed to fetch properties' })
+    }
+})
+
+propertyRouter.get('/properties/my-listings', async (req, res) => {
+    try {
+        const userWallet = await getUserWalletFromAuthHeader(req.headers.authorization)
+        if (!userWallet) return res.status(401).json({ message: 'Unauthorized' })
+
+        const { status, page, limit } = req.query as {
+            status?: string
+            page?: string
+            limit?: string
+        }
+
+        const parsedPage = Number(page ?? 1)
+        const parsedLimit = Number(limit ?? 10)
+        const currentPage = Number.isFinite(parsedPage) && parsedPage > 0 ? Math.trunc(parsedPage) : 1
+        const take = Number.isFinite(parsedLimit) && parsedLimit > 0 ? Math.min(Math.trunc(parsedLimit), 50) : 10
+        const skip = (currentPage - 1) * take
+
+        const where: Record<string, unknown> = {
+            ownerWallet: userWallet,
+        }
+
+        if (status) where.status = status
+
+        const [items, total] = await Promise.all([
+            prisma.property.findMany({
+                where: where as any,
+                orderBy: { createdAt: 'desc' },
+                skip,
+                take,
+            }),
+            prisma.property.count({ where: where as any }),
+        ])
+
+        return res.json({
+            message: 'My listings fetched successfully',
+            data: toJsonSafe(items),
+            pagination: {
+                page: currentPage,
+                limit: take,
+                total,
+                totalPages: Math.ceil(total / take),
+            },
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({ message: 'Failed to fetch my listings' })
     }
 })
 
@@ -644,7 +711,7 @@ propertyRouter.get('/properties/:propertyId', async (req, res) => {
 
         return res.json({
             message: 'Property fetched successfully',
-            property,
+            property: toJsonSafe(property),
         })
     } catch (error) {
         console.log(error)
@@ -975,7 +1042,7 @@ propertyRouter.post('/mint/property', async (req, res) => {
             metadataUri,
             treasuryPDA,
             txSignature,
-            property,
+            property: toJsonSafe(property),
         })
     } catch (error) {
         console.log(error)

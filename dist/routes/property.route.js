@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import bs58 from 'bs58';
 import { Connection, Keypair, PublicKey, SystemProgram, Transaction, clusterApiUrl, sendAndConfirmTransaction, } from '@solana/web3.js';
 import { ASSOCIATED_TOKEN_PROGRAM_ID, MINT_SIZE, TOKEN_PROGRAM_ID, createAssociatedTokenAccountInstruction, createInitializeMintInstruction, createMintToInstruction, getAssociatedTokenAddress, getMinimumBalanceForRentExemptMint, } from '@solana/spl-token';
+import { Prisma } from '../generated/prisma/client.js';
 import { prisma } from '../prisma.config.js';
 import { upload, uploadFile } from '../config/imageKit.config.js';
 const propertyRouter = Router();
@@ -152,6 +153,22 @@ function getFirstValueByPaths(input, paths) {
         }
     }
     return undefined;
+}
+function toJsonSafe(value) {
+    if (typeof value === 'bigint')
+        return value.toString();
+    if (value instanceof Date)
+        return value.toISOString();
+    if (Prisma.Decimal.isDecimal(value))
+        return value.toString();
+    if (Array.isArray(value)) {
+        return value.map((item) => toJsonSafe(item));
+    }
+    if (value && typeof value === 'object') {
+        const entries = Object.entries(value).map(([key, item]) => [key, toJsonSafe(item)]);
+        return Object.fromEntries(entries);
+    }
+    return value;
 }
 function getSolanaConnection() {
     const rpcUrl = process.env.SOLANA_RPC_URL ?? clusterApiUrl('devnet');
@@ -495,7 +512,7 @@ propertyRouter.get('/properties', async (req, res) => {
         ]);
         return res.json({
             message: 'Properties fetched successfully',
-            data: items,
+            data: toJsonSafe(items),
             pagination: {
                 page: currentPage,
                 limit: take,
@@ -509,6 +526,47 @@ propertyRouter.get('/properties', async (req, res) => {
         return res.status(500).json({ message: 'Failed to fetch properties' });
     }
 });
+propertyRouter.get('/properties/my-listings', async (req, res) => {
+    try {
+        const userWallet = await getUserWalletFromAuthHeader(req.headers.authorization);
+        if (!userWallet)
+            return res.status(401).json({ message: 'Unauthorized' });
+        const { status, page, limit } = req.query;
+        const parsedPage = Number(page ?? 1);
+        const parsedLimit = Number(limit ?? 10);
+        const currentPage = Number.isFinite(parsedPage) && parsedPage > 0 ? Math.trunc(parsedPage) : 1;
+        const take = Number.isFinite(parsedLimit) && parsedLimit > 0 ? Math.min(Math.trunc(parsedLimit), 50) : 10;
+        const skip = (currentPage - 1) * take;
+        const where = {
+            ownerWallet: userWallet,
+        };
+        if (status)
+            where.status = status;
+        const [items, total] = await Promise.all([
+            prisma.property.findMany({
+                where: where,
+                orderBy: { createdAt: 'desc' },
+                skip,
+                take,
+            }),
+            prisma.property.count({ where: where }),
+        ]);
+        return res.json({
+            message: 'My listings fetched successfully',
+            data: toJsonSafe(items),
+            pagination: {
+                page: currentPage,
+                limit: take,
+                total,
+                totalPages: Math.ceil(total / take),
+            },
+        });
+    }
+    catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: 'Failed to fetch my listings' });
+    }
+});
 propertyRouter.get('/properties/:propertyId', async (req, res) => {
     try {
         const { propertyId } = req.params;
@@ -520,7 +578,7 @@ propertyRouter.get('/properties/:propertyId', async (req, res) => {
         }
         return res.json({
             message: 'Property fetched successfully',
-            property,
+            property: toJsonSafe(property),
         });
     }
     catch (error) {
@@ -828,7 +886,7 @@ propertyRouter.post('/mint/property', async (req, res) => {
             metadataUri,
             treasuryPDA,
             txSignature,
-            property,
+            property: toJsonSafe(property),
         });
     }
     catch (error) {
