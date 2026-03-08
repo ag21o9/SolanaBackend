@@ -84,6 +84,14 @@ function serializeUnsignedTx(tx: Transaction): string {
     return tx.serialize({ requireAllSignatures: false, verifySignatures: false }).toString('base64')
 }
 
+function toJsonSafe<T>(value: T): unknown {
+    return JSON.parse(
+        JSON.stringify(value, (_key, currentValue) => (
+            typeof currentValue === 'bigint' ? currentValue.toString() : currentValue
+        )),
+    ) as unknown
+}
+
 function getEscrowPda(propertyId: string): string {
     const [pda] = PublicKey.findProgramAddressSync(
         [Buffer.from('escrow'), Buffer.from(propertyId)],
@@ -419,13 +427,13 @@ tradingRouter.post('/transactions/confirm', async (req, res) => {
                 },
             })
 
-            return res.json({
+            return res.json(toJsonSafe({
                 success: true,
                 investmentRecord: investment,
                 updatedInvestment: investment,
                 tokenAccountAddress: null,
                 alreadyRecorded: true,
-            })
+            }))
         }
 
         const result = await prisma.$transaction(async (tx) => {
@@ -582,12 +590,12 @@ tradingRouter.post('/transactions/confirm', async (req, res) => {
             }
         }
 
-        return res.json({
+        return res.json(toJsonSafe({
             success: true,
             investmentRecord: result.investment,
             updatedInvestment: result.investment,
             tokenAccountAddress,
-        })
+        }))
     } catch (error) {
         console.log(error)
         return res.status(500).json({ message: (error as Error).message || 'Failed to confirm transaction' })

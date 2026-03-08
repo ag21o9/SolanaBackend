@@ -73,6 +73,9 @@ function toUsdcAmount(shares, pricePerShare) {
 function serializeUnsignedTx(tx) {
     return tx.serialize({ requireAllSignatures: false, verifySignatures: false }).toString('base64');
 }
+function toJsonSafe(value) {
+    return JSON.parse(JSON.stringify(value, (_key, currentValue) => (typeof currentValue === 'bigint' ? currentValue.toString() : currentValue)));
+}
 function getEscrowPda(propertyId) {
     const [pda] = PublicKey.findProgramAddressSync([Buffer.from('escrow'), Buffer.from(propertyId)], ESCROW_PROGRAM_ID);
     return pda.toBase58();
@@ -341,13 +344,13 @@ tradingRouter.post('/transactions/confirm', async (req, res) => {
                     },
                 },
             });
-            return res.json({
+            return res.json(toJsonSafe({
                 success: true,
                 investmentRecord: investment,
                 updatedInvestment: investment,
                 tokenAccountAddress: null,
                 alreadyRecorded: true,
-            });
+            }));
         }
         const result = await prisma.$transaction(async (tx) => {
             const property = await tx.property.findUnique({
@@ -487,12 +490,12 @@ tradingRouter.post('/transactions/confirm', async (req, res) => {
                 tokenAccountAddress = null;
             }
         }
-        return res.json({
+        return res.json(toJsonSafe({
             success: true,
             investmentRecord: result.investment,
             updatedInvestment: result.investment,
             tokenAccountAddress,
-        });
+        }));
     }
     catch (error) {
         console.log(error);
