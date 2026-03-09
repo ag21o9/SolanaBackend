@@ -341,6 +341,59 @@ Success response:
 }
 ```
 
+### GET `/api/transactions/me`
+Get authenticated user's transaction history along with their USDC token wallet address.
+
+Headers:
+- `Authorization: Bearer <jwt>`
+
+Query params:
+- `page=<number>` (default `1`)
+- `limit=<number>` (default `20`, max `100`)
+- `type=buy|sell|yieldClaim|listFee|transfer` (optional)
+
+Sample request:
+`GET /api/transactions/me?page=1&limit=20&type=sell`
+
+Success response:
+```json
+{
+  "walletAddress": "7Yh...",
+  "usdcWalletAddress": "G7n...",
+  "pagination": {
+    "page": 1,
+    "limit": 20,
+    "total": 12,
+    "totalPages": 1
+  },
+  "totals": {
+    "grossAmountUsdc": "8500",
+    "totalFeesUsdc": "170",
+    "netAmountUsdc": "8330"
+  },
+  "transactions": [
+    {
+      "id": "cm_tx_1",
+      "type": "sell",
+      "userWallet": "7Yh...",
+      "propertyId": "cm_prop_1",
+      "shares": 10,
+      "amountUsdc": "1200",
+      "platformFee": "24",
+      "netAmount": "1176",
+      "txSignature": "4Zd...",
+      "status": "confirmed",
+      "blockTime": "1741536000",
+      "createdAt": "2026-03-09T10:00:00.000Z",
+      "property": {
+        "id": "cm_prop_1",
+        "name": "Palm Tower"
+      }
+    }
+  ]
+}
+```
+
 ## B) Buy Shares Flow (Correct Workflow)
 1. App calls quote:
 - `GET /api/properties/:id/quote?shares=<n>`
@@ -607,6 +660,7 @@ Response:
 - `SOLANA_RPC_URL`
 - `PLATFORM_FEE_BPS` (default `200` = 2%)
 - `ESCROW_PROGRAM_ID`
+- `USDC_MINT_ADDRESS` (optional, used to compute `usdcWalletAddress` in `/api/transactions/me`)
 - `PLATFORM_SIGNER_SECRET` (used by property mint flow)
 - `IMAGEKIT_PRIVATE_KEY`
 - `METADATA_EXTERNAL_URL` (optional for metadata JSON)

@@ -14,6 +14,7 @@ import { prisma } from '../prisma.config.js'
 const tradingRouter = Router()
 const JWT_SECRET = process.env.JWT_SECRET ?? 'hello world'
 const DEFAULT_PLATFORM_FEE_BPS = Number(process.env.PLATFORM_FEE_BPS ?? 200)
+const USDC_MINT_ADDRESS = process.env.USDC_MINT_ADDRESS ?? ''
 const MEMO_PROGRAM_ID = new PublicKey('MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr')
 const ESCROW_PROGRAM_ID = new PublicKey(process.env.ESCROW_PROGRAM_ID ?? '11111111111111111111111111111111')
 
@@ -98,6 +99,20 @@ function getEscrowPda(propertyId: string): string {
         ESCROW_PROGRAM_ID,
     )
     return pda.toBase58()
+}
+
+async function getUsdcTokenAccountAddress(walletAddress: string): Promise<string | null> {
+    if (!USDC_MINT_ADDRESS) return null
+
+    try {
+        const account = await getAssociatedTokenAddress(
+            new PublicKey(USDC_MINT_ADDRESS),
+            new PublicKey(walletAddress),
+        )
+        return account.toBase58()
+    } catch {
+        return null
+    }
 }
 
 async function buildUnsignedMemoTransaction(walletAddress: string, payload: Record<string, unknown>): Promise<string> {
@@ -794,6 +809,78 @@ tradingRouter.get('/investments/me', async (req, res) => {
     } catch (error) {
         console.log(error)
         return res.status(500).json({ message: 'Failed to fetch investment portfolio' })
+    }
+})
+
+tradingRouter.get('/transactions/me', async (req, res) => {
+    try {
+        const userWallet = await getUserWalletFromAuthHeader(req.headers.authorization)
+        if (!userWallet) return res.status(401).json({ message: 'Unauthorized' })
+
+        const page = parsePositiveInt(req.query.page) ?? 1
+        const requestedLimit = parsePositiveInt(req.query.limit) ?? 20
+        const limit = Math.min(requestedLimit, 100)
+        const skip = (page - 1) * limit
+        const typeQuery = typeof req.query.type === 'string' ? req.query.type.trim() : ''
+
+        const validTypes = new Set(['buy', 'sell', 'yieldClaim', 'listFee', 'transfer'])
+        if (typeQuery && !validTypes.has(typeQuery)) {
+            return res.status(400).json({ message: 'Invalid type. Use buy, sell, yieldClaim, listFee, transfer' })
+        }
+
+        const whereClause = {
+            userWallet,
+            ...(typeQuery ? { type: typeQuery as 'buy' | 'sell' | 'yieldClaim' | 'listFee' | 'transfer' } : {}),
+        }
+
+        const [transactions, total, usdcWalletAddress] = await Promise.all([
+            prisma.transaction.findMany({
+                where: whereClause,
+                include: {
+                    property: {
+                        select: {
+                            id: true,
+                            name: true,
+                        },
+                    },
+                },
+                orderBy: { createdAt: 'desc' },
+                skip,
+                take: limit,
+            }),
+            prisma.transaction.count({ where: whereClause }),
+            getUsdcTokenAccountAddress(userWallet),
+        ])
+
+        const totals = transactions.reduce(
+            (acc, tx) => {
+                acc.grossAmountUsdc += tx.amountUsdc
+                acc.totalFeesUsdc += tx.platformFee
+                acc.netAmountUsdc += tx.netAmount
+                return acc
+            },
+            {
+                grossAmountUsdc: 0n,
+                totalFeesUsdc: 0n,
+                netAmountUsdc: 0n,
+            },
+        )
+
+        return res.json(toJsonSafe({
+            walletAddress: userWallet,
+            usdcWalletAddress,
+            pagination: {
+                page,
+                limit,
+                total,
+                totalPages: Math.ceil(total / limit),
+            },
+            totals,
+            transactions,
+        }))
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({ message: 'Failed to fetch transaction history' })
     }
 })
 
