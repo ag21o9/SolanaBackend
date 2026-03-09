@@ -282,6 +282,65 @@ Response:
 
 ## 3) Trading Endpoints (Buy / Sell / Yield)
 
+## A) My Shares / Portfolio
+
+### GET `/api/investments/me`
+Get authenticated user's share portfolio in one call:
+- Shares you purchased/invested in (`purchasedInvestments`)
+- Your own listed properties and share inventory (`ownedListings`)
+
+Headers:
+- `Authorization: Bearer <jwt>`
+
+Success response:
+```json
+{
+  "walletAddress": "7Yh...",
+  "purchasedTotals": {
+    "propertiesCount": 2,
+    "totalSharesOwned": 175,
+    "totalPurchasePrice": "21000",
+    "totalCurrentValue": "22500",
+    "totalYieldEarned": "900",
+    "totalClaimableYield": "300"
+  },
+  "purchasedInvestments": [
+    {
+      "propertyId": "cm_prop_1",
+      "propertyName": "Palm Tower",
+      "propertyStatus": "live",
+      "sharesOwned": 125,
+      "avgCostPerShare": "120.00",
+      "purchasePrice": "15000",
+      "currentValue": "15625",
+      "yieldEarned": "700",
+      "claimableYield": "250",
+      "investedAt": "2026-03-08T11:10:00.000Z",
+      "isOwner": false,
+      "currentPricePerShare": 125
+    }
+  ],
+  "ownedListingsTotals": {
+    "propertiesCount": 1,
+    "totalSharesIssued": 10000,
+    "totalSharesAvailable": 8400,
+    "totalSharesSold": 1600
+  },
+  "ownedListings": [
+    {
+      "propertyId": "cm_prop_owner_1",
+      "propertyName": "Marina View",
+      "status": "live",
+      "totalShares": 10000,
+      "availableShares": 8400,
+      "soldShares": 1600,
+      "pricePerShare": 120,
+      "createdAt": "2026-03-08T10:40:00.000Z"
+    }
+  ]
+}
+```
+
 ## B) Buy Shares Flow (Correct Workflow)
 1. App calls quote:
 - `GET /api/properties/:id/quote?shares=<n>`

@@ -666,6 +666,137 @@ tradingRouter.get('/investments/:propertyId/sell-quote', async (req, res) => {
     }
 })
 
+tradingRouter.get('/investments/me', async (req, res) => {
+    try {
+        const userWallet = await getUserWalletFromAuthHeader(req.headers.authorization)
+        if (!userWallet) return res.status(401).json({ message: 'Unauthorized' })
+
+        const [investments, ownedProperties] = await Promise.all([
+            prisma.investment.findMany({
+                where: { userWallet },
+                include: {
+                    property: {
+                        select: {
+                            id: true,
+                            name: true,
+                            ownerWallet: true,
+                            pricePerShare: true,
+                            status: true,
+                        },
+                    },
+                },
+                orderBy: { investedAt: 'desc' },
+            }),
+            prisma.property.findMany({
+                where: { ownerWallet: userWallet },
+                select: {
+                    id: true,
+                    name: true,
+                    status: true,
+                    totalShares: true,
+                    availableShares: true,
+                    pricePerShare: true,
+                    createdAt: true,
+                },
+                orderBy: { createdAt: 'desc' },
+            }),
+        ])
+
+        const purchasedInvestments = investments.map((item) => ({
+            propertyId: item.propertyId,
+            propertyName: item.property.name,
+            propertyStatus: item.property.status,
+            sharesOwned: item.sharesOwned,
+            avgCostPerShare: item.avgCostPerShare.toString(),
+            purchasePrice: item.purchasePrice.toString(),
+            currentValue: item.currentValue.toString(),
+            yieldEarned: item.yieldEarned.toString(),
+            claimableYield: item.claimableYield.toString(),
+            investedAt: item.investedAt,
+            isOwner: item.property.ownerWallet === userWallet,
+            currentPricePerShare: item.property.pricePerShare,
+        }))
+
+        const ownedListings = ownedProperties.map((property) => {
+            const soldShares = (
+                typeof property.totalShares === 'number' && typeof property.availableShares === 'number'
+            )
+                ? property.totalShares - property.availableShares
+                : null
+
+            return {
+                propertyId: property.id,
+                propertyName: property.name,
+                status: property.status,
+                totalShares: property.totalShares,
+                availableShares: property.availableShares,
+                soldShares,
+                pricePerShare: property.pricePerShare,
+                createdAt: property.createdAt,
+            }
+        })
+
+        const purchasedTotals = investments.reduce(
+            (acc, item) => {
+                acc.totalSharesOwned += item.sharesOwned
+                acc.totalPurchasePrice += item.purchasePrice
+                acc.totalCurrentValue += item.currentValue
+                acc.totalYieldEarned += item.yieldEarned
+                acc.totalClaimableYield += item.claimableYield
+                return acc
+            },
+            {
+                totalSharesOwned: 0,
+                totalPurchasePrice: 0n,
+                totalCurrentValue: 0n,
+                totalYieldEarned: 0n,
+                totalClaimableYield: 0n,
+            },
+        )
+
+        const listingTotals = ownedProperties.reduce(
+            (acc, property) => {
+                const totalShares = property.totalShares ?? 0
+                const availableShares = property.availableShares ?? 0
+                const soldShares = totalShares - availableShares
+
+                acc.totalSharesIssued += totalShares
+                acc.totalSharesAvailable += availableShares
+                acc.totalSharesSold += soldShares > 0 ? soldShares : 0
+                return acc
+            },
+            {
+                totalSharesIssued: 0,
+                totalSharesAvailable: 0,
+                totalSharesSold: 0,
+            },
+        )
+
+        return res.json(toJsonSafe({
+            walletAddress: userWallet,
+            purchasedTotals: {
+                propertiesCount: purchasedInvestments.length,
+                totalSharesOwned: purchasedTotals.totalSharesOwned,
+                totalPurchasePrice: purchasedTotals.totalPurchasePrice,
+                totalCurrentValue: purchasedTotals.totalCurrentValue,
+                totalYieldEarned: purchasedTotals.totalYieldEarned,
+                totalClaimableYield: purchasedTotals.totalClaimableYield,
+            },
+            purchasedInvestments,
+            ownedListingsTotals: {
+                propertiesCount: ownedListings.length,
+                totalSharesIssued: listingTotals.totalSharesIssued,
+                totalSharesAvailable: listingTotals.totalSharesAvailable,
+                totalSharesSold: listingTotals.totalSharesSold,
+            },
+            ownedListings,
+        }))
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({ message: 'Failed to fetch investment portfolio' })
+    }
+})
+
 tradingRouter.get('/yield/claimable', async (req, res) => {
     try {
         const authedWallet = await getUserWalletFromAuthHeader(req.headers.authorization)
