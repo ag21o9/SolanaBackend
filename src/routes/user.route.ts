@@ -55,6 +55,59 @@ function getUserIdFromAuthHeader(authHeader?: string): string | null {
     }
 }
 
+function parseWalletAddress(value: unknown): string | null {
+    if (typeof value !== "string" || !value.trim()) return null;
+
+    try {
+        const wallet = new PublicKey(value.trim());
+        return wallet.toBase58();
+    } catch {
+        return null;
+    }
+}
+
+userRouter.get("/by-wallet/:walletAddress", async (req, res) => {
+    try {
+        const walletAddress = parseWalletAddress(req.params.walletAddress);
+        if (!walletAddress) {
+            return res.status(400).json({ message: "Invalid walletAddress" });
+        }
+
+        const user = await prisma.user.findUnique({
+            where: { walletAddress },
+            select: {
+                id: true,
+                walletAddress: true,
+                walletType: true,
+                username: true,
+                avatarUrl: true,
+                country: true,
+                bio: true,
+                kycStatus: true,
+                referralCode: true,
+                referredById: true,
+                joinDate: true,
+                isActive: true,
+            },
+        });
+
+        if (!user) {
+            return res.json({
+                exists: false,
+                message: "No user",
+            });
+        }
+
+        return res.json({
+            exists: true,
+            user,
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Failed to check wallet user" });
+    }
+});
+
 userRouter.post("/signin", async (req, res) => {
     try {
         const { publicKey, signature } = req.body as {
@@ -93,7 +146,7 @@ userRouter.post("/signin", async (req, res) => {
 
         if (existingUser) {
             const token = jwt.sign({ userId: existingUser.id }, JWT_SECRET);
-            return res.json({ token });
+            return res.json({ message: "existing", token });
         }
 
         const user = await prisma.user.create({
@@ -101,7 +154,7 @@ userRouter.post("/signin", async (req, res) => {
         });
 
         const token = jwt.sign({ userId: user.id }, JWT_SECRET);
-        return res.json({ token });
+        return res.json({ message: "non-existing", token });
     } catch (error) {
         console.log(error);
         return res.status(500).json({

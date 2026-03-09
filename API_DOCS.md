@@ -98,6 +98,45 @@ Success response:
 }
 ```
 
+### GET `/user/by-wallet/:walletAddress`
+Check if a user exists for a wallet address (no JWT required).
+
+Use this for frontend reconnect flow after logout/login to decide whether to show onboarding/profile form.
+
+Success response (user exists):
+```json
+{
+  "exists": true,
+  "user": {
+    "id": "cm...",
+    "walletAddress": "7Yh...",
+    "walletType": null,
+    "username": "alice",
+    "avatarUrl": null,
+    "country": "UAE",
+    "bio": null,
+    "kycStatus": "none",
+    "referralCode": null,
+    "referredById": null,
+    "joinDate": "2026-03-08T10:20:00.000Z",
+    "isActive": true
+  }
+}
+```
+
+Success response (no user):
+```json
+{
+  "exists": false,
+  "message": "No user"
+}
+```
+
+Validation error:
+```json
+{ "message": "Invalid walletAddress" }
+```
+
 ---
 
 ## 2) Property Listing Draft & Mint Endpoints
