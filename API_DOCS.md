@@ -201,10 +201,38 @@ Step 2:
   "step": 2,
   "tokenomics": {
     "tokenModel": "spl",
-    "totalShares": 10000
+    "totalShares": 10000,
+    "availableShares": 10000,
+    "totalValuation": "1200000",
+    "pricePerShare": 120,
+    "yieldPercent": 8.5,
+    "monthlyRental": "250000",
+    "operatingCosts": "35000",
+    "managementFeePct": 2.0,
+    "insuranceCost": "5000",
+    "capRate": 7.2,
+    "occupancyPct": 95
   }
 }
 ```
+
+Accepted Step 2 fields (`tokenomics`) and aliases:
+- `tokenModel` (`model`, `tokenType`): `"spl" | "nft"`
+- `totalShares` (`shares`, `tokenSupply`): positive integer
+- `availableShares` (`sharesAvailable`): non-negative integer
+- `totalValuation` (`valuation`, `propertyValue`): integer/string bigint
+- `pricePerShare` (`sharePrice`): positive integer
+- `yieldPercent` (`rentalYieldPct`): number
+- `monthlyRental` (`monthlyRent`): integer/string bigint
+- `operatingCosts` (`monthlyOperatingCosts`): integer/string bigint
+- `managementFeePct` (`managementFee`): number
+- `insuranceCost` (`monthlyInsuranceCost`): integer/string bigint
+- `capRate` (`capRatePct`): number
+- `occupancyPct` (`occupancy`): non-negative integer
+
+Notes:
+- Step 2 payload is merged with existing saved `step2Data`, so partial updates are allowed.
+- For mint, backend reads step 2 from multiple shapes (`step2Data`, `tokenomics`, nested `data`) and normalizes aliases.
 
 Step 3:
 ```json
